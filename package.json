@@ -35,5 +35,10 @@
   "engines": {
     "node": ">=6.0.0"
   },
-  "readmeFilename": "README.md"
+  "readmeFilename": "README.md",
+  "apidoc": {
+    "title": "Pharos API 接口文档",
+    "url": "/api",
+    "sampleUrl": "/api"
+  }
 }

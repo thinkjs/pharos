@@ -1,0 +1,1 @@
+define({  "title": "Pharos API 接口文档",  "url": "/api",  "sampleUrl": "/api",  "name": "thinkjs-application",  "version": "1.0.0",  "description": "application created by thinkjs",  "defaultVersion": "0.0.0",  "apidoc": "0.3.0",  "generator": {    "name": "apidoc",    "time": "2017-08-26T04:37:53.197Z",    "url": "http://apidocjs.com",    "version": "0.17.5"  }});
