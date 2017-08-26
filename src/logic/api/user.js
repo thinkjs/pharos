@@ -18,7 +18,8 @@ module.exports = class extends think.Logic {
       },
       display_name: {
         required: true,
-        string: true
+        string: true,
+        length: {min: 4, max: 10}
       },
       email: {
         required: true,

@@ -1,4 +1,4 @@
-const {PasswordHash} = 'phpass';
+const {PasswordHash} = require('phpass');
 
 module.exports = class extends think.Model {
   getEncryptPassword(password) {
@@ -7,7 +7,7 @@ module.exports = class extends think.Model {
     return hash;
   }
 
-  async addUser(data, ip) {
+  addUser(data, ip) {
     const date = think.datetime();
     const encryptPassword = this.getEncryptPassword(data.password);
     return this.where({
