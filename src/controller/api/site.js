@@ -1,5 +1,23 @@
 const Base = require('./base');
 module.exports = class extends Base {
+  async getAction() {
+    const {page, pagesize} = this.get();
+
+    let siteIds = await this.model('site_user').where({
+      user_id: this.userInfo.id
+    }).select();
+    if (think.isEmpty(siteIds)) {
+      siteIds = [ null ];
+    } else {
+      siteIds = siteIds.map(({site_id}) => site_id);
+    }
+
+    const result = await this.modelInstance.where({
+      id: ['IN', siteIds]
+    }).page([page, pagesize]).countSelect();
+    return this.success(result);
+  }
+
   async postAction() {
     const data = this.post();
 

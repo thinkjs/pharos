@@ -1,5 +1,24 @@
 module.exports = class extends think.Logic {
   /**
+   * @api {GET} /site 获取网站列表
+   * @apiGroup Site
+   * @apiVersion  0.0.1
+   * 
+   * @apiParam  {String}  page  页数
+   * @apiParam  {String}  pagesize  分页大小
+   */
+  getAction() {
+    this.rules = {
+      page: {
+        int: true
+      },
+      pagesize: {
+        int: true
+      }
+    };
+  }
+
+  /**
    * @api {POST} /site 添加网站
    * @apiGroup Site
    * @apiVersion 0.0.1
