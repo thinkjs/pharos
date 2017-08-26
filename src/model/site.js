@@ -18,7 +18,10 @@ module.exports = class extends think.Model {
 
   get relation() {
     return {
-      user: think.Model.MANY_TO_MANY
+      user: {
+        type: think.Model.MANY_TO_MANY,
+        field: ['name', 'display_name', 'email', 'id']
+      }
     };
   }
 
