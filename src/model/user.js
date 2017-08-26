@@ -7,6 +7,11 @@ module.exports = class extends think.Model {
     return hash;
   }
 
+  checkPassword(userInfo, password) {
+    const passwordHash = new PasswordHash();
+    return passwordHash.checkPassword(password, userInfo.password);
+  }
+
   addUser(data, ip) {
     const date = think.datetime();
     const encryptPassword = this.getEncryptPassword(data.password);

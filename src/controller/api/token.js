@@ -1,0 +1,30 @@
+const BaseRest = require('../rest.js');
+module.exports = class extends BaseRest {
+  async postAction() {
+    // 校验帐号和密码
+    const {credential, password} = this.post();
+    const userModel = this.model('user');
+    const userInfo = await userModel.where({
+      name: credential,
+      email: credential,
+      _logic: 'OR'
+    }).find();
+
+    // 账号不存在或者被删除
+    if (
+      think.isEmpty(userInfo) ||
+      userInfo.status === 1 ||
+      !userModel.checkPassword(userInfo, password)
+    ) {
+      return this.fail('ACCOUNT_ERROR');
+    }
+
+    await this.session('userInfo', userInfo);
+    return this.success();
+  }
+
+  async deleteAction() {
+    await this.session('userInfo', null);
+    return this.success();
+  }
+};

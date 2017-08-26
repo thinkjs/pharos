@@ -6,7 +6,8 @@
     "start": "node development.js",
     "compile": "babel --no-babelrc src/ --presets think-node --out-dir app/",
     "lint": "eslint src/",
-    "lint-fix": "eslint --fix src/"
+    "lint-fix": "eslint --fix src/",
+    "doc:gen": "apidoc -i src/logic/api -o www/doc"
   },
   "dependencies": {
     "phpass": "^0.1.1",
