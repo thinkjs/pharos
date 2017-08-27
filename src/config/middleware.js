@@ -1,4 +1,5 @@
 const path = require('path');
+const cors = require('kcors');
 const isDev = think.env === 'development';
 
 module.exports = [
@@ -38,6 +39,14 @@ module.exports = [
   {
     handle: 'router',
     options: {}
+  },
+  {
+    handle: cors,
+    options: {
+      origin: '*',
+      credentials: true,
+      allowMethods: 'GET,HEAD,PUT,POST,DELETE,PATCH'
+    }
   },
   'logic',
   'controller'
