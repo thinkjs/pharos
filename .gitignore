@@ -26,6 +26,9 @@ node_modules/
 # IDE config
 .idea
 
+# mac
+.DS_Store
+
 # output
 output/
 output.tar.gz
@@ -35,3 +38,4 @@ app/
 
 adapter.development.js
 config.development.js
+
