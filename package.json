@@ -10,6 +10,7 @@
     "doc:gen": "apidoc -i src/logic/api -o www/doc"
   },
   "dependencies": {
+    "kcors": "^2.2.1",
     "phpass": "^0.1.1",
     "think-cache": "^1.0.0",
     "think-cache-file": "^1.0.8",
