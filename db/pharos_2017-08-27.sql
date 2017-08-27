@@ -7,7 +7,7 @@
 #
 # Host: 127.0.0.1 (MySQL 5.6.33)
 # Database: pharos
-# Generation Time: 2017-08-27 12:32:35 +0000
+# Generation Time: 2017-08-27 12:37:28 +0000
 # ************************************************************
 
 
@@ -22,6 +22,8 @@
 
 # Dump of table ph_performance
 # ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `ph_performance`;
 
 CREATE TABLE `ph_performance` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
@@ -47,6 +49,8 @@ CREATE TABLE `ph_performance` (
 # Dump of table ph_site
 # ------------------------------------------------------------
 
+DROP TABLE IF EXISTS `ph_site`;
+
 CREATE TABLE `ph_site` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `url` varchar(255) NOT NULL DEFAULT '',
@@ -55,21 +59,12 @@ CREATE TABLE `ph_site` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-LOCK TABLES `ph_site` WRITE;
-/*!40000 ALTER TABLE `ph_site` DISABLE KEYS */;
-
-INSERT INTO `ph_site` (`id`, `url`, `name`, `create_time`)
-VALUES
-	(2,'baomitu.com','爆米兔兔','0000-00-00 00:00:00'),
-	(3,'baomitu.com/','爆米兔兔','0000-00-00 00:00:00'),
-	(4,'baomitu.com/3','爆米兔兔','0000-00-00 00:00:00');
-
-/*!40000 ALTER TABLE `ph_site` ENABLE KEYS */;
-UNLOCK TABLES;
 
 
 # Dump of table ph_site_user
 # ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `ph_site_user`;
 
 CREATE TABLE `ph_site_user` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
@@ -78,19 +73,12 @@ CREATE TABLE `ph_site_user` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-LOCK TABLES `ph_site_user` WRITE;
-/*!40000 ALTER TABLE `ph_site_user` DISABLE KEYS */;
-
-INSERT INTO `ph_site_user` (`id`, `site_id`, `user_id`)
-VALUES
-	(1,2,1);
-
-/*!40000 ALTER TABLE `ph_site_user` ENABLE KEYS */;
-UNLOCK TABLES;
 
 
 # Dump of table ph_user
 # ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `ph_user`;
 
 CREATE TABLE `ph_user` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
@@ -106,19 +94,12 @@ CREATE TABLE `ph_user` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-LOCK TABLES `ph_user` WRITE;
-/*!40000 ALTER TABLE `ph_user` DISABLE KEYS */;
-
-INSERT INTO `ph_user` (`id`, `email`, `name`, `display_name`, `password`, `status`, `create_time`, `create_ip`, `last_login_time`, `last_login_ip`)
-VALUES
-	(1,'i@imnerd.org','lizheming','怡红公子','$2a$08$v9y/EmRVyQpOzbMc9XZWouFl4EWFeStpc2i/4PhOHxVosAuPhilmO',0,'2017-08-26 13:40:54','127.0.0.1','2017-08-26 13:40:54','127.0.0.1');
-
-/*!40000 ALTER TABLE `ph_user` ENABLE KEYS */;
-UNLOCK TABLES;
 
 
 # Dump of table ph_visit_url
 # ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `ph_visit_url`;
 
 CREATE TABLE `ph_visit_url` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
@@ -132,6 +113,8 @@ CREATE TABLE `ph_visit_url` (
 
 # Dump of table ph_visit_user
 # ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `ph_visit_user`;
 
 CREATE TABLE `ph_visit_user` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
