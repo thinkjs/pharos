@@ -8,7 +8,8 @@
     "lint": "eslint src/",
     "lint-fix": "eslint --fix src/",
     "doc:gen": "apidoc -i src/logic/api -o www/doc",
-    "watch": "roadhog server"
+    "fe": "roadhog server",
+    "fe-build": "roadhog build"
   },
   "dependencies": {
     "kcors": "^2.2.1",
@@ -52,7 +53,7 @@
     "husky": "^0.12.0",
     "node-notifier": "^5.0.2",
     "redbox-react": "^1.3.2",
-    "roadhog": "^0.5.2",
+    "roadhog": "github:zhengqingxin/roadhog",
     "think-babel": "^1.0.3",
     "think-inspect": "0.0.2",
     "think-watcher": "^3.0.0"

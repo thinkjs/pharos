@@ -10,7 +10,7 @@ const menus = [
     ]
   },
   {
-    name:'电影列表',
+    name:'项目列表',
     icon:'video-camera',
     url:'/video'
   }
