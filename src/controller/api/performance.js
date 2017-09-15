@@ -4,7 +4,7 @@ const detector = require('detector');
 const BaseRest = require('../rest');
 const IPService = require('../../service/ip');
 const ipServiceInstance = new IPService(path.join(
-  think.ROOT_PATH, 'www/ip.dat'
+  think.ROOT_PATH, 'www/ip.txt'
 ));
 
 module.exports = class extends BaseRest {
