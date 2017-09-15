@@ -1,83 +1,65 @@
+/**
+ * basic use
+ * 
+ * const ipServiceInstance = new IPService(path.join(
+ *   think.ROOT_PATH, 'www/ip.txt'
+ * ));
+ * console.log(ipServiceInstance.find('218.30.116.9'));
+ */
+const ip = require('ip');
 const fs = require('fs');
-const dns = require('dns');
 
 module.exports = class {
   constructor(file) {
-    this.dataBuffer = undefined;
-    console.log(file);
-    this.load(file);
-  }
+    const IPDATA = fs.readFileSync(file, 'utf-8').split('\n');
+    const IPMAP = [];
 
-  load(file) {
-    if (this.dataBuffer) {
-      return this.dataBuffer;
-    }
+    for (let i = 0; i < IPDATA.length; i++) {
+      const item = IPDATA[i].split(/\t/);
 
-    this.dataBuffer = this.loadBinaryData(file);
-    return this.dataBuffer;
-  }
+      const ipnum = parseInt(item[0].trim());
+      const country = item[2].trim();
+      let province = item[3].trim();
+      let town = item[4].trim();
+      let district = item[5].trim();
+      let street = item[6].trim();
+      let carrier = item[7].split('\r')[0];
 
-  loadBinaryData(filepath) {
-    const fd = fs.openSync(filepath, 'r');
-    const chunkSize = 102400;
-    const chunks = [];
-    let chunkBuffer;
-
-    let readLength = 0;
-    let bufferLength = 0;
-
-    while (true) {
-      chunkBuffer = Buffer.alloc(chunkSize);
-      readLength = fs.readSync(fd, chunkBuffer, 0, chunkSize, bufferLength);
-      bufferLength += readLength;
-      chunks.push(chunkBuffer);
-      if (readLength < chunkSize) break;
-    }
-    fs.closeSync(fd);
-
-    return Buffer.concat(chunks);
-  };
-
-  find(ip) {
-    if (!this.dataBuffer) {
-      return [];
-    }
-
-    const ipArray = ip.trim().split('.');
-    const ip2long = ip => Buffer.from(ip.trim().split('.')).readInt32BE(0);
-    const ipInt = ip2long(ip);
-
-    const offset = this.dataBuffer.readInt32BE(0);
-    const indexBuffer = this.dataBuffer.slice(4, offset - 4 + 4);
-    const tmpOffset = ipArray[0] * 4;
-    const maxCompLen = offset - 1028;
-    let indexOffset = -1;
-    let indexLength = -1;
-    let start = indexBuffer.slice(tmpOffset, tmpOffset + 4).readInt32LE(0);
-
-    for (start = start * 8 + 1024; start < maxCompLen; start += 8) {
-      if (indexBuffer.slice(start, start + 4).readInt32BE(0) >= ipInt) {
-        indexOffset = ((indexBuffer[start + 6] << 16) + (indexBuffer[start + 5] << 8) + indexBuffer[start + 4]);
-        indexLength = indexBuffer[start + 7];
-        break;
+      if (province == '未知') {
+        province = '';
       }
-    }
-    if (indexOffset === -1 || indexLength === -1) {
-      return [];
-    } else {
-      return this.dataBuffer.slice(offset + indexOffset - 1024, offset + indexOffset - 1024 + indexLength).toString('utf-8').split('\t');
-    }
-  };
+      if (town == '未知') {
+        town = '';
+      }
+      if (district == '未知') {
+        district = '';
+      }
+      if (street == '未知') {
+        street = '';
+      }
+      if (carrier == '未知') {
+        carrier = '';
+      }
 
-  ipFind(name) {
-    return new Promise(resolve => {
-      dns.resolve4(name, (err, addresses) => {
-        if (err) {
-          resolve(this.find(name));
-        } else {
-          resolve(this.find(addresses.shift()));
-        }
-      });
-    });
-  };
+      IPMAP.push({ ipnum, country, province, town, district, street, carrier });
+    }
+    this.IPMAP = IPMAP;
+  }
+
+  search(value, startIndex = 0, endIndex = this.IPMAP.length) {
+    const midIndex = Math.floor((startIndex + endIndex) / 2);
+    const midVal = this.IPMAP[midIndex].ipnum;
+
+    if (value >= midVal && value < this.IPMAP[midIndex + 1].ipnum) {
+      return this.IPMAP[midIndex + 1];
+    } else if (midVal > value) {
+      return this.search(value, startIndex, endIndex - 1);
+    } else {
+      return this.search(value, midIndex + 1, endIndex);
+    }
+  }
+
+  find(val) {
+    return this.search(ip.toLong(val));
+  }
 };
