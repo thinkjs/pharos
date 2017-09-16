@@ -8,6 +8,7 @@
  */
 const ip = require('ip');
 const fs = require('fs');
+const parseUnknow = text => text === '未知' ? '' : text;
 
 module.exports = class {
   constructor(file) {
@@ -16,30 +17,13 @@ module.exports = class {
 
     for (let i = 0; i < IPDATA.length; i++) {
       const item = IPDATA[i].split(/\t/);
-
       const ipnum = parseInt(item[0].trim());
-      const country = item[2].trim();
-      let province = item[3].trim();
-      let town = item[4].trim();
-      let district = item[5].trim();
-      let street = item[6].trim();
-      let carrier = item[7].split('\r')[0];
-
-      if (province == '未知') {
-        province = '';
-      }
-      if (town == '未知') {
-        town = '';
-      }
-      if (district == '未知') {
-        district = '';
-      }
-      if (street == '未知') {
-        street = '';
-      }
-      if (carrier == '未知') {
-        carrier = '';
-      }
+      const country = parseUnknow(item[2].trim());
+      const province = parseUnknow(item[3].trim());
+      const town = parseUnknow(item[4].trim());
+      const district = parseUnknow(item[5].trim());
+      const street = parseUnknow(item[6].trim());
+      const carrier = parseUnknow(item[7].split('\r')[0]);
 
       IPMAP.push({ ipnum, country, province, town, district, street, carrier });
     }
