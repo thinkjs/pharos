@@ -1,5 +1,7 @@
 const path = require('path');
 const cors = require('kcors');
+const routerREST = require('think-router-rest');
+
 const isDev = think.env === 'development';
 
 module.exports = [
@@ -37,20 +39,17 @@ module.exports = [
     }
   },
   {
-    handle: 'payload',
-    options: {}
-  },
-  {
-    handle: 'router',
-    options: {}
-  },
-  {
     handle: cors,
     options: {
       origin: '*',
       credentials: true,
       allowMethods: 'GET,HEAD,PUT,POST,DELETE,PATCH'
     }
+  },
+  'payload',
+  'router',
+  {
+    handle: routerREST
   },
   'logic',
   'controller'
