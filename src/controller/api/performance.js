@@ -3,8 +3,8 @@ const path = require('path');
 const crypto = require('crypto');
 const detector = require('detector');
 const BaseRest = require('../rest');
-const IPService = require('../../service/ip');
-const ipServiceInstance = new IPService(path.join(think.ROOT_PATH, 'www/ip.txt'));
+const IPService = require('../../service/ipip');
+const ipServiceInstance = new IPService(path.join(think.ROOT_PATH, 'www/ip.dat'));
 
 module.exports = class extends BaseRest {
   /** 获取访问用户 id */
@@ -26,7 +26,7 @@ module.exports = class extends BaseRest {
     return {
       browser_engine: ua.engine.name,
       browser_name: ua.browser.name,
-      browser_version: ua.broswer.version,
+      browser_version: ua.browser.version,
       device_brand: ua.device.name,
       // device_model: ua.device,
       // device_type:,
@@ -37,19 +37,19 @@ module.exports = class extends BaseRest {
   }
 
   /** 根据 IP 获取位置信息 */
-  get userIP() {
-    const {
-      country,
-      province,
-      town,
-      carrier
-    } = ipServiceInstance.find(this.ip);
+  async userIP() {
+    // eslint-disable-next-line camelcase
+    const [
+      location_country,
+      location_province,
+      location_city
+    ] = await ipServiceInstance.ipFind(this.ip);
     return {
       location_ip: this.ip,
-      location_country: country,
-      location_province: province,
-      location_city: town,
-      location_isp: carrier
+      location_country,
+      location_province,
+      location_city,
+      location_isp: ''
     };
   }
 
@@ -103,8 +103,12 @@ module.exports = class extends BaseRest {
 
   get visitUrl() {
     const {protocol, host, pathname, query} = url.parse(this.referer());
+    let visitUrl = host + pathname;
+    if (query) {
+      visitUrl += '?' + query;
+    }
     return {
-      url: `${host}/${pathname}?${query}`,
+      url: visitUrl,
       title: this.get('title'),
       protocol
     };
@@ -113,28 +117,34 @@ module.exports = class extends BaseRest {
   async getAction() {
     const visitUser = this.visitUser;
     const ua = this.userUA;
-    const ip = this.userIP;
+    const ip = await this.userIP();
 
     const user = {
       idvisitor: visitUser,
       last_action_time: think.datetime(),
-      performance: this.performance,
-      visit_url: this.visitUrl,
       ...ua,
       ...ip
     };
 
-    const userInfo = await this.modelInstance.where({
+    const performance = this.performance;
+    performance.user = user;
+    performance.visit_url = this.visitUrl;
+
+    const result = await this.model('visit_url').where({
+      url: user.visit_url.url
+    }).thenAdd(user.visit_url);
+
+    const userInfo = await this.model('visit_user').where({
       idvisitor: visitUser
     }).find();
 
-    if (!think.isEmpty(userInfo)) {
-      user.first_action_time = user.last_action_time;
-      await this.modelInstance.add(user);
-    } else {
-      await this.modelInstance.where({id: userInfo.id}).update(user);
-    }
+    // if (!think.isEmpty(userInfo)) {
+    //   user.first_action_time = user.last_action_time;
+    //   await this.modelInstance.add(user);
+    // } else {
+    //   await this.modelInstance.where({id: userInfo.id}).update(user);
+    // }
 
-    return this.success();
+    return this.success(user);
   }
 };
