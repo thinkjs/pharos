@@ -2,6 +2,10 @@ const path = require('path');
 const assert = require('assert');
 
 module.exports = class extends think.Controller {
+  static get _REST() {
+    return true;
+  }
+
   constructor(ctx) {
     super(ctx);
     this.resource = this.getResource();
