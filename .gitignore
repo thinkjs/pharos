@@ -38,4 +38,4 @@ app/
 
 adapter.development.js
 config.development.js
-
+package-lock.json
