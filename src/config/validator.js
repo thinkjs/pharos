@@ -1,8 +1,9 @@
 module.exports = {
   rules: {
-    json(value, {currentQuery, validName}) {
+    json(value, {argName, currentQuery}) {
       try {
-        currentQuery[validName] = JSON.parse(value);
+        currentQuery[argName] = JSON.parse(value);
+        return true;
       } catch (e) {
         return false;
       }
