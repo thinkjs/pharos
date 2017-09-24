@@ -116,6 +116,7 @@ module.exports = class extends BaseRest {
 
   async getAction() {
     const visitUser = this.visitUser;
+    const visitUrl = this.visitUrl;
     const ua = this.userUA;
     const ip = await this.userIP();
 
@@ -127,24 +128,58 @@ module.exports = class extends BaseRest {
     };
 
     const performance = this.performance;
-    performance.user = user;
-    performance.visit_url = this.visitUrl;
+    performance.site_id = this.get('site_id');
 
-    const result = await this.model('visit_url').where({
-      url: user.visit_url.url
-    }).thenAdd(user.visit_url);
+    /** 判断是否有 site */
+    let result = await this.modelInstance('site').where({
+      id: performance.site_id
+    }).find();
+    if (think.isEmpty(result)) {
+      return this.fail('SITE_EMPTY');
+    }
 
-    const userInfo = await this.model('visit_user').where({
+    /** 获取 site_page_id */
+    performance.site_page_id = null;
+    const sitePages = await this.model('site_page').where({
+      site_id: performance.site_id
+    }).select();
+
+    if (!think.isEmpty(sitePages)) {
+      for (const sitePage of sitePages) {
+        const exp = new RegExp('/' + sitePages.url + '/', 'i');
+        if (!exp.test(visitUrl.url)) {
+          continue;
+        }
+
+        performance.site_page_id = sitePage.id;
+        break;
+      }
+    }
+
+    /** 获取 visit_url_id */
+    result = await this.model('visit_url').where({
+      url: visitUrl.url
+    }).thenAdd(visitUrl);
+    performance.visit_url_id = result.id;
+
+    /** 获取 user_id */
+    let userInfo = await this.model('visit_user').where({
       idvisitor: visitUser
     }).find();
 
-    // if (!think.isEmpty(userInfo)) {
-    //   user.first_action_time = user.last_action_time;
-    //   await this.modelInstance.add(user);
-    // } else {
-    //   await this.modelInstance.where({id: userInfo.id}).update(user);
-    // }
+    if (!think.isEmpty(userInfo)) {
+      user.first_action_time = user.last_action_time;
+      userInfo = await this.model('visit_user').add(user);
+    } else {
+      userInfo = await this.model('visit_user').where({
+        id: userInfo.id
+      }).update(user);
+    }
+    performance.visit_user_id = userInfo.id;
 
-    return this.success(user);
+    performance.create_time = think.datetime();
+    result = await this.modelInstance.add(performance);
+
+    return this.success(result);
   }
 };

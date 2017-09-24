@@ -12,6 +12,10 @@ module.exports = class extends think.Logic {
       info: {
         required: true,
         json: true
+      },
+      site_id: {
+        required: true,
+        int: true
       }
     };
   }
