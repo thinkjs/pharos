@@ -29,6 +29,10 @@ module.exports = class extends think.Logic {
         required: true,
         string: true,
         length: {min: 8, max: 20}
+      },
+      status: {
+        int: true,
+        default: 0
       }
     };
   }
