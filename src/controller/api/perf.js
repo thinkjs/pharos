@@ -170,4 +170,89 @@ module.exports = class extends BaseRest {
     }
     return this.success(resultObj);
   }
+
+  /** 某 site_id 某 site_page_Id 某 perf 因素不同操作系统的平均时间 */
+  async getperfAvgTimeByOS() {
+    const {site_id, site_page_id, start_time, end_time} = this.get(); const perf_name = this.get('perf_name').split(/\s*,\s*/);
+    const where = {site_id, start_time, end_time};
+    if (site_page_id) { where.site_page_id = site_page_id }
+
+    let data = await this.modelArch.where(
+      Object.assign({}, where, {
+        index_name: 'perfAvgTimeByOS',
+        vdo1: ['IN', perf_name]
+      })
+    ).field('vdo1 as perf, vdo2 as os_name, vdo3 as os_version, CONCAT(vdo2, \'/\', vdo3) as os, index_value as avg, index_count as count').select();
+
+    if (!think.isEmpty(data)) {
+      let obj = {};
+      for (const item of data) {
+        if (!obj[item.perf]) {
+          obj[item.perf] = [];
+        }
+        obj[item.perf].push(item);
+      }
+      if (perf_name.length === 1) {
+        obj = obj[perf_name[0]];
+      }
+      return this.success(obj);
+    }
+
+    const sql = `SELECT 
+      site_id,
+      site_page_id,
+      ${perf_name.map(name => `AVG(${name}) AS ${name}`)},
+      COUNT(*) AS cnt,
+      os AS os_name,
+      os_version,
+      CONCAT(os, '/', os_version) AS os
+    FROM
+      ${this.modelPerf.tablePrefix}performance
+    LEFT JOIN ${this.modelPerf.tablePrefix}visit_user 
+    ON ${this.modelPerf.tablePrefix}visit_user.id = ${this.modelPerf.tablePrefix}performance.visit_user_id
+    WHERE
+      create_time >= "${start_time}" AND create_time < "${end_time}" AND domReady < 15000
+    GROUP BY
+      os
+    HAVING cnt > 50;
+    `;
+    data = await this.modelPerf.query(sql);
+    const insertData = [];
+    let result = {};
+    for (const name of perf_name) {
+      if (!result[name]) {
+        result[name] = [];
+      }
+      for (const item of data) {
+        insertData.push({
+          site_id,
+          site_page_id,
+          index_name: 'perfAvgTimeByOS',
+          index_value: item[name],
+          index_count: item.cnt,
+          vdo1: name,
+          vdo2: item.os_name,
+          vdo3: item.os_version,
+          start_time,
+          end_time,
+          archive_time: think.datetime()
+        });
+        result[name].push({
+          perf: name,
+          os_name: item.os_name,
+          os_version: item.os_version,
+          os: [item.os_name, item.os_version].join('/'),
+          avg: item[name],
+          count: item.cnt
+        });
+      }
+    }
+    if (insertData.length) {
+      await this.modelArch.addMany(insertData);
+    }
+    if (perf_name.length === 1) {
+      result = result[perf_name[0]];
+    }
+    return this.success(result);
+  }
 };
