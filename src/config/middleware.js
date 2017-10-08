@@ -41,7 +41,9 @@ module.exports = [
   {
     handle: cors,
     options: {
-      origin: '*',
+      origin: (ctx)=>{
+        return ctx.header.origin
+      },
       credentials: true,
       allowMethods: 'GET,HEAD,PUT,POST,DELETE,PATCH'
     }
