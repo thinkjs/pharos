@@ -69,12 +69,16 @@ module.exports = class {
   };
 
   ipFind(name) {
-    return new Promise(resolve => {
+    return new Promise((resolve, reject) => {
       dns.resolve4(name, (err, addresses) => {
-        if (err) {
-          resolve(this.find(name));
-        } else {
-          resolve(this.find(addresses.shift()));
+        try {
+          if (err) {
+            resolve(this.find(name));
+          } else {
+            resolve(this.find(addresses.shift()));
+          }
+        } catch (e) {
+          reject(e);
         }
       });
     });
