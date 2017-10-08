@@ -38,12 +38,14 @@ module.exports = class extends BaseRest {
 
   /** 根据 IP 获取位置信息 */
   async userIP() {
-    // eslint-disable-next-line camelcase
     const [
-      location_country,
-      location_province,
-      location_city
-    ] = await ipServiceInstance.ipFind(this.ip);
+      location_country, // eslint-disable-line camelcase
+      location_province, // eslint-disable-line camelcase
+      location_city // eslint-disable-line camelcase
+    ] = await ipServiceInstance
+      .ipFind(this.ip)
+      .catch(() => ['', '', '']);
+
     return {
       location_ip: this.ip,
       location_country,
@@ -131,7 +133,7 @@ module.exports = class extends BaseRest {
     performance.site_id = this.get('site_id');
 
     /** 判断是否有 site */
-    let result = await this.modelInstance('site').where({
+    let result = await this.model('site').where({
       id: performance.site_id
     }).find();
     if (think.isEmpty(result)) {
@@ -167,7 +169,7 @@ module.exports = class extends BaseRest {
       idvisitor: visitUser
     }).find();
 
-    if (!think.isEmpty(userInfo)) {
+    if (think.isEmpty(userInfo)) {
       user.first_action_time = user.last_action_time;
       userInfo = await this.model('visit_user').add(user);
     } else {
@@ -178,8 +180,13 @@ module.exports = class extends BaseRest {
     performance.visit_user_id = userInfo.id;
 
     performance.create_time = think.datetime();
-    result = await this.modelInstance.add(performance);
+    await this.modelInstance.add(performance);
 
-    return this.success(result);
+    this.ctx.type = 'gif';
+    this.ctx.body = Buffer.from(
+      'R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==',
+      'base64'
+    );
+    return false;
   }
 };
