@@ -11,9 +11,9 @@ export default {
           ["module-resolver", {
             "root": ["./"],
             "alias": {
-              "components":"www/static//src/components",
-              "utils":"www/static/src/utils",
-              "services":"www/static//src/services"
+              "components":"./www/static/src/components",
+              "utils":"./www/static/src/utils",
+              "services":"./www/static/src/services"
             }
           }]
         ]
@@ -25,9 +25,9 @@ export default {
           ["module-resolver", {
             "root": ["./"],
             "alias": {
-              "components":"www/static//src/components",
-              "utils":"www/static//src/utils",
-              "services":"www/static//src/services"
+              "components":"./www/static//src/components",
+              "utils":"./www/static//src/utils",
+              "services":"./www/static//src/services"
             }
           }]
         ],

@@ -53,7 +53,7 @@ export default function request (options) {
       return false;
     }
     data = data.data;
-    return data;
+    return data || [];
   }).catch((error) => {
     console.error(error);
     message.error('系统开小差了,一会儿再试吧~');
