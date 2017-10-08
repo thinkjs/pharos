@@ -30,6 +30,26 @@ function Routers({ history, app }) {
             }, 'dashboard')
           },
         },
+        {
+          path: 'login',
+          getComponent (nextState, cb) {
+            require.ensure([], require => {
+              registerModel(app, require('./models/login'));
+              registerModel(app, require('./models/app'));
+              cb(null, require('./routes/login/'))
+            }, 'login')
+          },
+        },
+        {
+          path: 'register',
+          getComponent (nextState, cb) {
+            require.ensure([], require => {
+              registerModel(app, require('./models/login'));
+              registerModel(app, require('./models/app'));
+              cb(null, require('./routes/register/'))
+            }, 'register')
+          },
+        },
       ]
     }
   ]
