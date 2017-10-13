@@ -8,7 +8,7 @@ module.exports = class extends BaseRest {
       name: credential,
       email: credential,
       _logic: 'OR'
-    }).find();
+    }).field('id,email,name,password,display_name,status').find();
 
     // 账号不存在或者被删除
     if (
@@ -19,6 +19,7 @@ module.exports = class extends BaseRest {
       return this.fail('ACCOUNT_ERROR');
     }
 
+    delete userInfo.password;
     await this.session('userInfo', userInfo);
     return this.success();
   }
