@@ -166,20 +166,22 @@ module.exports = class extends BaseRest {
     performance.visit_url_id = result.id;
 
     /** 获取 user_id */
-    let userInfo = await this.model('visit_user').where({
+    const userInfo = await this.model('visit_user').where({
       idvisitor: visitUser
     }).find();
 
+    let visit_user_id;
     if (think.isEmpty(userInfo)) {
       user.first_action_time = user.last_action_time;
-      userInfo = user;
-      userInfo.id = await this.model('visit_user').add(user);
+      visit_user_id = await this.model('visit_user').add(user);
     } else {
-      userInfo = await this.model('visit_user').where({
+      visit_user_id = userInfo.id;
+      await this.model('visit_user').where({
         id: userInfo.id
       }).update(user);
     }
-    performance.visit_user_id = userInfo.id;
+
+    performance.visit_user_id = visit_user_id;
 
     performance.create_time = think.datetime();
     await this.modelInstance.add(performance);
