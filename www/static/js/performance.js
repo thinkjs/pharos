@@ -96,9 +96,11 @@
       _this.performance.screen = window.screen.width + 'x' +window.screen.height;
 
       /*获取site_id*/
-      var scriptEls = document.getElementsByTagName('script');
-      var performanceScript = scriptEls[scriptEls.length - 1];
-      var siteId = performanceScript.getAttribute('data-siteid');
+      var scriptEl = document.querySelector('[data-siteid]');
+      var siteId = '';
+      if(scriptEl.tagName.toLowerCase() === 'script'){
+        siteId = scriptEl.getAttribute('data-siteid');
+      }
       _this.performance.site_id = siteId;
       
       _this.generateSearchStr(_this.performance);
