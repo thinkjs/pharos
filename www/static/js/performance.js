@@ -83,7 +83,7 @@
       var _this = this;
       for(var i in obj){
         if(Object.prototype.toString.call(obj[i]) === '[object Object]'){
-          _this.getSearchParmas(obj[i])
+          _this.generateSearchStr(obj[i])
         }else{
           _this.searchStr += i + '=' + obj[i] + '&'
         }
@@ -96,9 +96,11 @@
       _this.performance.screen = window.screen.width + 'x' +window.screen.height;
 
       /*获取site_id*/
-      var scriptEls = document.getElementsByTagName('script');
-      var performanceScript = scriptEls[scriptEls.length - 1];
-      var siteId = performanceScript.getAttribute('data-siteid');
+      var scriptEl = document.querySelector('[data-siteid]');
+      var siteId = '';
+      if(scriptEl.tagName.toLowerCase() === 'script'){
+        siteId = scriptEl.getAttribute('data-siteid');
+      }
       _this.performance.site_id = siteId;
       
       _this.generateSearchStr(_this.performance);
