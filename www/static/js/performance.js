@@ -83,7 +83,7 @@
       var _this = this;
       for(var i in obj){
         if(Object.prototype.toString.call(obj[i]) === '[object Object]'){
-          _this.getSearchParmas(obj[i])
+          _this.generateSearchStr(obj[i])
         }else{
           _this.searchStr += i + '=' + obj[i] + '&'
         }
