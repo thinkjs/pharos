@@ -172,7 +172,8 @@ module.exports = class extends BaseRest {
 
     if (think.isEmpty(userInfo)) {
       user.first_action_time = user.last_action_time;
-      userInfo = await this.model('visit_user').add(user);
+      userInfo = user;
+      userInfo.id = await this.model('visit_user').add(user);
     } else {
       userInfo = await this.model('visit_user').where({
         id: userInfo.id
