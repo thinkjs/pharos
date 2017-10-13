@@ -6,11 +6,6 @@
   };
 
   PagePerformance.prototype = {
-    getParam: function(para){
-      var reg = new RegExp("(^|&)"+para +"=([^&]*)(&|$)");
-      var r = window.location.search.substr(1).match(reg);
-      return r != null ? unescape(r[2]) : '';
-    },
     isSupport: function(){
       var performance = window.performance;
       if (!performance) {
@@ -99,7 +94,12 @@
       _this.performance.info = JSON.stringify(_this.getPerformanceTiming());
       _this.performance.title = document.title;
       _this.performance.screen = window.screen.width + 'x' +window.screen.height;
-      _this.performance.site_id = _this.getParam('site_id');
+
+      /*获取site_id*/
+      var scriptEls = document.getElementsByTagName('script');
+      var performanceScript = scriptEls[scriptEls.length - 1];
+      var siteId = performanceScript.getAttribute('data-siteid');
+      _this.performance.site_id = siteId;
       
       _this.generateSearchStr(_this.performance);
       _this.sendLog(_this.baseLogSrc + _this.searchStr);
