@@ -9,7 +9,8 @@
     "lint-fix": "eslint --fix src/",
     "doc:gen": "apidoc -i src/logic/api -o www/doc",
     "fe": "roadhog server",
-    "fe-build": "roadhog build"
+    "fe-build": "roadhog build",
+    "fe-watch": "roadhog build --watch"
   },
   "dependencies": {
     "antd": "^2.12.0",
