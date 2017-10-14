@@ -31,7 +31,7 @@ module.exports = class extends BaseRest {
 
     const sql = `SELECT 
       ${PERFS.map(perf => `AVG(${perf}) AS ${perf}`).join()} 
-    FROM ${this.modelPerf.tablePrefix}_performance
+    FROM ${this.modelPerf.tablePrefix}performance
     WHERE 
       site_id=${site_id} AND 
       create_time>="${start_time}" AND 
