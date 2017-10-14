@@ -1,4 +1,5 @@
 import {routerRedux} from 'dva/router';
+import {login} from 'services';
 
 export default {
   namespace: 'app',
@@ -9,7 +10,14 @@ export default {
   effects: {
     *redirect({payload={}}, {put}){
       yield put(routerRedux.push(payload))
-    }
+    },
+    *logout({payload = {}}, {call, put}) {
+      let ret = yield call(login.logout, payload);
+      if (ret) {
+        localStorage.removeItem('USER');
+        yield put(routerRedux.push('/login'))
+      }
+    },
   },
   subscriptions: {
     setup({dispatch, history}){

@@ -13,8 +13,9 @@ module.exports = {
   api: {
     auth: {
       login: '/api/token',
-      register: '/api/user'
+      register: '/api/user',
     },
     site: '/api/site',
+    user: '/api/user',
   },
 };

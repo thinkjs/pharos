@@ -17,15 +17,35 @@
       img{
         width: 32px;
         height: 32px;
+        margin-right:10px;
+      }
+      h2{
+        color:#6abbf5;
+        margin-right:80px;
+        cursor: pointer;
+      }
+      h2:hover{
+        color:@blue;
       }
     }
 
     :global {
       .ant-menu-horizontal{
         border-bottom: none;
+        display:inline-block;
       }
     }
 
+    .user{
+      color:@white;
+      float:right;
+      .logout{
+        cursor: pointer;
+        &:hover{
+          color:@blue;
+        }
+      }
+    }
   }
 
   .container{

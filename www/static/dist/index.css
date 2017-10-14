@@ -3050,6 +3050,84 @@ samp {
 /* stylelint-disable at-rule-empty-line-before,at-rule-name-space-after,at-rule-no-unknown */
 /* stylelint-disable declaration-bang-space-before */
 /* stylelint-disable declaration-bang-space-before */
+.ant-message {
+  font-size: 12px;
+  position: fixed;
+  z-index: 1010;
+  width: 100%;
+  top: 16px;
+  left: 0;
+  pointer-events: none;
+}
+.ant-message-notice {
+  padding: 8px;
+  text-align: center;
+}
+.ant-message-notice:first-child {
+  margin-top: -8px;
+}
+.ant-message-notice-content {
+  padding: 8px 16px;
+  border-radius: 4px;
+  -webkit-box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  background: #fff;
+  display: inline-block;
+  pointer-events: all;
+}
+.ant-message-success .anticon {
+  color: #00a854;
+}
+.ant-message-error .anticon {
+  color: #f04134;
+}
+.ant-message-warning .anticon {
+  color: #ffbf00;
+}
+.ant-message-info .anticon,
+.ant-message-loading .anticon {
+  color: #108ee9;
+}
+.ant-message .anticon {
+  margin-right: 8px;
+  font-size: 14px;
+  top: 1px;
+  position: relative;
+}
+.ant-message-notice.move-up-leave.move-up-leave-active {
+  -webkit-animation-name: MessageMoveOut;
+          animation-name: MessageMoveOut;
+  overflow: hidden;
+  -webkit-animation-duration: .3s;
+          animation-duration: .3s;
+}
+@-webkit-keyframes MessageMoveOut {
+  0% {
+    opacity: 1;
+    max-height: 150px;
+    padding: 8px;
+  }
+  100% {
+    opacity: 0;
+    max-height: 0;
+    padding: 0;
+  }
+}
+@keyframes MessageMoveOut {
+  0% {
+    opacity: 1;
+    max-height: 150px;
+    padding: 8px;
+  }
+  100% {
+    opacity: 0;
+    max-height: 0;
+    padding: 0;
+  }
+}
+/* stylelint-disable at-rule-empty-line-before,at-rule-name-space-after,at-rule-no-unknown */
+/* stylelint-disable declaration-bang-space-before */
+/* stylelint-disable declaration-bang-space-before */
 .ant-layout {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -3833,9 +3911,29 @@ samp {
 .layout___nFWWH .header___301EF .logo___22h7u img {
   width: 32px;
   height: 32px;
+  margin-right: 10px;
+}
+.layout___nFWWH .header___301EF .logo___22h7u h2 {
+  color: #6abbf5;
+  margin-right: 80px;
+  cursor: pointer;
+}
+.layout___nFWWH .header___301EF .logo___22h7u h2:hover {
+  color: #8fc9fb;
 }
 .layout___nFWWH .header___301EF .ant-menu-horizontal {
   border-bottom: none;
+  display: inline-block;
+}
+.layout___nFWWH .header___301EF .user___tix_A {
+  color: #ffffff;
+  float: right;
+}
+.layout___nFWWH .header___301EF .user___tix_A .logout___19Yd0 {
+  cursor: pointer;
+}
+.layout___nFWWH .header___301EF .user___tix_A .logout___19Yd0:hover {
+  color: #8fc9fb;
 }
 .layout___nFWWH .container___2lnJ_ {
   display: -webkit-box;
@@ -3852,84 +3950,6 @@ samp {
   min-height: calc(100vh - 64px - 50px);
   background-color: #ffffff;
   margin: 10px;
-}
-/* stylelint-disable at-rule-empty-line-before,at-rule-name-space-after,at-rule-no-unknown */
-/* stylelint-disable declaration-bang-space-before */
-/* stylelint-disable declaration-bang-space-before */
-.ant-message {
-  font-size: 12px;
-  position: fixed;
-  z-index: 1010;
-  width: 100%;
-  top: 16px;
-  left: 0;
-  pointer-events: none;
-}
-.ant-message-notice {
-  padding: 8px;
-  text-align: center;
-}
-.ant-message-notice:first-child {
-  margin-top: -8px;
-}
-.ant-message-notice-content {
-  padding: 8px 16px;
-  border-radius: 4px;
-  -webkit-box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-  background: #fff;
-  display: inline-block;
-  pointer-events: all;
-}
-.ant-message-success .anticon {
-  color: #00a854;
-}
-.ant-message-error .anticon {
-  color: #f04134;
-}
-.ant-message-warning .anticon {
-  color: #ffbf00;
-}
-.ant-message-info .anticon,
-.ant-message-loading .anticon {
-  color: #108ee9;
-}
-.ant-message .anticon {
-  margin-right: 8px;
-  font-size: 14px;
-  top: 1px;
-  position: relative;
-}
-.ant-message-notice.move-up-leave.move-up-leave-active {
-  -webkit-animation-name: MessageMoveOut;
-          animation-name: MessageMoveOut;
-  overflow: hidden;
-  -webkit-animation-duration: .3s;
-          animation-duration: .3s;
-}
-@-webkit-keyframes MessageMoveOut {
-  0% {
-    opacity: 1;
-    max-height: 150px;
-    padding: 8px;
-  }
-  100% {
-    opacity: 0;
-    max-height: 0;
-    padding: 0;
-  }
-}
-@keyframes MessageMoveOut {
-  0% {
-    opacity: 1;
-    max-height: 150px;
-    padding: 8px;
-  }
-  100% {
-    opacity: 0;
-    max-height: 0;
-    padding: 0;
-  }
 }
 /* stylelint-disable at-rule-empty-line-before,at-rule-name-space-after,at-rule-no-unknown */
 /* stylelint-disable declaration-bang-space-before */
