@@ -71,7 +71,7 @@
       // DNS 缓存时间
       times.appcache = t.domainLookupStart - t.fetchStart;
 
-      // 卸载页面的时间
+      // 浏览器卸载前一个页面（同一个域下）的时间
       times.unloadEvent = t.unloadEventEnd - t.unloadEventStart;
 
       // TCP 建立连接完成握手的时间
@@ -108,13 +108,12 @@
     }
   };
 
-  window.onload = function() {
-    var pagePerformance = new PagePerformance({
-      baseLogSrc: '//pharos.eming.li/api/performance?'
-    });
-
+  window.addEventListener('load', function(){
     setTimeout(function() {
+      var pagePerformance = new PagePerformance({
+        baseLogSrc: '//pharos.eming.li/api/performance?'
+      });
       pagePerformance.monitor();
     }, 0);
-  };
+  });
 })();
