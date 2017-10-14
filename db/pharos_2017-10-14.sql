@@ -7,7 +7,7 @@
 #
 # Host: 127.0.0.1 (MySQL 5.6.33)
 # Database: pharos
-# Generation Time: 2017-10-14 06:19:30 +0000
+# Generation Time: 2017-10-14 06:25:51 +0000
 # ************************************************************
 
 
@@ -96,7 +96,6 @@ CREATE TABLE `ph_site` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `url` varchar(255) NOT NULL DEFAULT '',
   `name` varchar(255) NOT NULL DEFAULT '',
-  `description` text NOT NULL,
   `create_time` datetime NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
