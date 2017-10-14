@@ -1,5 +1,25 @@
 module.exports = class extends think.Logic {
   /**
+   * @api {GET} /user 获取用户列表
+   * @apiGroup User
+   * @apiVersion  0.0.1
+   * 
+   * @apiParam  {String}  page  页数
+   * @apiParam  {String}  pagesize  分页大小
+   */
+  getAction() {
+    this.rules = {
+      page: {
+        int: true,
+        default: 1
+      },
+      pagesize: {
+        int: true,
+        default: 10
+      }
+    };
+  }
+  /**
    * @api {POST} /user 用户注册
    * @apiGroup User
    * @apiVersion 0.0.1
@@ -33,6 +53,39 @@ module.exports = class extends think.Logic {
       status: {
         int: true,
         default: 0
+      }
+    };
+  }
+
+  /**
+   * @api {DELETE} /user/:id 用户删除
+   * @apiGroup User
+   * @apiVersion 0.0.1
+   */
+  deleteAction() {
+  }
+
+  /**
+   * @api {PUT} /user/:id 更新用户信息
+   * @apiGroup  User
+   * @apiVersion  0.0.1
+   * 
+   * @apiParam  {String}  display_name  用户昵称
+   * @apiParam  {String}  password  用户密码
+   * @apiParam  {String}  status  用户状态
+   */
+  putAction() {
+    this.rules = {
+      display_name: {
+        string: true,
+        length: {min: 4, max: 10}
+      },
+      password: {
+        string: true,
+        length: {min: 8, max: 20}
+      },
+      status: {
+        int: true
       }
     };
   }

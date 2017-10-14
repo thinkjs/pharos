@@ -21,7 +21,7 @@ module.exports = class extends BaseRest {
 
     delete userInfo.password;
     await this.session('userInfo', userInfo);
-    return this.success();
+    return this.success(userInfo);
   }
 
   async deleteAction() {
