@@ -7,6 +7,11 @@ module.exports = class extends think.Logic {
    * @apiParam  {String}  page  页数
    * @apiParam  {String}  pagesize  分页大小
    */
+  /**
+   * @api {GET} /site/:id 获取网站信息
+   * @apiGroup  Site
+   * @apiVersion  0.0.1
+   */
   getAction() {
     this.rules = {
       page: {
@@ -50,4 +55,25 @@ module.exports = class extends think.Logic {
       }
     };
   }
+  /**
+   * @api {PUT} /site/:id 修改网站信息
+   * @apiGroup Site
+   * @apiVersion 0.0.1
+   * 
+   * @apiParam  {String}  name  网站名称
+   */  
+  putAction() {
+    this.rules = {
+      name: {
+        string: true,
+        length: {min: 4, max: 20}
+      }
+    };
+  }
+  /**
+   * @api {DELETE} /site/:id  删除网站
+   * @apiGroup Site
+   * @apiVersion  0.0.1 
+   */
+  deleteAction() {}
 };
