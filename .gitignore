@@ -35,7 +35,7 @@ output.tar.gz
 
 runtime/
 app/
-dist/
+# dist/
 
 adapter.development.js
 config.development.js
