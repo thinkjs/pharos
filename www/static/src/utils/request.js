@@ -43,10 +43,10 @@ export default function request (options) {
     }
     let data = response.data;
     // 未登录
-    if(data.errno == 10002){
+    // if(data.errno == 10002){
       //location.href = '/login';
-      return false;
-    }
+      // return false;
+    // }
 
     if(data.errno != 0) {
       message.error(data.errmsg);
