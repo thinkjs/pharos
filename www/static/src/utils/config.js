@@ -1,13 +1,19 @@
+const TEST_URL = 'test.com';
+let baseURL = 'http://test.com:8360/';
+// let baseURL = 'https://pharos.eming.li';
+if (!location.host.includes(TEST_URL)) {
+  baseURL = location.protocol + '//' + location.host + '/';
+}
 
 module.exports = {
   name: 'Pharos',
   footerText: '',
   logo: '/static/public/logo.png',
-  baseURL:'http://pharos.eming.li/',
+  baseURL,
   api: {
     auth:{
       login:'/api/token',
       register:'/api/user'
     }
   },
-}
+};

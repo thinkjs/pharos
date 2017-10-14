@@ -17,6 +17,7 @@ export default {
     *login({payload = {}}, {call, put}){
       const user = yield call(login.login, payload.values);
       if (user) {
+        window.USER = user;
         const from = queryURL('from');
         yield put({type: 'app/query',payload:{user}});
         if (from) {
