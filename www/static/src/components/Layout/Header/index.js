@@ -8,7 +8,7 @@ const MainHeader = () => {
   return (
     <Header className={styles.header}>
       <div className={styles.logo}>
-        <img src="/logo.png" alt=""/>
+        <img src="/static/logo.png" alt=""/>
       </div>
       <Menu
         theme="dark"
