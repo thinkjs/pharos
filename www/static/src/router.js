@@ -14,11 +14,17 @@ function Routers({ history, app }) {
     {
       path:'/',
       component:App,
+      // getIndexRoute (nextState, cb) {
+      //   require.ensure([], require => {
+      //     registerModel(app, require('./models/dashboard'))
+      //     cb(null, { component: require('./routes/dashboard/') })
+      //   }, 'dashboard')
+      // },
       getIndexRoute (nextState, cb) {
         require.ensure([], require => {
-          registerModel(app, require('./models/dashboard'))
-          cb(null, { component: require('./routes/dashboard/') })
-        }, 'dashboard')
+          registerModel(app, require('./models/site'))
+          cb(null, { component: require('./routes/site/') })
+        }, 'site')
       },
       childRoutes: [
         {
@@ -58,6 +64,16 @@ function Routers({ history, app }) {
               registerModel(app, require('./models/app'));
               cb(null, require('./routes/site/'))
             }, 'site')
+          },
+        },
+        {
+          path: 'setting/user',
+          getComponent (nextState, cb) {
+            require.ensure([], require => {
+              registerModel(app, require('./models/user'));
+              registerModel(app, require('./models/app'));
+              cb(null, require('./routes/user/'))
+            }, 'user')
           },
         },
       ]
