@@ -22,13 +22,13 @@ const fetch = (options) => {
         params: cloneData,
       });
     case 'delete':
-      return axios.delete(url, {
-        data: cloneData,
-      });
+      url += `/${cloneData.id}`;
+      return axios.delete(url);
     case 'post':
       return axios.post(url, qs.stringify(cloneData));
     case 'put':
-      return axios.put(url, cloneData);
+      url += `/${cloneData.id}`;
+      return axios.put(url,cloneData);
     case 'patch':
       return axios.patch(url, cloneData);
     default:

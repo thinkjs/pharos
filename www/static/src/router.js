@@ -50,6 +50,16 @@ function Routers({ history, app }) {
             }, 'register')
           },
         },
+        {
+          path: 'site',
+          getComponent (nextState, cb) {
+            require.ensure([], require => {
+              registerModel(app, require('./models/site'));
+              registerModel(app, require('./models/app'));
+              cb(null, require('./routes/site/'))
+            }, 'site')
+          },
+        },
       ]
     }
   ]
