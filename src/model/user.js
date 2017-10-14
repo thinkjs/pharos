@@ -31,4 +31,12 @@ module.exports = class extends think.Model {
       status: data.status
     });
   }
+
+  updateUser(data) {
+    if (data.password) {
+      data.password = this.getEncryptPassword(data.password);
+    }
+
+    return this.where({[this.pk]: data.id}).update(data);
+  }
 };
