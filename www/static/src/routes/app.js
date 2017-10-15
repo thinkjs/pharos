@@ -20,11 +20,7 @@ const App = ({children, dispatch, app, location, loading}) => {
 
   if (location.pathname === '/login' || location.pathname === '/register') {
     return children
-  }
-  // else if (!user) {
-  //   return null;
-  // }
-  else {
+  } else {
     user.logout = ()=> {
       dispatch({
         type: 'app/logout'
@@ -33,9 +29,8 @@ const App = ({children, dispatch, app, location, loading}) => {
 
     return (
       <div>
-        <Layout children={children}/>
+        <Layout children={children} user={user}/>
       </div>
-      //<Layout menus={menus} user={user} children={children} location={location}/>
     )
   }
 };

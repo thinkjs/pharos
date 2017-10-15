@@ -18,6 +18,7 @@ export default {
       const user = yield call(login.login, payload.values);
       if (user) {
         window.USER = user;
+        localStorage.setItem('USER',JSON.stringify(user));
         const from = queryURL('from');
         yield put({type: 'app/query',payload:{user}});
         if (from) {
