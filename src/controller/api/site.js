@@ -22,9 +22,16 @@ module.exports = class extends Base {
       return this.success(siteInfo);
     }
 
-    const result = await this.modelInstance.where({
+    this.modelInstance = this.modelInstance.where({
       id: ['IN', siteIds]
-    }).page([page, pagesize]).countSelect();
+    });
+
+    let result;
+    if (page) {
+      result = await this.modelInstance.page([page, pagesize]).countSelect();
+    } else {
+      result = await this.modelInstance.select();
+    }
     return this.success(result);
   }
 
