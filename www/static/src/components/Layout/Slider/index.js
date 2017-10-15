@@ -26,7 +26,7 @@ const MainSlider = () => {
       if(m.url){
         return (
           <Menu.Item key={i}>
-            <Link className={styles.menuItem} to={m.url}>{m.name}</Link>
+            <Link className={styles.menuItem} to={m.url}><Icon type={m.icon} />{m.name}</Link>
           </Menu.Item>
         )
       }

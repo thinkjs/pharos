@@ -7,10 +7,10 @@ import Content from './Content'
 import styles from './index.less'
 import { Layout } from 'antd';
 
-const MainLayout = ({children})=>{
+const MainLayout = ({children,user})=>{
   return (
     <Layout className={styles.layout}>
-      <Header />
+      <Header user={user}/>
       <div className={styles.container}>
         <Slider />
         <Content children={children} />

@@ -11,9 +11,11 @@ module.exports = {
   logo: '/static/public/logo.png',
   baseURL,
   api: {
-    auth:{
-      login:'/api/token',
-      register:'/api/user'
-    }
+    auth: {
+      login: '/api/token',
+      register: '/api/user',
+    },
+    site: '/api/site',
+    user: '/api/user',
   },
 };

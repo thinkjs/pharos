@@ -10,6 +10,12 @@ export default {
       method: 'POST'
     })
   },
+  logout: ()=> {
+    return request({
+      url: api.login,
+      method: 'DELETE'
+    })
+  },
   register: (params = {})=> {
     return request({
       url: api.register,
