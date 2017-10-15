@@ -2,12 +2,14 @@ import React from 'react';
 import {connect} from 'dva';
 import {Page} from 'components';
 import AddModal from './add-or-edit-modal';
+import CodeModal from './code-modal';
 import Filter from './filter';
 import List from './list';
-import {Modal} from 'antd';
+import {Modal,Button,message} from 'antd';
+import {CopyToClipboard} from 'react-copy-to-clipboard';
 
 function Whatever({dispatch, site, location, loading,}) {
-  const {data, pagination, organs, addModalVisible, current, modalType} = site;
+  const {data, pagination, organs, addModalVisible, codeModalVisible, current, modalType} = site;
   const modalProps = {
     title: modalType === 'add' ? '新增' : '编辑',
     current: modalType === 'add' ? {} : current,
@@ -25,6 +27,52 @@ function Whatever({dispatch, site, location, loading,}) {
         payload: data
       })
     }
+  };
+
+  const getCode = ()=>{
+    if(!current){
+      return
+    }
+    return `
+      <script>
+        var _pScript = _pScript || [];
+        (function(){
+          var _pScript = document.createElement('script');
+          _pScript.setAttribute('data-siteid', '${current.id}');
+          _pScript.src = window.location.protocol + '//pharos.eming.li/static/js/performance.js';
+          document.body.appendChild(_pScript);
+        })();
+      </script>
+    `
+  };
+
+  const codeModalProps = {
+    width:610,
+    title: '获取代码',
+    current,
+    visible: codeModalVisible,
+    code: getCode(),
+    footer:[
+      <Button
+        key="back"
+        size="large"
+        onClick={()=>{
+          dispatch({
+            type: 'site/save',
+            payload: {codeModalVisible: false}
+          })
+        }}>
+        关闭
+      </Button>,
+      <CopyToClipboard
+        text={getCode()}
+        onCopy={()=>{
+          message.success('已成功复制到剪切板');
+        }}
+      >
+        <Button key="copy" size="large" type="primary">复制代码</Button>
+      </CopyToClipboard>
+    ],
   };
 
   const filterProps = {
@@ -63,28 +111,10 @@ function Whatever({dispatch, site, location, loading,}) {
         }
       })
     },
-    onResetPass(userId){
-      Modal.confirm({
-        title: '重置密码',
-        content: '确定重置密码?',
-        onOk(){
-          dispatch({
-            type: 'user/resetPassword',
-            payload: {userId}
-          })
-        }
-      })
-    },
-    onDisable(userId){
-      Modal.confirm({
-        title: '停用',
-        content: '确定停用?',
-        onOk(){
-          dispatch({
-            type: 'user/disable',
-            payload: {userId}
-          })
-        }
+    onGetCode(item){
+      dispatch({
+        type: 'site/save',
+        payload: {codeModalVisible: true, current: item}
       })
     },
     data,
@@ -96,6 +126,7 @@ function Whatever({dispatch, site, location, loading,}) {
       <Filter {...filterProps} />
       <List {...listProps} />
       {addModalVisible && <AddModal {...modalProps} />}
+      {codeModalVisible && <CodeModal {...codeModalProps} />}
     </Page>
   );
 }

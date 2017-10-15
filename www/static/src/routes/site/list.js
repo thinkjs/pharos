@@ -2,7 +2,7 @@ import React from 'react'
 import {Table,Spin} from 'antd';
 
 
-const List = ({data, onEdit, onDelete,onPageChange, pagination, loading})=> {
+const List = ({data, onEdit, onDelete, onGetCode, onPageChange, pagination, loading})=> {
   const columns = [
     {
       title: '操作',
@@ -11,6 +11,8 @@ const List = ({data, onEdit, onDelete,onPageChange, pagination, loading})=> {
       render: (id, item)=> {
         return (
           <span>
+            <a onClick={()=>onGetCode(item)}>获取代码</a>
+            <span className="ant-divider"/>
             <a onClick={()=>onEdit(item)}>编辑</a>
             <span className="ant-divider"/>
             <a onClick={()=>onDelete(item.id)}>删除</a>
