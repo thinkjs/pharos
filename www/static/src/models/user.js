@@ -17,7 +17,6 @@ export default {
   subscriptions: {
     setup({dispatch, history}) {
       history.listen(location => {
-        console.log(location.pathname)
         if (location.pathname === '/setting/user') {
           dispatch({type: 'query', payload: location.query});
         } else {

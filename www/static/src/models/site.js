@@ -28,6 +28,7 @@ export default {
 
   effects: {
     *query({payload = {}}, {call, put}) {
+      payload.page = payload.page || 1;
       let ret = yield call(site.query, payload);
       if (ret) {
         const data = ret.data;
@@ -42,7 +43,6 @@ export default {
     },
     *add({payload = {}}, {call, put}){
       let ret = yield call(payload.id ? site.edit : site.add,payload);
-      console.log(ret);
       if(ret){
         yield put({type:'save',payload:{addModalVisible:false,codeModalVisible:!payload.id,current:{id:ret.id,...payload}}});
         yield put({ type: 'query' });
