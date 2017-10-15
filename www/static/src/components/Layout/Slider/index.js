@@ -16,7 +16,7 @@ const MainSlider = () => {
       }
       return children.map((c,i)=>{
         return (
-          <Menu.Item key={i}>
+          <Menu.Item key={c.url}>
             <Link className={styles.menuItem} to={c.url}>{c.name}</Link>
           </Menu.Item>
         )
@@ -25,7 +25,7 @@ const MainSlider = () => {
     return menus.map((m,i)=>{
       if(m.url){
         return (
-          <Menu.Item key={i}>
+          <Menu.Item key={m.url}>
             <Link className={styles.menuItem} to={m.url}><Icon type={m.icon} />{m.name}</Link>
           </Menu.Item>
         )
