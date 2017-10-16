@@ -4,7 +4,7 @@ import request from './request'
 import classnames from 'classnames'
 import { color } from './theme'
 import lodash from 'lodash'
-
+import constant from './constant'
 // 连字符转驼峰
 String.prototype.hyphenToHump = function () {
   return this.replace(/-(\w)/g, (...args) => {
@@ -108,4 +108,5 @@ module.exports = {
   queryURL,
   queryArray,
   arrayToTree,
+  constant,
 }

@@ -30,31 +30,64 @@ export default {
       const {pathname, query} = routing;
       if(pathname === '/perf/overview'){
         let sites = yield call(site.query);
-        if(!query.site_id || !query.start_time || !query.end_time){
+        if(!query.site_id){
           yield put(routerRedux.push({
             pathname,
             query: {
               ...query,
               site_id:sites[0].id,//默认取第一个
-              end_time:moment().format('YYYY-MM-DD'),//最近7天
-              start_time:moment().subtract(7,'days').format('YYYY-MM-DD')
+              // end_time:moment().format('YYYY-MM-DD'),//最近7天
+              // start_time:moment().subtract(7,'days').format('YYYY-MM-DD')
             },
           }))
         }
-        yield put({type: 'query', payload: {metric: 'allPerfAvgConsumeTime', ...query}});
+
+        yield put({type: 'overview', payload: {metric: 'allPerfAvgConsumeTime', ...query}});
       }
     },
-    *query({payload = {}}, {call, put}) {
+    *overview({payload = {}}, {call, put}) {
       payload.page = payload.page || 1;
+      const [t,y,b] = [
+        moment().subtract(1,'days').format('YYYY-MM-DD'),
+        moment().subtract(2,'days').format('YYYY-MM-DD'),
+        moment().subtract(3,'days').format('YYYY-MM-DD')
+      ];
+      let today = yield call(perf.query, {...payload,start_time:y,end_time:t});
+      let yesterday = yield call(perf.query, {...payload,start_time:b,end_time:y});
+      if (today && yesterday) {
+        let overview = [];
+        today.forEach((item,index)=>{
+          overview.push({
+            name:item.index_name,
+            yesterday:yesterday[index].index_value,
+            today:item.index_value
+          })
+        });
+        console.log(overview);
+        // yield put({type: 'save', payload: {data, pagination}})
+      }
+    },
+    *specific({payload = {}}, {call, put}) {
+      payload.page = payload.page || 1;
+      payload.metric = 'perfDistributionTime'
+      const [t,y,b] = [
+        moment().subtract(1,'days').format('YYYY-MM-DD'),
+        moment().subtract(2,'days').format('YYYY-MM-DD'),
+        moment().subtract(3,'days').format('YYYY-MM-DD')
+      ];
+      let today = yield call(perf.query, {...payload,start_time:y,end_time:t});
+      let yesterday = yield call(perf.query, {...payload,start_time:b,end_time:y});
       let ret = yield call(perf.query, payload);
-      if (ret) {
-        const data = ret.data;
-        const pagination = {
-          current: +ret.currentPage,
-          pageSize: +ret.pagesize,
-          total: +ret.count,
-          defaultCurrent: 1
-        };
+      if (today && yesterday) {
+        let overview = [];
+        today.forEach((item,index)=>{
+          overview.push({
+            name:item.index_name,
+            yesterday:yesterday[index].index_value,
+            today:item.index_value
+          })
+        });
+        console.log(overview);
         yield put({type: 'save', payload: {data, pagination}})
       }
     },
