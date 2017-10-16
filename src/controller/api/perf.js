@@ -54,7 +54,10 @@ module.exports = class extends BaseRest {
       archive_time: think.datetime()
     }));
     await this.modelArch.addMany(data);
-    return this.success(data);
+    return this.success(data.map(({index_name, index_value}) => ({
+      perf_name: index_name,
+      perf_value: index_value
+    })));
   }
 
   /** 某 site_id 某 site_page_id 某 perf 因素各时段个数 */
