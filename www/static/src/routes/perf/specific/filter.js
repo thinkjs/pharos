@@ -2,9 +2,9 @@ import React from 'react';
 // import moment from 'moment';
 import {FilterWrapper, SiteSelector} from 'components';
 import {constant} from 'utils';
-import {Row, Col, DatePicker} from 'antd';
+import {Row, Col, DatePicker,Select} from 'antd';
 // const RangePicker = DatePicker.RangePicker;
-
+const Option = Select.Option;
 const Filter = ({start_time, end_time, site_id, handleSearch})=> {
 
   const colSpan = 6;
@@ -30,11 +30,15 @@ const Filter = ({start_time, end_time, site_id, handleSearch})=> {
     <FilterWrapper>
       <Row gutter={20}>
         <Col span={colSpan}>
-          <SiteSelector
-            placeholder="请选择项目"
-            value={site_id}
-            onChange={(val)=>handleChange(val,'site_id')}
-          />
+          <Select style={{width:200}}>
+            {
+              constant.PERFORMANCE_ITEMS.map((item)=>{
+                return(
+                  <Option {...item}>{item.label}</Option>
+                )
+              })
+            }
+          </Select>
         </Col>
         {
           /*
