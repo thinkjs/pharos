@@ -41,8 +41,8 @@ module.exports = [
   {
     handle: cors,
     options: {
-      origin: (ctx)=>{
-        return ctx.header.origin
+      origin: (ctx) => {
+        return ctx.header.origin;
       },
       credentials: true,
       allowMethods: 'GET,HEAD,PUT,POST,DELETE,PATCH'
@@ -54,5 +54,10 @@ module.exports = [
     handle: routerREST
   },
   'logic',
-  'controller'
+  {
+    handle: 'controller',
+    options: {
+      emptyController: 'index'
+    }
+  }
 ];
