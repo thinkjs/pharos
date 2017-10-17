@@ -4,6 +4,7 @@ module.exports = class extends think.Logic {
    * @apiGroup User
    * @apiVersion  0.0.1
    * 
+   * @apiParam  {String}  keyword 搜索关键词
    * @apiParam  {String}  page  页数
    * @apiParam  {String}  pagesize  分页大小
    */
