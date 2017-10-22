@@ -7,7 +7,7 @@
 #
 # Host: 127.0.0.1 (MySQL 5.6.33)
 # Database: pharos
-# Generation Time: 2017-10-22 04:01:05 +0000
+# Generation Time: 2017-10-22 07:55:15 +0000
 # ************************************************************
 
 
@@ -35,6 +35,26 @@ CREATE TABLE `ph_options` (
 
 
 
+# Dump of table ph_perf_browser_time
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `ph_perf_browser_time`;
+
+CREATE TABLE `ph_perf_browser_time` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `site_id` int(11) NOT NULL,
+  `site_page_id` int(11) DEFAULT NULL,
+  `perf` int(11) NOT NULL,
+  `browser` varchar(255) NOT NULL DEFAULT '',
+  `version` varchar(255) NOT NULL DEFAULT '',
+  `time` int(11) NOT NULL,
+  `count` int(11) NOT NULL,
+  `create_time` datetime NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+
+
 # Dump of table ph_perf_consume_time
 # ------------------------------------------------------------
 
@@ -47,6 +67,26 @@ CREATE TABLE `ph_perf_consume_time` (
   `perf` int(11) NOT NULL,
   `interval` int(11) NOT NULL,
   `time` int(11) NOT NULL DEFAULT '0',
+  `count` int(11) NOT NULL,
+  `create_time` datetime NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+
+
+# Dump of table ph_perf_os_time
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `ph_perf_os_time`;
+
+CREATE TABLE `ph_perf_os_time` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `site_id` int(11) NOT NULL,
+  `site_page_id` int(11) DEFAULT NULL,
+  `perf` int(11) NOT NULL,
+  `os` varchar(255) NOT NULL DEFAULT '',
+  `version` varchar(255) NOT NULL DEFAULT '',
+  `time` int(11) NOT NULL,
   `count` int(11) NOT NULL,
   `create_time` datetime NOT NULL,
   PRIMARY KEY (`id`)
