@@ -1,4 +1,5 @@
 const url = require('url');
+const detector = require('detector');
 const BaseRest = require('../rest');
 
 module.exports = class extends BaseRest {
@@ -14,6 +15,23 @@ module.exports = class extends BaseRest {
       visitUrl += '?' + query;
     }
     return {protocol, url: visitUrl};
+  }
+
+  /** 根据 UA 获取信息 */
+  get userUA() {
+    const ua = detector.parse(this.userAgent);
+
+    return {
+      browser_engine: ua.engine.name,
+      browser_name: ua.browser.name,
+      browser_version: ua.browser.version,
+      device_brand: ua.device.name,
+      // device_model: ua.device,
+      // device_type:,
+      device_pixel: this.get('screen'),
+      os: ua.os.name,
+      os_version: ua.os.version
+    };
   }
 
   /** 获取全局对象当其不存在时赋初值 */
@@ -90,18 +108,40 @@ module.exports = class extends BaseRest {
   async getAction() {
     const {site_id, info: performance} = this.get();
     const visit_url = this.visitUrl;
+    const user_ua = this.userUA;
     const gather = this.gather(performance);
     const site_page_id = await this.sitePage(site_id, visit_url.url);
     gather((time, perf) => {
       const interval = this.findInterval(time);
       const consume_time = this.global(
-        ['consume_time', site_id, site_page_id, global.perfs[perf], interval],
+        [
+          'consume_time',
+          site_id,
+          site_page_id,
+          global.perfs[perf],
+          interval
+        ],
         {time: 0, count: 0}
       );
       consume_time.time += time;
       consume_time.count += 1;
     });
-    gather();
+    gather((time, perf) => {
+      const browser_time = this.global(
+        [
+          'browser_time',
+          site_id,
+          site_page_id,
+          global.perfs[perf],
+          user_ua.browser_name,
+          user_ua.browser_version
+        ],
+        {time: 0, count: 0}
+      );
+      browser_time.time += time;
+      browser_time.count += 1;
+    });
+    gather(); ;
     this.ctx.type = 'gif';
     this.ctx.body = Buffer.from(
       'R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==',

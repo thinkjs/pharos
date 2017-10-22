@@ -166,50 +166,6 @@ module.exports = class extends Base {
     return this.success();
   }
 
-  map(arr, keys, fn = _ => {}) {
-    const result = [];
-    function mapFilter(obj, keys, info = {}, fn) {
-      if (keys.length) {
-        for (const i in obj) {
-          info[keys[0]] = i;
-          mapFilter(obj[i], keys.slice(1), info, fn);
-        }
-      } else {
-        const data = {...info, ...obj};
-        if (fn(data) === false) {
-          return;
-        };
-        result.push(data);
-      }
-    }
-
-    for (let i = 0; i < arr.length; i++) {
-      mapFilter(arr[i], keys, {}, fn);
-    }
-    return result;
-  }
-
-  groupWithPerf(data, cb) {
-    const result = {};
-    for (let i = 0; i < data.length; i++) {
-      const perf = global.perfs[data[i].perf];
-      if (!Array.isArray(result[perf])) {
-        result[perf] = [];
-      }
-      result[perf].push(data[i]);
-    }
-
-    const output = [];
-    for (const perf in result) {
-      output.push({
-        name: perf,
-        data: cb(result[perf])
-      });
-    }
-
-    return output;
-  }
-
   generateDayCates(start_time, end_time) {
     const startTime = new Date(think.datetime(new Date(start_time), 'YYYY-MM-DD 00:00:00')).getTime();
     const endTime = new Date(think.datetime(new Date(end_time), 'YYYY-MM-DD 00:00:00')).getTime();
