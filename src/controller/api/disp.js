@@ -141,6 +141,21 @@ module.exports = class extends BaseRest {
       browser_time.time += time;
       browser_time.count += 1;
     });
+    gather((time, perf) => {
+      const os_time = this.global(
+        [
+          'os_time',
+          site_id,
+          site_page_id,
+          global.perfs[perf],
+          user_ua.os,
+          user_ua.os_version
+        ],
+        {time: 0, count: 0}
+      );
+      os_time.time += time;
+      os_time.count += 1;
+    });
     gather(); ;
     this.ctx.type = 'gif';
     this.ctx.body = Buffer.from(
