@@ -158,7 +158,9 @@ module.exports = class extends Base {
       }
     );
 
-    if (think.isEmpty(arr)) return this.fail();
+    if (think.isEmpty(arr)) {
+      return think.logger.warn('consume_time is empty');
+    }
     await this.modelInstance.addMany(arr);
     think.logger.info(`consume_time crontab time: ${Date.now() - startTime}ms`);
     return this.success();
