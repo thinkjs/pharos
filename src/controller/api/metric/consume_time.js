@@ -28,8 +28,8 @@ module.exports = class extends Base {
       return this.fail();
     }
 
-    let categories;
     let series;
+    let categories;
     switch (type) {
       case 'interval':
         categories = global.interval.map(interval => interval[1]);
@@ -147,8 +147,6 @@ module.exports = class extends Base {
   }
 
   async postAction() {
-    if (!this.isCli) return this.fail();
-
     const startTime = Date.now();
     const createTime = think.datetime(Date.now(), 'YYYY-MM-DD HH:mm:00');
     think.logger.info('crontab', 'consume_time', createTime);
@@ -161,7 +159,7 @@ module.exports = class extends Base {
     );
 
     if (think.isEmpty(arr)) return this.fail();
-    await this.model('perf_consume_time').addMany(arr);
+    await this.modelInstan.addMany(arr);
     think.logger.info(`consume_time crontab time: ${Date.now() - startTime}ms`);
     return this.success();
   }
