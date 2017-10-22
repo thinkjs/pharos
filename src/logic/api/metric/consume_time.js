@@ -1,4 +1,5 @@
-module.exports = class extends think.Logic {
+const Base = require('./base');
+module.exports = class extends Base {
   /**
    * @api {GET} /metric/consume_time 获取某段时间所有指标的平均值
    * @apiGroup Performance
@@ -59,9 +60,5 @@ module.exports = class extends think.Logic {
         in: ['interval', 'hour', 'day']
       }
     };
-  }
-
-  postAction() {
-    if (!this.isCli) return this.fail();
   }
 };
