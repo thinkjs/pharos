@@ -108,10 +108,10 @@
     }
   };
 
-  window.addEventListener('load', function(){
+  window.addEventListener('load', function() {
     setTimeout(function() {
       var pagePerformance = new PagePerformance({
-        baseLogSrc: '//pharos.eming.li/api/performance?'
+        baseLogSrc: '//pharos.eming.li/api/disp?'
       });
       pagePerformance.monitor();
     }, 0);
