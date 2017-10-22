@@ -1,7 +1,8 @@
 
 const metrics = [
   'consume_time',
-  'browser_time'
+  'browser_time',
+  'os_time'
 ];
 
 module.exports = metrics.map(metric => ({
