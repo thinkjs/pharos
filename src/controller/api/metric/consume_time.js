@@ -159,7 +159,7 @@ module.exports = class extends Base {
     );
 
     if (think.isEmpty(arr)) return this.fail();
-    await this.modelInstan.addMany(arr);
+    await this.modelInstance.addMany(arr);
     think.logger.info(`consume_time crontab time: ${Date.now() - startTime}ms`);
     return this.success();
   }
