@@ -6,6 +6,10 @@ module.exports = class extends think.Controller {
     return true;
   }
 
+  static get _method() {
+    return '_method';
+  }
+
   constructor(ctx) {
     super(ctx);
     this.resource = this.getResource();
