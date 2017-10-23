@@ -1,6 +1,6 @@
 import './index.html'
 import dva from 'dva';
-// import { browserHistory } from 'dva/router'
+import { browserHistory } from 'dva/router'
 import createLoading from 'dva-loading'
 
 // 1. Initialize
@@ -8,7 +8,7 @@ const app = dva({
   ...createLoading({
     effects: true,
   }),
-  // history:browserHistory,
+  history:browserHistory,
   onError (error) {
     console.error(error)
   },

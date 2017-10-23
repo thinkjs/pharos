@@ -17,6 +17,8 @@ module.exports = {
     },
     site: '/api/site',
     user: '/api/user',
-    perf: '/api/perf'
+    perf: {
+      overview:'/api/metric/consume_time',
+    }
   },
 };

@@ -2,45 +2,7 @@ import React from 'react'
 import {Table,Spin} from 'antd';
 
 
-const List = ({data, onEdit, onDelete, onGetCode, onPageChange, pagination, loading})=> {
-  const columns = [
-    {
-      title: '操作',
-      dataIndex: 'id',
-      key: 'id',
-      render: (id, item)=> {
-        return (
-          <span>
-            <a onClick={()=>onGetCode(item)}>获取代码</a>
-            <span className="ant-divider"/>
-            <a onClick={()=>onEdit(item)}>编辑</a>
-            <span className="ant-divider"/>
-            <a onClick={()=>onDelete(item.id)}>删除</a>
-          </span>
-        )
-      }
-    },
-    {
-      title: '网站名称',
-      dataIndex: 'name',
-      key: 'name',
-    },
-    {
-      title: '网站地址',
-      dataIndex: 'url',
-      key: 'url',
-      render(val){
-        return (
-          <a href={val} target="_blank">{val}</a>
-        )
-      }
-    },
-    {
-      title: '创建时间',
-      dataIndex: 'create_time',
-      key: 'create_time',
-    },
-  ];
+const List = ({data, columns = [], onPageChange, pagination, loading})=> {
 
   return (
     <Spin spinning={loading}>
@@ -51,6 +13,8 @@ const List = ({data, onEdit, onDelete, onGetCode, onPageChange, pagination, load
         dataSource={data}
         onChange={onPageChange}
         pagination={pagination}
+        size="middle"
+        scroll={{ x: 2000 }}
       />
     </Spin>
   )

@@ -4,7 +4,7 @@ const api = config.api.perf;
 export default {
   query: (params = {})=> {
     return request({
-      url: api,
+      url: api.overview,
       data: params,
     })
   },
