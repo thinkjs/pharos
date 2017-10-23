@@ -32,40 +32,70 @@ module.exports = class extends Base {
       return this.fail();
     }
 
-    let series = {};
-    let drillSeries = {};
-    for (let i = 0; i < data.length; i++) {
-      const {os, version, time, count} = data[i];
-      if (!series[os]) {
-        series[os] = {time: 0, count: 0};
+    if (where.perf) {
+      let series = {};
+      let drillSeries = {};
+      for (let i = 0; i < data.length; i++) {
+        const {os, version, time, count} = data[i];
+        if (!series[os]) {
+          series[os] = {time: 0, count: 0};
+        }
+        if (!drillSeries[os]) {
+          drillSeries[os] = {};
+        }
+        if (!drillSeries[os][version]) {
+          drillSeries[os][version] = {time: 0, count: 0};
+        }
+        series[os].time += time;
+        series[os].count += count;
+        drillSeries[os][version].time += time;
+        drillSeries[os][version].count += 1;
       }
-      if (!drillSeries[os]) {
-        drillSeries[os] = {};
-      }
-      if (!drillSeries[os][version]) {
-        drillSeries[os][version] = {time: 0, count: 0};
-      }
-      series[os].time += time;
-      series[os].count += count;
-      drillSeries[os][version].time += time;
-      drillSeries[os][version].count += 1;
-    }
-    series = Object.keys(series).map(os => ({
-      name: os,
-      drilldown: os,
-      y: Math.round(series[os].time / series[os].count * 100) / 100
-    }));
-    drillSeries = Object.keys(drillSeries).map(os => {
-      return {
+      series = Object.keys(series).map(os => ({
         name: os,
-        id: os,
-        data: Object.keys(drillSeries[os]).map(version => {
-          const {time, count} = drillSeries[os][version];
-          return [version, Math.round(time / count * 100) / 100];
-        })
-      };
-    });
-    return this.success({series, drilldown: {series: drillSeries}});
+        drilldown: os,
+        y: Math.round(series[os].time / series[os].count * 100) / 100
+      }));
+      drillSeries = Object.keys(drillSeries).map(os => {
+        return {
+          name: os,
+          id: os,
+          data: Object.keys(drillSeries[os]).map(version => {
+            const {time, count} = drillSeries[os][version];
+            return [version, Math.round(time / count * 100) / 100];
+          })
+        };
+      });
+      return this.success({series, drilldown: {series: drillSeries}});
+    }
+
+    let series = {};
+    const categories = [];
+    for (let i = 0; i < data.length; i++) {
+      const {perf, os, time, count} = data[i];
+      if (!categories[os]) {
+        categories.push(os);
+        categories[os] = categories.length - 1;
+      }
+
+      const perfName = global.perfs[perf];
+      if (!Array.isArray(series[perfName])) {
+        series[perfName] = Array.from(
+          {length: global.perfs.length},
+          () => ({time: 0, count: 0})
+        );
+      }
+
+      const perfIndex = categories[os];
+      series[perfName][perfIndex].time += time;
+      series[perfName][perfIndex].count += count;
+    }
+
+    series = Object.keys(series).map(perf => ({
+      name: perf,
+      data: series[perf].map(({time, count}) => Math.round(time / count * 100) / 100)
+    }));
+    return this.success({categories, series});
   }
 
   async postAction() {
