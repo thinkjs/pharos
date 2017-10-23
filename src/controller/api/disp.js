@@ -1,6 +1,9 @@
 const url = require('url');
+const path = require('path');
 const detector = require('detector');
 const BaseRest = require('../rest');
+const IPService = require('../../service/ipip');
+const ipServiceInstance = new IPService(path.join(think.ROOT_PATH, 'www/ip.dat'));
 
 module.exports = class extends BaseRest {
   get visitUrl() {
@@ -31,6 +34,24 @@ module.exports = class extends BaseRest {
       device_pixel: this.get('screen'),
       os: ua.os.name,
       os_version: ua.os.version
+    };
+  }
+
+  /** 根据 IP 获取位置信息 */
+  async userIP() {
+    const [
+      country,
+      region,
+      city
+    ] = await ipServiceInstance
+      .ipFind(this.ip)
+      .catch(() => ['', '', '']);
+
+    return {
+      country,
+      region,
+      city,
+      isp: ''
     };
   }
 
@@ -110,6 +131,7 @@ module.exports = class extends BaseRest {
     const visit_url = this.visitUrl;
     const user_ua = this.userUA;
     const gather = this.gather(performance);
+    const location = await this.userIP();
     const site_page_id = await this.sitePage(site_id, visit_url.url);
     gather((time, perf) => {
       const interval = this.findInterval(time);
@@ -155,6 +177,22 @@ module.exports = class extends BaseRest {
       );
       os_time.time += time;
       os_time.count += 1;
+    });
+    gather((time, perf) => {
+      const region_time = this.global(
+        [
+          'region_time',
+          site_id,
+          site_page_id,
+          global.perfs[perf],
+          location.country,
+          location.region,
+          location.city
+        ],
+        {time: 0, count: 0}
+      );
+      region_time.time += time;
+      region_time.count += 1;
     });
     gather(); ;
     this.ctx.type = 'gif';
