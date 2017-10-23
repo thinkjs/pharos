@@ -15,9 +15,9 @@ module.exports = class extends Base {
     } = this.get();
     const where = {
       site_id,
-      perf: global.perfs[perf],
       create_time: {'>=': start_time, '<': end_time}
     };
+    if (perf) { where.perf = global.perfs[perf] }
     if (site_page_id) { where.site_page_id = site_page_id }
 
     const data = await this.modelInstance.where(where).select();
