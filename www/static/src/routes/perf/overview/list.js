@@ -5,40 +5,16 @@ import {Table,Spin} from 'antd';
 const List = ({data, onEdit, onDelete, onGetCode, onPageChange, pagination, loading})=> {
   const columns = [
     {
-      title: '操作',
-      dataIndex: 'id',
-      key: 'id',
-      render: (id, item)=> {
-        return (
-          <span>
-            <a onClick={()=>onGetCode(item)}>获取代码</a>
-            <span className="ant-divider"/>
-            <a onClick={()=>onEdit(item)}>编辑</a>
-            <span className="ant-divider"/>
-            <a onClick={()=>onDelete(item.id)}>删除</a>
-          </span>
-        )
-      }
-    },
-    {
-      title: '网站名称',
+      title: '指标',
       dataIndex: 'name',
       key: 'name',
+      width:'50%'
     },
     {
-      title: '网站地址',
-      dataIndex: 'url',
-      key: 'url',
-      render(val){
-        return (
-          <a href={val} target="_blank">{val}</a>
-        )
-      }
-    },
-    {
-      title: '创建时间',
-      dataIndex: 'create_time',
-      key: 'create_time',
+      title: '指标值',
+      dataIndex: 'data',
+      key: 'data',
+      width:'50%'      
     },
   ];
 
@@ -51,6 +27,7 @@ const List = ({data, onEdit, onDelete, onGetCode, onPageChange, pagination, load
         dataSource={data}
         onChange={onPageChange}
         pagination={pagination}
+        size="middle"
       />
     </Spin>
   )

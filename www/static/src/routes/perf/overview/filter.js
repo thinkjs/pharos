@@ -1,9 +1,9 @@
 import React from 'react';
-// import moment from 'moment';
+import moment from 'moment';
 import {FilterWrapper, SiteSelector} from 'components';
 import {constant} from 'utils';
 import {Row, Col, DatePicker} from 'antd';
-// const RangePicker = DatePicker.RangePicker;
+const RangePicker = DatePicker.RangePicker;
 
 const Filter = ({start_time, end_time, site_id, handleSearch})=> {
 
@@ -13,18 +13,18 @@ const Filter = ({start_time, end_time, site_id, handleSearch})=> {
     handleSearch({[key]: val})
   };
 
-  // const handleTimeChange = (val)=> {
-  //   if (val.length === 0) {
-  //     handleSearch({
-  //       start_time: '',
-  //       end_time: ''
-  //     });
-  //     return;
-  //     k
-  //   }
-  //   let [start_time,end_time] = [moment(val[0]).format('YYYY-MM-DD'), moment(val[1]).format('YYYY-MM-DD'),];
-  //   handleSearch({start_time, end_time});
-  // };
+  const handleTimeChange = (val)=> {
+    if (val.length === 0) {
+      handleSearch({
+        start_time: '',
+        end_time: ''
+      });
+      return;
+      k
+    }
+    let [start_time,end_time] = [moment(val[0]).format('YYYY-MM-DD'), moment(val[1]).format('YYYY-MM-DD'),];
+    handleSearch({start_time, end_time});
+  };
 
   return (
     <FilterWrapper>
@@ -37,7 +37,6 @@ const Filter = ({start_time, end_time, site_id, handleSearch})=> {
           />
         </Col>
         {
-          /*
            <Col span={colSpan}>
            <RangePicker
            ranges={{ '今天': [moment(), moment()], '本月': [moment(), moment().endOf('month')] }}
@@ -45,7 +44,6 @@ const Filter = ({start_time, end_time, site_id, handleSearch})=> {
            onChange={handleTimeChange}
            />
            </Col>
-           */
         }
       </Row>
     </FilterWrapper>

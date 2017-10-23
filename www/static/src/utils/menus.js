@@ -9,11 +9,11 @@ const menus = [
     icon:'line-chart',
     children:[
       {
-        name:'速度概况',
+        name:'概览',
         url:'/perf/overview',
       },
       {
-        name:'按指标分析',
+        name:'数据分析',
         url:'/perf/specific',
       }
     ]

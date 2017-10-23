@@ -1,5 +1,5 @@
 export default {
-  // 合作状态
+  
   PERFORMANCE_ITEMS: [
     {value: 'loadPage', label: 'loadPage', key: '1'},
     {value: 'domReady', label: 'domReady', key: '2'},
@@ -11,6 +11,12 @@ export default {
     {value: 'appcache', label: 'appcache', key: '8'},
     {value: 'unloadEvent', label: 'unloadEvent', key: '9'},
     {value: 'connect', label: 'connect', key: '10'},
+  ],
+
+  PERF_TYPES:[
+    {value: 'hour', label: '按小时', key: '1'},
+    {value: 'day', label: '按日期', key: '2'},
+    {value: 'interval', label: '按耗时', key: '3'},
   ],
 
   // 获取label

@@ -3947,6 +3947,7 @@ samp {
 }
 .layout___nFWWH .container___2lnJ_ .content___3HLbk {
   width: 100%;
+  overflow-x: scroll;
   min-height: calc(100vh - 64px - 50px);
   background-color: #ffffff;
   margin: 10px;
