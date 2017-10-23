@@ -43,4 +43,9 @@ module.exports = class extends BaseRest {
 
     return output;
   }
+
+  avg({time, count}, digit = 2) {
+    const fixed = Math.pow(10, digit);
+    return Math.round(time / count * fixed) / fixed;
+  }
 };

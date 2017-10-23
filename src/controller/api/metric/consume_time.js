@@ -1,11 +1,4 @@
 const Base = require('./base');
-
-think.messenger.on('consume_time', () => {
-  const data = global.PHAROS_DATA.consume_time;
-  delete global.PHAROS_DATA.consume_time;
-  return data;
-});
-
 module.exports = class extends Base {
   constructor(...args) {
     super(...args);
@@ -50,7 +43,7 @@ module.exports = class extends Base {
 
           const output = [];
           for (let i = 0; i < categories.length; i++) {
-            output.push(Math.round(result[i] / total * 1000) / 1000);
+            output.push({time: result[i], count: total}, 3);
           }
           return output;
         });
@@ -96,8 +89,7 @@ module.exports = class extends Base {
           }
 
           for (const hour in result) {
-            const {time, count} = result[hour];
-            result[hour] = Math.round(time / count);
+            result[hour] = this.avg(result[hour], 0);
           }
 
           const output = [];
@@ -121,8 +113,7 @@ module.exports = class extends Base {
           }
 
           for (const day in result) {
-            const {time, count} = result[day];
-            result[day] = Math.round(time / count);
+            result[day] = this.avg(result[day], 0);
           }
 
           const output = [];
@@ -140,7 +131,7 @@ module.exports = class extends Base {
             time += perfData[i].time;
             count += perfData[i].count;
           }
-          return Math.round(time / count);
+          return this.avg({time, count}, 0);
         }));
     }
     return this.success({categories, series});
@@ -172,7 +163,7 @@ module.exports = class extends Base {
     const ONE_DAY = 24 * 60 * 60 * 1000;
     const days = [];
 
-    for (let time = startTime; time <= endTime; time += ONE_DAY) {
+    for (let time = startTime; time < endTime; time += ONE_DAY) {
       days.push(think.datetime(new Date(time), 'YYYY-MM-DD'));
     }
     return days;

@@ -1,11 +1,4 @@
 const Base = require('./base');
-
-think.messenger.on('os_time', () => {
-  const data = global.PHAROS_DATA.os_time;
-  delete global.PHAROS_DATA.os_time;
-  return data;
-});
-
 module.exports = class extends Base {
   constructor(...args) {
     super(...args);
@@ -54,15 +47,14 @@ module.exports = class extends Base {
       series = Object.keys(series).map(os => ({
         name: os,
         drilldown: os,
-        y: Math.round(series[os].time / series[os].count * 100) / 100
+        y: this.avg(series[os])
       }));
       drillSeries = Object.keys(drillSeries).map(os => {
         return {
           name: os,
           id: os,
           data: Object.keys(drillSeries[os]).map(version => {
-            const {time, count} = drillSeries[os][version];
-            return [version, Math.round(time / count * 100) / 100];
+            return [version, this.avg(drillSeries[os][version])];
           })
         };
       });
@@ -93,7 +85,7 @@ module.exports = class extends Base {
 
     series = Object.keys(series).map(perf => ({
       name: perf,
-      data: series[perf].map(({time, count}) => Math.round(time / count * 100) / 100)
+      data: series[perf].map(serie => this.avg(serie))
     }));
     return this.success({categories, series});
   }
