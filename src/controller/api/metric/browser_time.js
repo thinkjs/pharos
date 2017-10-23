@@ -32,40 +32,70 @@ module.exports = class extends Base {
       return this.fail();
     }
 
-    let series = {};
-    let drillSeries = {};
-    for (let i = 0; i < data.length; i++) {
-      const {browser, version, time, count} = data[i];
-      if (!series[browser]) {
-        series[browser] = {time: 0, count: 0};
+    if (where.perf) {
+      let series = {};
+      let drillSeries = {};
+      for (let i = 0; i < data.length; i++) {
+        const {browser, version, time, count} = data[i];
+        if (!series[browser]) {
+          series[browser] = {time: 0, count: 0};
+        }
+        if (!drillSeries[browser]) {
+          drillSeries[browser] = {};
+        }
+        if (!drillSeries[browser][version]) {
+          drillSeries[browser][version] = {time: 0, count: 0};
+        }
+        series[browser].time += time;
+        series[browser].count += count;
+        drillSeries[browser][version].time += time;
+        drillSeries[browser][version].count += 1;
       }
-      if (!drillSeries[browser]) {
-        drillSeries[browser] = {};
-      }
-      if (!drillSeries[browser][version]) {
-        drillSeries[browser][version] = {time: 0, count: 0};
-      }
-      series[browser].time += time;
-      series[browser].count += count;
-      drillSeries[browser][version].time += time;
-      drillSeries[browser][version].count += 1;
-    }
-    series = Object.keys(series).map(browser => ({
-      name: browser,
-      drilldown: browser,
-      y: Math.round(series[browser].time / series[browser].count * 100) / 100
-    }));
-    drillSeries = Object.keys(drillSeries).map(browser => {
-      return {
+      series = Object.keys(series).map(browser => ({
         name: browser,
-        id: browser,
-        data: Object.keys(drillSeries[browser]).map(version => {
-          const {time, count} = drillSeries[browser][version];
-          return [version, Math.round(time / count * 100) / 100];
-        })
-      };
-    });
-    return this.success({series, drilldown: {series: drillSeries}});
+        drilldown: browser,
+        y: Math.round(series[browser].time / series[browser].count * 100) / 100
+      }));
+      drillSeries = Object.keys(drillSeries).map(browser => {
+        return {
+          name: browser,
+          id: browser,
+          data: Object.keys(drillSeries[browser]).map(version => {
+            const {time, count} = drillSeries[browser][version];
+            return [version, Math.round(time / count * 100) / 100];
+          })
+        };
+      });
+      return this.success({series, drilldown: {series: drillSeries}});
+    }
+
+    let series = {};
+    const categories = [];
+    for (let i = 0; i < data.length; i++) {
+      const {perf, browser, time, count} = data[i];
+      if (!categories[browser]) {
+        categories.push(browser);
+        categories[browser] = categories.length - 1;
+      }
+
+      const perfName = global.perfs[perf];
+      if (!Array.isArray(series[perfName])) {
+        series[perfName] = Array.from(
+          {length: global.perfs.length},
+          () => ({time: 0, count: 0})
+        );
+      }
+
+      const perfIndex = categories[browser];
+      series[perfName][perfIndex].time += time;
+      series[perfName][perfIndex].count += count;
+    }
+
+    series = Object.keys(series).map(perf => ({
+      name: perf,
+      data: series[perf].map(({time, count}) => Math.round(time / count * 100) / 100)
+    }));
+    return this.success({categories, series});
   }
 
   async postAction() {

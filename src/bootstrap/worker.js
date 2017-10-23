@@ -3,7 +3,7 @@
 global.PHAROS_DATA = {};
 
 global.perfs = ['loadPage', 'domReady', 'redirect', 'lookupDomain', 'ttfb', 'request', 'loadEvent', 'appcache', 'unloadEvent', 'connect'];
-global.perfs.forEach((v, k) => global.perfs[v] = k);  //eslint-disable-line
+global.perfs.forEach((v, k) => global.perfs[v] = k); // eslint-disable-line no-return-assign
 
 global.interval = [
   [0, '0.1s以内'],
