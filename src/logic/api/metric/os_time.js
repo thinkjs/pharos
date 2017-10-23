@@ -1,7 +1,7 @@
 const Base = require('./base');
 module.exports = class extends Base {
   /**
-   * @api {GET} /metric/browser_time 获取某指标不同操作系统下的耗时分布
+   * @api {GET} /metric/os_time 获取某指标不同操作系统下的耗时分布
    * @apiGroup Performance
    * @apiVersion  0.0.1
    * 
