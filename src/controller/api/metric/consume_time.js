@@ -39,7 +39,7 @@ module.exports = class extends Base {
 
           const output = [];
           for (let i = 0; i < categories.length; i++) {
-            output.push({time: result[i], count: total}, 3);
+            output.push(this.avg({time: result[i], count: total}, 3));
           }
           return output;
         });
