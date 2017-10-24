@@ -4,9 +4,10 @@ import { config } from 'utils'
 import { Layout , Menu } from 'antd';
 const { Header } = Layout;
 import User from './user';
+import ProjectSelector from './project-selector'
 import styles from '../index.less'
 
-const MainHeader = ({user}) => {
+const MainHeader = ({data}) => {
   return (
     <Header className={styles.header}>
       <div className={styles.logo}>
@@ -23,7 +24,8 @@ const MainHeader = ({user}) => {
         <Menu.Item key="1">前端监控</Menu.Item>
         <Menu.Item key="2">其他监控</Menu.Item>
       </Menu>
-      <User user={user} />
+      <User user={data.user} />
+      <ProjectSelector site={data.site} />
     </Header>
   )
 }

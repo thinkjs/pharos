@@ -1,7 +1,7 @@
 import React from 'react';
 import { Layout , Menu, Icon } from 'antd';
-import styles from '../index.less'
-import { Link } from 'dva/router'
+import styles from '../index.less';
+import { Link } from 'dva/router';
 import {menus} from 'utils';
 
 const { SubMenu } = Menu;
@@ -9,35 +9,41 @@ const { SubMenu } = Menu;
 const MainSlider = () => {
 
   const renderMenu = ()=>{
+    let tree = [];
     const renderChildren = (menu)=>{
-      const children = menu.children || [];
-      if(children.length === 0){
-        return;
-      }
-      return children.map((c,i)=>{
-        return (
-          <Menu.Item key={c.url}>
-            <Link className={styles.menuItem} to={c.url}>{c.name}</Link>
-          </Menu.Item>
-        )
-      })
-    }
-    return menus.map((m,i)=>{
-      if(m.url){
-        return (
-          <Menu.Item key={m.url}>
-            <Link className={styles.menuItem} to={m.url}><Icon type={m.icon} />{m.name}</Link>
+      const children = menu.children;
+      if(!children || children.length === 0){
+        return(
+          <Menu.Item key={menu.url}>
+            <Link className={styles.menuItem} to={menu.url}>{menu.name}</Link>
           </Menu.Item>
         )
       }
       return (
-        <SubMenu key={i} title={<span><Icon type={m.icon} />{m.name}</span>}>
-          {renderChildren(m)}
-        </SubMenu>
+        <SubMenu key={menu.name} title={<span>{menu.icon?<Icon type={menu.icon} />:null}{menu.name}</span>}>
+          {
+            children.map(c=>{
+              return renderChildren(c)
+            })
+          }
+        </SubMenu>        
       )
+    }
+    menus.map((m,i)=>{
+      if(m.url){
+        tree.push(
+          <Menu.Item key={m.url}>
+            <Link className={styles.menuItem} to={m.url}><Icon type={m.icon} />{m.name}</Link>
+          </Menu.Item>
+        )
+      }else{
+        tree.push(
+          renderChildren(m)
+        );
+      }
     })
+    return tree;
   };
-
 
   return (
     <div className={styles.slider}>
@@ -52,9 +58,5 @@ const MainSlider = () => {
     </div>
   )
 }
-
-// Header.propTypes = {
-//   menu: PropTypes.array,
-// }
 
 export default MainSlider

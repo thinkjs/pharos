@@ -29,13 +29,17 @@ const Filter = ({start_time, end_time, site_id, handleSearch})=> {
   return (
     <FilterWrapper>
       <Row gutter={20}>
-        <Col span={colSpan}>
-          <SiteSelector
-            placeholder="请选择项目"
-            value={site_id}
-            onChange={(val)=>handleChange(val,'site_id')}
-          />
-        </Col>
+        {
+          /*
+            <Col span={colSpan}>
+              <SiteSelector
+                placeholder="请选择项目"
+                value={site_id}
+                onChange={(val)=>handleChange(val,'site_id')}
+              />
+            </Col>
+          */
+        }
         {
            <Col span={colSpan}>
            <RangePicker
