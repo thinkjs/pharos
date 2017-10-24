@@ -11,13 +11,6 @@ export default {
     save(state, { payload }) {
       return { ...state, ...payload };
     },
-    changeSite(state, { payload }) {
-      const siteId = payload;
-      const {sites} = state;
-      const currentSite = sites.filter(s=>s.id == siteId)[0];
-      localStorage.setItem(config.ls_key.site, JSON.stringify(currentSite));
-      return { ...state, ...payload };
-    },
   },
   effects: {
     *init({ payload = {} }, { call, select, put }) {
@@ -40,6 +33,16 @@ export default {
         localStorage.removeItem('USER');
         yield put(routerRedux.push('/login'))
       }
+    },
+    *changeSite({ payload }, { call, put, select }) {
+      const app = yield select(state => state.app);
+      const routing = yield select(state => state.routing.locationBeforeTransitions);
+      const siteId = payload;
+      const { sites } = app;
+      const currentSite = sites.filter(s => s.id == siteId)[0];
+      localStorage.setItem(config.ls_key.site, JSON.stringify(currentSite));
+      yield put(routerRedux.push(routing))
+      yield put({ type: 'save', payload: { currentSite } })
     },
   },
   subscriptions: {
