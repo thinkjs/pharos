@@ -72,7 +72,11 @@ export default {
       //     })
       //   });
       // }  
-      let data = yield call(perf.query, payload);
+       payload.end_time = moment().format('YYYY-MM-DD'),//最近7天
+       payload.start_time = moment().subtract(7, 'days').format('YYYY-MM-DD')
+       
+      let rawData = yield call(perf.query, payload);
+      let data = {};
       let columns = [
         {
           title:'指标',
@@ -81,10 +85,12 @@ export default {
         }
       ];
       if (payload.type) {
-        const { categories, series } = data;
+        const { categories, series } = rawData;
         data = series.map((item, index) => {
+          let s = {};
           categories.forEach((c, i) => {
-            item[`${i}`] = item.data[i];
+            s[`${i}`] = item.data[i];
+            s.name = item.name;
             if (index === 0) {
               columns.push({
                 title: c,
@@ -93,10 +99,10 @@ export default {
               })
             }
           })
-          return item;
+          return s;
         })
       }
-      yield put({ type: 'save', payload: { data,columns } })
+      yield put({ type: 'save', payload: { data,columns,rawData } })
     },
     *specific({ payload = {} }, { call, put }) {
       payload.page = payload.page || 1;

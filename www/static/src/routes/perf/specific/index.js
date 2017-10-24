@@ -1,12 +1,12 @@
 import React from 'react';
 import {connect} from 'dva';
-import {Page,helper} from 'components';
+import {Page,helper,HighCharts} from 'components';
 import Filter from './filter';
 import List from './list';
 import {Modal} from 'antd';
 
 function Whatever({dispatch, perf, location, loading}) {
-  const {data, pagination,columns} = perf;
+  const {data,columns,rawData} = perf;
   const filterProps = {
     onAdd: ()=> {
       dispatch({
@@ -30,12 +30,17 @@ function Whatever({dispatch, perf, location, loading}) {
       });
     },
     data,
-    pagination
+    pagination:false
   };
 
+  const chartProps = {
+    data:rawData,
+    title:{text:'数据分析'}
+  }
   return (
     <Page>
       <Filter {...filterProps} />
+      <HighCharts {...chartProps}/>
       <List {...listProps} />
     </Page>
   );
