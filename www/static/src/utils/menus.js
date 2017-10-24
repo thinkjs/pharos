@@ -14,7 +14,20 @@ const menus = [
       },
       {
         name:'数据分析',
-        url:'/perf/specific',
+        children:[
+          {
+            name:'按时段',
+            url:'/perf/specific/hour',
+          },
+          {
+            name:'按日期',
+            url:'/perf/specific/day'
+          },
+          {
+            name:'按耗时区间',
+            url:'/perf/specific/interval'
+          }
+        ]
       }
     ]
   },

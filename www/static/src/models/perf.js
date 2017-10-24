@@ -1,6 +1,7 @@
 import { perf, site } from 'services';
 import { routerRedux } from 'dva/router'
 import moment from 'moment';
+import pathToRegexp from 'path-to-regexp';
 import { constant } from 'utils';
 
 const initialState = {
@@ -28,23 +29,27 @@ export default {
   effects: {
     *init({ payload = {} }, { call, select, put }) {
       const routing = yield select(state => state.routing.locationBeforeTransitions);
+      const app = yield select(state => state.app);
       const { pathname, query } = routing;
       let sites = yield call(site.query);
       let param = {
         ...query,
-        site_id: sites[0].id,//默认取第一个
-        end_time: moment().format('YYYY-MM-DD'),//最近7天
-        start_time: moment().subtract(7, 'days').format('YYYY-MM-DD')
+        site_id: app.currentSite.id,
+        // end_time: moment().format('YYYY-MM-DD'),//最近7天
+        // start_time: moment().subtract(7, 'days').format('YYYY-MM-DD')
       }
-      if (pathname === '/perf/specific' && !param.type) {
-        // 默认按小时
-        param.type = constant.PERF_TYPES[0].value;
-      }
-      if (!query.site_id && sites.length > 0) {
-        yield put(routerRedux.push({
-          pathname,
-          query: param
-        }))
+      // if (!query.site_id && sites.length > 0) {
+      //   yield put(routerRedux.push({
+      //     pathname,
+      //     query: param
+      //   }))
+      //   return;
+      // }
+      if (pathname.indexOf('/perf/specific') > -1 && !param.type) {
+        const match = pathToRegexp('/perf/specific/:type').exec(location.pathname);  
+        if (match) {
+          param.type = match[1];
+        }
       }
       yield put({ type: 'query', payload: param });
     },
@@ -91,8 +96,6 @@ export default {
           return item;
         })
       }
-      console.log(data);
-      console.log(columns)
       yield put({ type: 'save', payload: { data,columns } })
     },
     *specific({ payload = {} }, { call, put }) {

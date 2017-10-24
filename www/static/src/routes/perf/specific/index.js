@@ -7,7 +7,6 @@ import {Modal} from 'antd';
 
 function Whatever({dispatch, perf, location, loading}) {
   const {data, pagination,columns} = perf;
-  console.log(perf);
   const filterProps = {
     onAdd: ()=> {
       dispatch({

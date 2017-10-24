@@ -8,7 +8,7 @@ import './app.less';
 let lastHref;
 const App = ({children, dispatch, app, location, loading}) => {
 
-  const {user}  = app;
+  const {user,sites,currentSite}  = app;
   const href = window.location.href;
   if (lastHref !== href) {
     NProgress.start();
@@ -21,15 +21,29 @@ const App = ({children, dispatch, app, location, loading}) => {
   if (location.pathname === '/login' || location.pathname === '/register') {
     return children
   } else {
-    user.logout = ()=> {
-      dispatch({
-        type: 'app/logout'
-      })
-    };
-
+    const data = {
+      user:{
+        ...user,
+        logout:()=> {
+          dispatch({
+            type: 'app/logout'
+          })
+        }
+      },
+      site:{
+        sites,
+        currentSite,
+        onChange:(val)=>{
+          dispatch({
+            type:'app/changeSite',
+            payload:val
+          })
+        }
+      }
+    }
     return (
       <div>
-        <Layout children={children} user={user}/>
+        <Layout children={children} data={data}/>
       </div>
     )
   }
