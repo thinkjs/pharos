@@ -22,7 +22,7 @@ module.exports = class extends Base {
       },
       start_time: {
         required: true,
-        default: think.datetime('YYYY-MM-DD')
+        default: think.datetime(Date.now(), 'YYYY-MM-DD')
       },
       end_time: {
         required: true,
