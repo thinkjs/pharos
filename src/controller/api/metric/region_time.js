@@ -21,10 +21,6 @@ module.exports = class extends Base {
     if (site_page_id) { where.site_page_id = site_page_id }
 
     const data = await this.modelInstance.where(where).select();
-    if (think.isEmpty(data)) {
-      return this.fail();
-    }
-
     const result = {};
     for (let i = 0; i < data.length; i++) {
       const {region, time, count} = data[i];
