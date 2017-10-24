@@ -21,4 +21,7 @@ module.exports = {
       overview:'/api/metric/consume_time',
     }
   },
+  ls_key:{
+    site:'CURR_SITE'
+  }
 };

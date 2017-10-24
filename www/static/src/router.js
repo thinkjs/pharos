@@ -77,7 +77,7 @@ function Routers({ history, app }) {
           },
         },
         {
-          path: 'perf/specific',
+          path: 'perf/specific/:type',
           getComponent (nextState, cb) {
             require.ensure([], require => {
               registerModel(app, require('./models/perf'));

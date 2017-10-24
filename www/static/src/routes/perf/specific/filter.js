@@ -29,24 +29,28 @@ const Filter = ({ start_time, end_time, site_id, type, handleSearch }) => {
   return (
     <FilterWrapper>
       <Row gutter={20}>
-        <Col span={colSpan}>
-          <SiteSelector
-            placeholder="请选择项目"
-            value={site_id}
-            onChange={(val) => handleChange(val, 'site_id')}
-          />
-        </Col>
-        <Col span={colSpan}>
-          <Select value={type} style={{ width: 200 }} onChange={(val)=>handleChange(val,'type')}>
-            {
-              constant.PERF_TYPES.map((item) => {
-                return (
-                  <Option {...item}>{item.label}</Option>
-                )
-              })
-            }
-          </Select>
-        </Col>
+        {
+          /*
+          <Col span={colSpan}>
+            <SiteSelector
+              placeholder="请选择项目"
+              value={site_id}
+              onChange={(val) => handleChange(val, 'site_id')}
+            />
+          </Col>
+          <Col span={colSpan}>
+            <Select value={type} style={{ width: 200 }} onChange={(val)=>handleChange(val,'type')}>
+              {
+                constant.PERF_TYPES.map((item) => {
+                  return (
+                    <Option {...item}>{item.label}</Option>
+                  )
+                })
+              }
+            </Select>
+          </Col>  
+          */
+        }
         <Col span={colSpan}>
           <RangePicker
             ranges={{ '今天': [moment(), moment()], '本月': [moment(), moment().endOf('month')] }}

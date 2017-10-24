@@ -5,7 +5,7 @@ import {Table,Spin} from 'antd';
 const List = ({data, columns = [], onPageChange, pagination, loading})=> {
 
   return (
-    <Spin spinning={loading}>
+    // <Spin spinning={loading}>
       <Table
         bordered
         rowKey="id"
@@ -16,7 +16,7 @@ const List = ({data, columns = [], onPageChange, pagination, loading})=> {
         size="middle"
         scroll={{ x: 2000 }}
       />
-    </Spin>
+    // </Spin>
   )
 };
 
