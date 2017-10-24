@@ -24,6 +24,10 @@ module.exports = class extends BaseRest {
   }
 
   groupWithPerf(data, cb) {
+    if (think.isEmpty(data)) {
+      return [];
+    }
+
     const result = {};
     for (let i = 0; i < data.length; i++) {
       const perf = global.perfs[data[i].perf];
