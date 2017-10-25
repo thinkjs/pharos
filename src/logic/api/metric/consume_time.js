@@ -51,11 +51,9 @@ module.exports = class extends Base {
         int: true
       },
       start_time: {
-        required: true,
         default: think.datetime(Date.now(), 'YYYY-MM-DD')
       },
       end_time: {
-        required: true,
         default: think.datetime(Date.now() + 24 * 3600000, 'YYYY-MM-DD')
       },
       type: {
