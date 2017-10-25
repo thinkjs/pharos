@@ -5,8 +5,8 @@ import { config } from 'utils'
 import styles from '../index.less'
 const Option = Select.Option;
 
-const ProjectSelector = ({site}) => {
-  const {sites,onChange,currentSite} = site;
+const ProjectSelector = ({site = {}}) => {
+  const {sites = [],onChange,currentSite = {}} = site;
   return (
     <div className={styles.project}>
       <Select 

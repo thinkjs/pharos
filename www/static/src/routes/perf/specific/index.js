@@ -6,7 +6,7 @@ import List from './list';
 import {Modal} from 'antd';
 import {constant} from 'utils';
 function Whatever({dispatch, perf, location, loading}) {
-  const {data,columns,rawData,pageType} = perf;
+  const {data,columns,rawData,pageConfig} = perf;
   const filterProps = {
     onAdd: ()=> {
       dispatch({
@@ -19,7 +19,6 @@ function Whatever({dispatch, perf, location, loading}) {
     },
     ...location.query
   };
-  console.log(columns)
   const listProps = {
     loading:loading.effects['perf/query'],
     columns,
@@ -31,13 +30,14 @@ function Whatever({dispatch, perf, location, loading}) {
     },
     data,
     pagination:false,
-    scroll: pageType === 'day' ? {x:columns.length * 100} :{x:2000}
+    scroll: pageConfig.type === 'day' ? {x:columns.length * 100} :{x:2000}
   };
 
   const chartProps = {
+    chart:{type:pageConfig.chartType},
     data:rawData,
     title:{text:'数据分析'},
-    subtitle:{text:constant.PERF_PAGE_NAME[pageType]}
+    subtitle:{text:pageConfig.chartSubTitle}
   }
 
   return (
