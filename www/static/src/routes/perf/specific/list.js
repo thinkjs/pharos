@@ -3,7 +3,6 @@ import {Table,Spin} from 'antd';
 
 
 const List = ({data, columns = [], onPageChange, pagination, loading,...props})=> {
-  console.log(props)
   return (
     // <Spin spinning={loading}>
       <Table

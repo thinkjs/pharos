@@ -3,7 +3,9 @@ import ReactHighCharts from 'react-highcharts';
 
 
 let config = {
-
+    chart: {
+        type: 'column'
+    },
     title: {
         text: ''
     },

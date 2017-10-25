@@ -6,12 +6,47 @@ import { constant } from 'utils';
 
 const initialState = {
   data: [],
-  organs: [],
   pagination: {},
   filter: {},
-  addModalVisible: false,
+  pageConfig:{}
 };
 
+const serviceMap = {
+  hour:'query',
+  day:'query',
+  interval:'query',
+  os:'queryByOs'
+}
+
+const PAGE_CONFIG = {
+  hour:{
+    type:'hour',
+    service:'query',
+    chartSubTitle:'按小时'
+  },
+  day:{
+    type:'day',
+    service:'query',
+    chartSubTitle:'按日期'
+  },
+  interval:{
+    type:'interval',
+    service:'query',
+    chartSubTitle:'耗时区间'
+  },
+  os:{
+    type:'os',
+    service:'queryByOs',
+    chartSubTitle:'按操作系统',
+    chartType:'column'
+  },
+  browser:{
+    type:'browser',
+    service:'queryByBrowser',
+    chartSubTitle:'按浏览器',
+    chartType:'column'
+  }
+}
 export default {
 
   namespace: 'perf',
@@ -53,7 +88,6 @@ export default {
       yield put({ type: 'query', payload: param });
     },
     *query({ payload = {} }, { call, put }) {
-      payload.page = payload.page || 1;
       // const [t,y,b] = [
       //   moment().subtract(1,'days').format('YYYY-MM-DD'),
       //   moment().subtract(2,'days').format('YYYY-MM-DD'),
@@ -74,14 +108,15 @@ export default {
 
       //  payload.end_time = moment().format('YYYY-MM-DD'),//最近7天
       //  payload.start_time = moment().subtract(7, 'days').format('YYYY-MM-DD')
-      
-      let rawData = yield call(perf.query, payload);
-      const pageType = payload.type;
-      if(!pageType){
+      const pageConfig = PAGE_CONFIG[payload.type];
+      if(!pageConfig){
         // 概览页直接返回
+        let rawData = yield call(perf.query, payload);    
         yield put({ type: 'save', payload: { data:rawData} });
         return;
       }
+      let rawData = yield call(perf[pageConfig.service], payload);
+     
       let data = {};
       let columns = [
         {
@@ -108,7 +143,7 @@ export default {
           return s;
         })
       }
-      yield put({ type: 'save', payload: { data,columns,rawData,pageType } })
+      yield put({ type: 'save', payload: { data,columns,rawData,pageConfig } })
     },
   },
 

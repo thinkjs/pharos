@@ -23,7 +23,8 @@ export default {
   PERF_PAGE_NAME:{
     'hour':'按时段',
     'day':'按日期',
-    'interval':'按耗时区间'
+    'interval':'按耗时区间',
+    'os':'按操作系统'
   },
 
   // 获取label

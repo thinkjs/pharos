@@ -26,7 +26,19 @@ const menus = [
           {
             name:'按耗时区间',
             url:'/perf/specific/interval'
-          }
+          },
+          {
+            name:'按操作系统',
+            url:'/perf/specific/os'
+          },
+          {
+            name:'按浏览器',
+            url:'/perf/specific/browser'
+          },
+          {
+            name:'按地区',
+            url:'/perf/specific/region'
+          },
         ]
       }
     ]

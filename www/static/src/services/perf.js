@@ -8,4 +8,16 @@ export default {
       data: params,
     })
   },
+  queryByOs:(params = {})=> {
+    return request({
+      url: api.queryByOs,
+      data: params,
+    })
+  },
+  queryByBrowser:(params = {})=> {
+    return request({
+      url: api.queryByBrowser,
+      data: params,
+    })
+  },
 }

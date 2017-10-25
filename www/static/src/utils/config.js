@@ -19,6 +19,8 @@ module.exports = {
     user: '/api/user',
     perf: {
       overview:'/api/metric/consume_time',
+      queryByOs:'/api/metric/os_time',
+      queryByBrowser:'/api/metric/browser_time'
     }
   },
   ls_key:{
