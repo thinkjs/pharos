@@ -2,7 +2,7 @@ import React from 'react';
 import moment from 'moment';
 import {FilterWrapper, SiteSelector} from 'components';
 import {constant} from 'utils';
-import {Row, Col, DatePicker} from 'antd';
+import {Row, Col, DatePicker,Alert} from 'antd';
 const RangePicker = DatePicker.RangePicker;
 
 const Filter = ({start_time, end_time, site_id, handleSearch})=> {
@@ -40,15 +40,19 @@ const Filter = ({start_time, end_time, site_id, handleSearch})=> {
             </Col>
           */
         }
-        {
-           <Col span={colSpan}>
-           <RangePicker
-           ranges={{ '今天': [moment(), moment()], '本月': [moment(), moment().endOf('month')] }}
-           value={start_time && end_time ? [moment(start_time),moment(end_time)] : null}
-           onChange={handleTimeChange}
-           />
-           </Col>
-        }
+        
+        <Col span={colSpan}>
+          <RangePicker
+            ranges={{ '今天': [moment(), moment()], '本月': [moment(), moment().endOf('month')] }}
+            value={start_time && end_time ? [moment(start_time),moment(end_time)] : null}
+            onChange={handleTimeChange}
+            size="large"
+          />
+        </Col>
+        <Col span={colSpan}>
+          <Alert message="默认显示今日数据" type="info" showIcon />        
+        </Col>
+    
       </Row>
     </FilterWrapper>
   )

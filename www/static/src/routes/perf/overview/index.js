@@ -37,7 +37,6 @@ function Whatever({dispatch, perf, location, loading}) {
     onDelete:(id)=>{
       Modal.confirm({
         title:'确认删除吗?',
-        // content:'确认删除吗?',
         onOk:()=>{
           dispatch({
             type: 'perf/delete',

@@ -2,8 +2,8 @@ import React from 'react'
 import {Table,Spin} from 'antd';
 
 
-const List = ({data, columns = [], onPageChange, pagination, loading})=> {
-
+const List = ({data, columns = [], onPageChange, pagination, loading,...props})=> {
+  console.log(props)
   return (
     // <Spin spinning={loading}>
       <Table
@@ -14,7 +14,7 @@ const List = ({data, columns = [], onPageChange, pagination, loading})=> {
         onChange={onPageChange}
         pagination={pagination}
         size="middle"
-        scroll={{ x: 2000 }}
+        {...props}
       />
     // </Spin>
   )

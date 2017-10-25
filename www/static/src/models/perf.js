@@ -31,7 +31,6 @@ export default {
       const routing = yield select(state => state.routing.locationBeforeTransitions);
       const app = yield select(state => state.app);
       const { pathname, query } = routing;
-      let sites = yield call(site.query);
       let param = {
         ...query,
         site_id: app.currentSite.id,
@@ -72,10 +71,17 @@ export default {
       //     })
       //   });
       // }  
-       payload.end_time = moment().format('YYYY-MM-DD'),//最近7天
-       payload.start_time = moment().subtract(7, 'days').format('YYYY-MM-DD')
-       
+
+      //  payload.end_time = moment().format('YYYY-MM-DD'),//最近7天
+      //  payload.start_time = moment().subtract(7, 'days').format('YYYY-MM-DD')
+      
       let rawData = yield call(perf.query, payload);
+      const pageType = payload.type;
+      if(!pageType){
+        // 概览页直接返回
+        yield put({ type: 'save', payload: { data:rawData} });
+        return;
+      }
       let data = {};
       let columns = [
         {
@@ -102,30 +108,7 @@ export default {
           return s;
         })
       }
-      yield put({ type: 'save', payload: { data,columns,rawData } })
-    },
-    *specific({ payload = {} }, { call, put }) {
-      payload.page = payload.page || 1;
-      payload.metric = 'perfDistributionTime'
-      const [t, y, b] = [
-        moment().subtract(1, 'days').format('YYYY-MM-DD'),
-        moment().subtract(2, 'days').format('YYYY-MM-DD'),
-        moment().subtract(3, 'days').format('YYYY-MM-DD')
-      ];
-      let today = yield call(perf.query, { ...payload, start_time: y, end_time: t });
-      let yesterday = yield call(perf.query, { ...payload, start_time: b, end_time: y });
-      let ret = yield call(perf.query, payload);
-      if (today && yesterday) {
-        let overview = [];
-        today.forEach((item, index) => {
-          overview.push({
-            name: item.index_name,
-            yesterday: yesterday[index].index_value,
-            today: item.index_value
-          })
-        });
-        yield put({ type: 'save', payload: { data, pagination } })
-      }
+      yield put({ type: 'save', payload: { data,columns,rawData,pageType } })
     },
   },
 

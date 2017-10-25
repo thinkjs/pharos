@@ -4,9 +4,9 @@ import {Page,helper,HighCharts} from 'components';
 import Filter from './filter';
 import List from './list';
 import {Modal} from 'antd';
-
+import {constant} from 'utils';
 function Whatever({dispatch, perf, location, loading}) {
-  const {data,columns,rawData} = perf;
+  const {data,columns,rawData,pageType} = perf;
   const filterProps = {
     onAdd: ()=> {
       dispatch({
@@ -19,7 +19,7 @@ function Whatever({dispatch, perf, location, loading}) {
     },
     ...location.query
   };
-
+  console.log(columns)
   const listProps = {
     loading:loading.effects['perf/query'],
     columns,
@@ -30,13 +30,16 @@ function Whatever({dispatch, perf, location, loading}) {
       });
     },
     data,
-    pagination:false
+    pagination:false,
+    scroll: pageType === 'day' ? {x:columns.length * 100} :{x:2000}
   };
 
   const chartProps = {
     data:rawData,
-    title:{text:'数据分析'}
+    title:{text:'数据分析'},
+    subtitle:{text:constant.PERF_PAGE_NAME[pageType]}
   }
+
   return (
     <Page>
       <Filter {...filterProps} />
