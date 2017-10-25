@@ -66,7 +66,6 @@ let config = {
 }
 
 const HighCharts = ({ data = {},...props}) => {
-    console.log(data);
     config.series = data.series;
     config.xAxis.categories = data.categories;
     return (

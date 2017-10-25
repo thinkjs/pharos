@@ -19,6 +19,13 @@ export default {
     {value: 'interval', label: '按耗时', key: '3'},
   ],
 
+
+  PERF_PAGE_NAME:{
+    'hour':'按时段',
+    'day':'按日期',
+    'interval':'按耗时区间'
+  },
+
   // 获取label
   getLabel: (conf, value)=> {
     return conf.find(item=>item.value == value).label;
