@@ -20,7 +20,7 @@ export default {
         window.USER = user;
         localStorage.setItem('USER',JSON.stringify(user));
         const from = queryURL('from');
-        yield put({type: 'app/query',payload:{user}});
+        yield put({type: 'app/init',payload:{user}});
         if (from) {
           yield put(routerRedux.push(from))
         } else {
