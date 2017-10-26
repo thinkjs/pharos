@@ -6,7 +6,7 @@ import styles from '../index.less'
 const Option = Select.Option;
 
 const ProjectSelector = ({site = {}}) => {
-  const {sites = [],onChange,currentSite = {}} = site;
+  const {sites,onChange,currentSite = {}} = site;
   return (
     <div className={styles.project}>
       <Select 
@@ -16,7 +16,7 @@ const ProjectSelector = ({site = {}}) => {
         onChange={onChange}
        >
       {
-        sites.map((item,index)=>{
+        (sites || []).map((item,index)=>{
           return(
             <Option value={item.id.toString()} key={item.id} label={item.name}>{item.name}</Option>      
           )
