@@ -44,7 +44,7 @@ module.exports = class extends Base {
     think.logger.info('crontab', 'region_time', createTime);
     const arr = this.map(
       await think.messenger.map('region_time'),
-      ['site_id', 'site_page_id', 'country', 'region', 'city'],
+      ['site_id', 'site_page_id', 'perf', 'country', 'region', 'city'],
       item => {
         item.create_time = createTime;
       }
