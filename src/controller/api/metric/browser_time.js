@@ -22,7 +22,7 @@ module.exports = class extends Base {
 
     const data = await this.modelInstance.where(where).select();
 
-    if (where.perf) {
+    if (where.perf !== undefined) {
       let series = {};
       let drillSeries = {};
       for (let i = 0; i < data.length; i++) {
