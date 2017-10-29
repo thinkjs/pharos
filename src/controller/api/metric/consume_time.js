@@ -22,27 +22,30 @@ module.exports = class extends Base {
     switch (type) {
       case 'interval':
         categories = global.interval.map(interval => interval[1]);
-        series = this.groupWithPerf(data, perfData => {
-          const result = {};
-          for (let i = 0; i < perfData.length; i++) {
-            const interval = perfData[i].interval;
-            if (!result[interval]) {
-              result[interval] = 0;
+        series = await this.groupWithPerf(
+          site_id,
+          data,
+          perfData => {
+            const result = {};
+            for (let i = 0; i < perfData.length; i++) {
+              const interval = perfData[i].interval;
+              if (!result[interval]) {
+                result[interval] = 0;
+              }
+              result[interval] += perfData[i].count;
             }
-            result[interval] += perfData[i].count;
-          }
 
-          let total = 0;
-          for (const interval in result) {
-            total += result[interval];
-          }
+            let total = 0;
+            for (const interval in result) {
+              total += result[interval];
+            }
 
-          const output = [];
-          for (let i = 0; i < categories.length; i++) {
-            output.push(this.avg({time: result[i], count: total}, 3));
-          }
-          return output;
-        });
+            const output = [];
+            for (let i = 0; i < categories.length; i++) {
+              output.push(this.avg({time: result[i], count: total}, 3));
+            }
+            return output;
+          });
         break;
       case 'hour':
         categories = [
@@ -71,56 +74,62 @@ module.exports = class extends Base {
           '22-23点',
           '23-24点'
         ];
-        series = this.groupWithPerf(data, perfData => {
-          const result = {};
-          for (let i = 0; i < perfData.length; i++) {
-            const hour = parseInt(
-              think.datetime(new Date(perfData[i].create_time), 'HH')
-            );
-            if (!result[hour]) {
-              result[hour] = {time: 0, count: 0};
+        series = await this.groupWithPerf(
+          site_id,
+          data,
+          perfData => {
+            const result = {};
+            for (let i = 0; i < perfData.length; i++) {
+              const hour = parseInt(
+                think.datetime(new Date(perfData[i].create_time), 'HH')
+              );
+              if (!result[hour]) {
+                result[hour] = {time: 0, count: 0};
+              }
+              result[hour].time += perfData[i].time;
+              result[hour].count += perfData[i].count;
             }
-            result[hour].time += perfData[i].time;
-            result[hour].count += perfData[i].count;
-          }
 
-          for (const hour in result) {
-            result[hour] = this.avg(result[hour], 0);
-          }
+            for (const hour in result) {
+              result[hour] = this.avg(result[hour], 0);
+            }
 
-          const output = [];
-          for (let i = 0; i < categories.length; i++) {
-            output.push(result[i]);
-          }
-          return output;
-        });
+            const output = [];
+            for (let i = 0; i < categories.length; i++) {
+              output.push(result[i]);
+            }
+            return output;
+          });
         break;
       case 'day':
         categories = this.generateDayCates(start_time, end_time);
-        series = this.groupWithPerf(data, perfData => {
-          const result = {};
-          for (let i = 0; i < perfData.length; i++) {
-            const day = think.datetime(new Date(perfData[i].create_time), 'YYYY-MM-DD');
-            if (!result[day]) {
-              result[day] = {time: 0, count: 0};
+        series = await this.groupWithPerf(
+          site_id,
+          data,
+          perfData => {
+            const result = {};
+            for (let i = 0; i < perfData.length; i++) {
+              const day = think.datetime(new Date(perfData[i].create_time), 'YYYY-MM-DD');
+              if (!result[day]) {
+                result[day] = {time: 0, count: 0};
+              }
+              result[day].time += perfData[i].time;
+              result[day].count += perfData[i].count;
             }
-            result[day].time += perfData[i].time;
-            result[day].count += perfData[i].count;
-          }
 
-          for (const day in result) {
-            result[day] = this.avg(result[day], 0);
-          }
+            for (const day in result) {
+              result[day] = this.avg(result[day], 0);
+            }
 
-          const output = [];
-          for (let i = 0; i < categories.length; i++) {
-            output.push(result[categories[i]]);
-          }
-          return output;
-        });
+            const output = [];
+            for (let i = 0; i < categories.length; i++) {
+              output.push(result[categories[i]]);
+            }
+            return output;
+          });
         break;
       default:
-        return this.success(this.groupWithPerf(data, perfData => {
+        return this.success(await this.groupWithPerf(site_id, data, perfData => {
           let time = 0;
           let count = 0;
           for (let i = 0; i < perfData.length; i++) {

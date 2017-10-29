@@ -23,14 +23,15 @@ module.exports = class extends BaseRest {
     return result;
   }
 
-  groupWithPerf(data, cb) {
+  groupWithPerf(site_id, data, cb) {
     if (think.isEmpty(data)) {
       return [];
     }
 
     const result = {};
+    const perfs = this.getPerfs(site_id);
     for (let i = 0; i < data.length; i++) {
-      const perf = global.perfs[data[i].perf];
+      const perf = perfs[data[i].perf];
       if (!Array.isArray(result[perf])) {
         result[perf] = [];
       }
