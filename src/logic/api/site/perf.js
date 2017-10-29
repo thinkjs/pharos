@@ -45,7 +45,7 @@ module.exports = class extends think.Logic {
   }
 
   /**
-   * @api {POST} /site/:id/perf/:id 修改性能指标字段
+   * @api {PUT} /site/:id/perf/:id 修改性能指标字段
    * @apiGroup Site
    * @apiVersion 0.0.1
    * 
@@ -65,7 +65,7 @@ module.exports = class extends think.Logic {
   }
 
   /**
-   * @api {POST} /site/:id/perf/:id 为网站删除性能指标字段
+   * @api {DELETE} /site/:id/perf/:id 为网站删除性能指标字段
    * @apiGroup Site
    * @apiVersion 0.0.1
    */ 
