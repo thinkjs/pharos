@@ -133,6 +133,7 @@ module.exports = class extends BaseRest {
     const gather = this.gather(performance);
     const location = await this.userIP();
     const site_page_id = await this.sitePage(site_id, visit_url.url);
+    const perfs = await this.getPerfs(site_id);
     gather((time, perf) => {
       const interval = this.findInterval(time);
       const consume_time = this.global(
@@ -140,7 +141,7 @@ module.exports = class extends BaseRest {
           'consume_time',
           site_id,
           site_page_id,
-          global.perfs[perf],
+          perfs[perf],
           interval
         ],
         {time: 0, count: 0}
@@ -154,7 +155,7 @@ module.exports = class extends BaseRest {
           'browser_time',
           site_id,
           site_page_id,
-          global.perfs[perf],
+          perfs[perf],
           user_ua.browser_name,
           user_ua.browser_version
         ],
@@ -169,7 +170,7 @@ module.exports = class extends BaseRest {
           'os_time',
           site_id,
           site_page_id,
-          global.perfs[perf],
+          perfs[perf],
           user_ua.os,
           user_ua.os_version
         ],
@@ -184,7 +185,7 @@ module.exports = class extends BaseRest {
           'region_time',
           site_id,
           site_page_id,
-          global.perfs[perf],
+          perfs[perf],
           location.country,
           location.region,
           location.city

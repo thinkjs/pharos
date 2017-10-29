@@ -17,7 +17,8 @@ module.exports = class extends Base {
       site_id,
       create_time: {'>=': start_time, '<': end_time}
     };
-    if (perf) { where.perf = global.perfs[perf] }
+    const perfs = await this.getPerfs(site_id);
+    if (perf) { where.perf = perfs[perf] }
     if (site_page_id) { where.site_page_id = site_page_id }
 
     const data = await this.modelInstance.where(where).select();
@@ -67,10 +68,10 @@ module.exports = class extends Base {
         categories[browser] = categories.length - 1;
       }
 
-      const perfName = global.perfs[perf];
+      const perfName = perfs[perf];
       if (!Array.isArray(series[perfName])) {
         series[perfName] = Array.from(
-          {length: global.perfs.length},
+          {length: perfs.length},
           () => ({time: 0, count: 0})
         );
       }
