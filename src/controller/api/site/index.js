@@ -1,5 +1,10 @@
-const Base = require('./base');
+const Base = require('../base');
 module.exports = class extends Base {
+  constructor(...args) {
+    super(...args);
+    this.modelInstance = this.model('site');
+  }
+
   async getAction() {
     const {page, pagesize} = this.get();
 
