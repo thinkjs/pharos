@@ -25,9 +25,6 @@ module.exports = class extends Base {
       },
       end_time: {
         default: think.datetime(Date.now() + 24 * 3600000, 'YYYY-MM-DD')
-      },
-      perf: {
-        in: global.perfs
       }
     };
   }
