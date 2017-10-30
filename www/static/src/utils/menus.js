@@ -2,7 +2,16 @@ const menus = [
   {
     name:'项目管理',
     icon:'credit-card',
-    url:'/site'
+    children:[
+      {
+        name:'项目列表',
+        url:'/site/list'
+      },
+      {
+        name:'性能指标',
+        url:'/site/field'
+      }
+    ]
   },
   {
     name:'性能分析',

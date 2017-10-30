@@ -23,7 +23,7 @@ function Routers({ history, app }) {
       getIndexRoute (nextState, cb) {
         require.ensure([], require => {
           registerModel(app, require('./models/site'))
-          cb(null, { component: require('./routes/site/') })
+          cb(null, { component: require('./routes/site/list') })
         }, 'site')
       },
       childRoutes: [
@@ -57,13 +57,23 @@ function Routers({ history, app }) {
           },
         },
         {
-          path: 'site',
+          path: 'site/list',
           getComponent (nextState, cb) {
             require.ensure([], require => {
               registerModel(app, require('./models/site'));
               registerModel(app, require('./models/app'));
-              cb(null, require('./routes/site/'))
-            }, 'site')
+              cb(null, require('./routes/site/list'))
+            }, 'site-list')
+          },
+        },
+        {
+          path: 'site/field',
+          getComponent (nextState, cb) {
+            require.ensure([], require => {
+              registerModel(app, require('./models/site'));
+              registerModel(app, require('./models/app'));
+              cb(null, require('./routes/site/field'))
+            }, 'site-field')
           },
         },
         {

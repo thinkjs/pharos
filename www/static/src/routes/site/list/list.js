@@ -10,7 +10,7 @@ const List = ({data, onEdit, onDelete, onGetCode, onPageChange, pagination, load
       key: 'id',
       render: (id, item)=> {
         return (
-          <span>
+          <span>        
             <a onClick={()=>onGetCode(item)}>获取代码</a>
             <span className="ant-divider"/>
             <a onClick={()=>onEdit(item)}>编辑</a>
