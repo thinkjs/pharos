@@ -15,6 +15,9 @@ export default {
   effects: {
     *init({ payload = {} }, { call, select, put }) {
       const sites = yield call(site.query, payload);
+      if(!sites){
+        return;
+      }
       let currentSite = localStorage.getItem(config.ls_key.site);
       if (currentSite) {
         currentSite = JSON.parse(currentSite);
