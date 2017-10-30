@@ -1,10 +1,6 @@
 (function() {
-  var PagePerformance = function(config) {
-    this.baseLogSrc = config.baseLogSrc;
-    this.searchStr = '';
-    this.performance = {};
+  var PagePerformance = function() {
   };
-
   PagePerformance.prototype = {
     isSupport: function() {
       var performance = window.performance;
@@ -14,17 +10,6 @@
       } else {
         return performance;
       }
-    },
-    sendLog: function(data) {
-      if (!data) return;
-
-      window.sadLog = {};
-      var log = `log_${+(new Date())}`;
-      sadLog[log] = new Image();
-      sadLog[log].onload = sadLog[log].onerror = function() {
-        delete sadLog[log];
-      };
-      sadLog[log].src = data;
     },
     getPerformanceTiming: function() {
       var _this = this;
@@ -79,7 +64,18 @@
 
       return times;
     },
-    generateSearchStr: function(obj) {
+  };
+
+	var Pharos = function(config){
+		this.searchStr = '';
+		this.performance = {};
+		this.info = {};
+	};
+	Pharos.prototype = {
+		isEmpty: function(obj){
+			return obj === undefined || JSON.stringify(obj) === JSON.stringify({});
+		},
+		generateSearchStr: function(obj) {
       var _this = this;
       for (var i in obj) {
         if (Object.prototype.toString.call(obj[i]) === '[object Object]') {
@@ -89,31 +85,78 @@
         }
       }
     },
-    monitor: function() {
-      var _this = this;
-      _this.performance.info = JSON.stringify(_this.getPerformanceTiming());
-      _this.performance.title = document.title;
-      _this.performance.screen = window.screen.width + 'x' + window.screen.height;
+		sendLog: function(data) {
+      if (!data) return;
 
-      /* 获取site_id */
+      window.sadLog = {};
+      var log = `log_${+(new Date())}`;
+      sadLog[log] = new Image();
+      sadLog[log].onload = sadLog[log].onerror = function() {
+        delete sadLog[log];
+      };
+      sadLog[log].src = data;
+		},
+		monitor: function(info) {
+			var _this = this;
+			
+			info = _this.isEmpty(info) ? _this.info : info;
+			_this.performance.info = JSON.stringify(info);
+      _this.performance.title = document.title;
+			_this.performance.screen = window.screen.width + 'x' + window.screen.height;
+			
+			/* 获取site_id, host */
       var scriptEl = document.querySelector('[data-siteid]');
-      var siteId = '';
+      var siteId = '', host = '';
       if (scriptEl.tagName.toLowerCase() === 'script') {
-        siteId = scriptEl.getAttribute('data-siteid');
+				siteId = scriptEl.getAttribute('data-siteid');
+				host = scriptEl.getAttribute('data-host');
       }
-      _this.performance.site_id = siteId;
+			_this.performance.site_id = siteId;
 
       _this.generateSearchStr(_this.performance);
-      _this.sendLog(_this.baseLogSrc + _this.searchStr);
-    }
-  };
+			_this.sendLog('//' + host + '/api/disp?' + _this.searchStr);
+			_this.searchStr = '';
+		},
+		time: function(name){
+			console.time(name);
+		},
+		timeEnd: function(name){
+			return console.timeEnd(name);
+		},
+		add: function(moreInfo){
+			var _this = this;
+			_this.info = Object.assign({}, _this.info, moreInfo);
 
-  window.addEventListener('load', function() {
+			return _this.info;
+		},
+		delete: function(infoKeys){
+			var _this = this;
+			if(_this.info === undefined) return;
+
+			infoKeys.forEach(function(item, index){
+				if(_this.info[item] !== undefined){
+					delete _this.info[item]
+				}
+			});
+			return _this.info;
+		},
+		search: function(key){
+			var _this = this;
+			if(_this.info === undefined) return;
+
+			if(key){
+				return _this.info[key];
+			}else{
+				return _this.info;
+			}
+		},
+	}
+
+	window.__pharos__ = new Pharos();
+	window.addEventListener('load', function() {
     setTimeout(function() {
-      var pagePerformance = new PagePerformance({
-        baseLogSrc: '//pharos.eming.li/api/disp?'
-      });
-      pagePerformance.monitor();
+			window.__pagePerformanceTiming__ = new PagePerformance().getPerformanceTiming();
+			window.__pharos__.add(window.__pagePerformanceTiming__);
     }, 0);
-  });
+	});
 })();
