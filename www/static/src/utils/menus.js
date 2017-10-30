@@ -1,19 +1,5 @@
 const menus = [
   {
-    name:'项目管理',
-    icon:'credit-card',
-    children:[
-      {
-        name:'项目列表',
-        url:'/site/list'
-      },
-      {
-        name:'性能指标',
-        url:'/site/field'
-      }
-    ]
-  },
-  {
     name:'性能分析',
     icon:'line-chart',
     children:[
@@ -49,6 +35,20 @@ const menus = [
             url:'/perf/specific/region'
           },
         ]
+      }
+    ]
+  },
+  {
+    name:'项目管理',
+    icon:'credit-card',
+    children:[
+      {
+        name:'项目列表',
+        url:'/site/list'
+      },
+      {
+        name:'性能指标',
+        url:'/site/field'
       }
     ]
   },
