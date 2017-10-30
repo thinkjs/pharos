@@ -1,6 +1,6 @@
 module.exports = [
   [
-    /\/api\/site\/(\d+)\/perf(?:\/(\d+))?/,
-    'api/site/perf/:2?site_id=:1'
+    /\/api\/site\/(\d+)\/(\w+)(?:\/(\d+))?/,
+    'api/site/:2/:3?site_id=:1'
   ]
 ];
