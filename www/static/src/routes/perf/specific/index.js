@@ -6,7 +6,7 @@ import List from './list';
 import {Modal} from 'antd';
 import {constant} from 'utils';
 function Whatever({dispatch, perf, location, loading}) {
-  const {data,columns,rawData,pageConfig} = perf;
+  const {data,columns=[],rawData,pageConfig} = perf;
   const filterProps = {
     onAdd: ()=> {
       dispatch({

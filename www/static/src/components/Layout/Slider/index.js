@@ -2,12 +2,12 @@ import React from 'react';
 import { Layout , Menu, Icon } from 'antd';
 import styles from '../index.less';
 import { Link } from 'dva/router';
-import {menus} from 'utils';
+// import {menus} from 'utils';
 
 const { SubMenu } = Menu;
 
-const MainSlider = () => {
-
+const MainSlider = ({data}) => {
+  const {leftMenus} = data;
   const renderMenu = ()=>{
     let tree = [];
     const renderChildren = (menu)=>{
@@ -29,7 +29,7 @@ const MainSlider = () => {
         </SubMenu>        
       )
     }
-    menus.map((m,i)=>{
+    leftMenus.map((m,i)=>{
       if(m.url){
         tree.push(
           <Menu.Item key={m.url}>
@@ -44,13 +44,12 @@ const MainSlider = () => {
     })
     return tree;
   };
-
   return (
     <div className={styles.slider}>
       <Menu
         mode="inline"
-        defaultSelectedKeys={['1']}
-        defaultOpenKeys={['sub1']}
+        selectedKeys={[location.pathname]}
+        //defaultOpenKeys={['sub1']}
         style={{ height: '100%', borderRight: 0 }}
       >
         {renderMenu()}
