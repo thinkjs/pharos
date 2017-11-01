@@ -2,12 +2,12 @@ import React from 'react';
 import { Layout , Menu, Icon } from 'antd';
 import styles from '../index.less';
 import { Link } from 'dva/router';
-// import {menus} from 'utils';
+import {config} from 'utils';
 
 const { SubMenu } = Menu;
 
 const MainSlider = ({data}) => {
-  const {leftMenus} = data;
+  const {leftMenus = []} = data;
   const renderMenu = ()=>{
     let tree = [];
     const renderChildren = (menu)=>{
@@ -48,7 +48,7 @@ const MainSlider = ({data}) => {
     <div className={styles.slider}>
       <Menu
         mode="inline"
-        selectedKeys={[location.pathname]}
+        selectedKeys={[location.pathname === '/' ? config.dashboardURL : location.pathname]}
         //defaultOpenKeys={['sub1']}
         style={{ height: '100%', borderRight: 0 }}
       >
