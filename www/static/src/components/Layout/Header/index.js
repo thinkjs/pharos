@@ -10,8 +10,8 @@ const { Header } = Layout;
 
 const MainHeader = ({data}) => {
   const {header} = data;
-  const {onChangeMenu} = header;
-  const defaultKey = menus.filter(item=>item.url === location.pathname)[0].key;
+  const {onChangeMenu,topMenu={}} = header;
+  console.log(topMenu);
   return (
     <Header className={styles.header}>
       <div className={styles.logo}>
@@ -22,7 +22,7 @@ const MainHeader = ({data}) => {
         theme="dark"
         style={{display:'inline-block'}}
         mode="horizontal"
-        defaultSelectedKeys={defaultKey}
+        defaultSelectedKeys={[topMenu.key]}
         style={{ lineHeight: '64px' }}
       >
         {
