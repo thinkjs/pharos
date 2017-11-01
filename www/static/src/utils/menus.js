@@ -3,7 +3,7 @@ const menus = [
     name:'性能分析',
     key: 'perf',
     url:'/perf/overview',
-    menus:[
+    children:[
       {
         name:'概览',
         icon:'desktop',
@@ -45,7 +45,7 @@ const menus = [
     name:'项目管理',
     key:'site',
     url:'/site/list',
-    menus:[
+    children:[
       {
         name:'项目列表',
         icon:'database',
@@ -62,7 +62,7 @@ const menus = [
     name:'基础设置',
     key:'setting',
     url:'/setting/user',    
-    menus:[
+    children:[
       {
         name:'用户管理',
         icon:'user',
