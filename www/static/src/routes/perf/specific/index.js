@@ -30,7 +30,7 @@ function Whatever({dispatch, perf, location, loading}) {
     },
     data,
     pagination:false,
-    scroll: pageConfig.type === 'day' ? {x:columns.length * 100} :{x:2000}
+    scroll: {x:columns.length * 100}
   };
 
   const chartProps = {
