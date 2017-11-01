@@ -3,7 +3,7 @@ import { login, site } from 'services';
 import { config,menus } from 'utils';
 
 const getSelectKey = ()=>{
-  const pathname = location.pathname;
+  const pathname = location.pathname === '/'? config.dashboardURL : location.pathname;
   let currMenu = {};
   let selectMenu = {}
   const fn = (menu)=>{
@@ -30,7 +30,7 @@ export default {
   namespace: 'app',
   state: {
     user: {},
-    leftMenus:menus[0].children,
+    leftMenus:menus[0].children || [],
     topMenu:menus[0]
   },
   reducers: {
@@ -56,7 +56,6 @@ export default {
         localStorage.setItem(config.ls_key.site, JSON.stringify(currentSite));
       }
       const topMenu = getSelectKey();
-      console.log(topMenu)
       yield put({ type: 'save', payload: { sites, currentSite,topMenu,leftMenus:topMenu.children } })
     },
     *redirect({ payload = {} }, { put }) {

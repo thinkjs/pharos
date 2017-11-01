@@ -10,6 +10,7 @@ module.exports = {
   footerText: '',
   logo: '/static/public/logo.png',
   baseURL,
+  dashboardURL:'/perf/overview',
   api: {
     auth: {
       login: '/api/token',
