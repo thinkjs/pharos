@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactHighCharts from 'react-highcharts';
+// import ReactHighCharts from 'react-highcharts';
 
 
 let config = {
@@ -71,7 +71,8 @@ const HighCharts = ({ data = {},...props}) => {
     config.series = data.series;
     config.xAxis.categories = data.categories;
     return (
-        <ReactHighCharts config={{...config,...props}}></ReactHighCharts>
+        <div></div>
+        // <ReactHighCharts config={{...config,...props}}></ReactHighCharts>
     )
 }
 
