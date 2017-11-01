@@ -1,15 +1,20 @@
 import { routerRedux } from 'dva/router';
 import { login, site } from 'services';
-import { config } from 'utils';
+import { config,menus } from 'utils';
 
 export default {
   namespace: 'app',
   state: {
-    user: {}
+    user: {},
+    leftMenus:menus[0].menus
   },
   reducers: {
     save(state, { payload }) {
       return { ...state, ...payload };
+    },
+    changeTopMenu(state, { payload }) {
+      const leftMenus = menus.filter(item=>item.key === payload)[0].menus;
+      return { ...state, ...payload,leftMenus };      
     },
   },
   effects: {

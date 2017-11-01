@@ -12,7 +12,7 @@ const MainLayout = ({children,data})=>{
     <Layout className={styles.layout}>
       <Header data={data}/>
       <div className={styles.container}>
-        <Slider />
+        <Slider data={data.slider}/>
         <Content children={children} />
       </div>
     </Layout>
