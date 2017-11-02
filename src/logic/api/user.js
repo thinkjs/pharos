@@ -1,4 +1,10 @@
 module.exports = class extends think.Logic {
+  async __before() {
+    const userInfo = await this.session('userInfo') || {};
+    if (!global.SUPER_ADMIN.is(userInfo.status)) {
+      return this.fail('PERMISSION_DENIED!');
+    }
+  }
   /**
    * @api {GET} /user 获取用户列表
    * @apiGroup User
