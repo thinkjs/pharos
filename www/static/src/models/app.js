@@ -1,15 +1,45 @@
 import { routerRedux } from 'dva/router';
 import { login, site } from 'services';
-import { config } from 'utils';
+import { config,menus } from 'utils';
+
+const getSelectKey = ()=>{
+  const pathname = location.pathname === '/'? config.dashboardURL : location.pathname;
+  let currMenu = {};
+  let selectMenu = {}
+  const fn = (menu)=>{
+    const children = menu.children;
+    if(!children){
+      return;
+    }
+    children.forEach(c=>{
+      if(c.url === pathname){
+        selectMenu = currMenu;
+        return;
+      }
+      fn(c);
+    })
+  }
+  menus.forEach(m=>{
+    currMenu = m;
+    fn(m)
+  });
+  return selectMenu || {};
+}
 
 export default {
   namespace: 'app',
   state: {
-    user: {}
+    user: {},
+    leftMenus:menus[0].children || [],
+    topMenu:menus[0]
   },
   reducers: {
     save(state, { payload }) {
       return { ...state, ...payload };
+    },
+    changeTopMenu(state, { payload }) {
+      const leftMenus = menus.filter(item=>item.key === payload)[0].children;
+      return { ...state, ...payload,leftMenus };      
     },
   },
   effects: {
@@ -25,7 +55,8 @@ export default {
         currentSite = sites[0];
         localStorage.setItem(config.ls_key.site, JSON.stringify(currentSite));
       }
-      yield put({ type: 'save', payload: { sites, currentSite } })
+      const topMenu = getSelectKey();
+      yield put({ type: 'save', payload: { sites, currentSite,topMenu,leftMenus:topMenu.children } })
     },
     *redirect({ payload = {} }, { put }) {
       yield put(routerRedux.push(payload))

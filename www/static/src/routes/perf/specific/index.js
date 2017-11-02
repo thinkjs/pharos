@@ -6,7 +6,7 @@ import List from './list';
 import {Modal} from 'antd';
 import {constant} from 'utils';
 function Whatever({dispatch, perf, location, loading}) {
-  const {data,columns,rawData,pageConfig} = perf;
+  const {data,columns=[],rawData,pageConfig} = perf;
   const filterProps = {
     onAdd: ()=> {
       dispatch({
@@ -30,7 +30,7 @@ function Whatever({dispatch, perf, location, loading}) {
     },
     data,
     pagination:false,
-    scroll: pageConfig.type === 'day' ? {x:columns.length * 100} :{x:2000}
+    scroll: {x:columns.length * 100}
   };
 
   const chartProps = {

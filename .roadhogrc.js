@@ -2,6 +2,7 @@ export default {
   entry: 'www/static/src/index.js',
   publicPath:'/static/dist/',
   outputPath:'www/static/dist',
+  ignoreMomentLocale:true,
   "env": {
       "development": {
         "extraBabelPlugins": [
@@ -16,7 +17,8 @@ export default {
               "services":"./www/static/src/services"
             }
           }]
-        ]
+        ],
+        ignoreMomentLocale:true,
       },
       "production": {
         "extraBabelPlugins": [
@@ -31,6 +33,7 @@ export default {
             }
           }]
         ],
+        ignoreMomentLocale:true,        
       }
   }
 
