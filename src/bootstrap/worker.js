@@ -15,6 +15,18 @@ global.interval = [
   [6000, '6-7s']
 ];
 
-// 定义超管角色的 status 值
-global.SUPER_ADMIN = [1];
-global.SUPER_ADMIN.is = status => global.SUPER_ADMIN.indexOf(status) > -1;
+global.ROLES = {
+  SUPER_ADMIN: 1,
+  NORMAL_USER: 0,
+  SITE_ADMIN: 1,
+  WRITE_OFF: -1
+};
+[
+  // 定义超管角色的 status 值
+  ['SUPER_ADMIN', [1]],
+  // 定义项目中管理员角色 status 值
+  ['ADMIN', [1]]
+].forEach(([roleName, statuses]) => {
+  global[roleName] = statuses;
+  global[roleName].is = status => statuses.indexOf(status) > -1;
+});
