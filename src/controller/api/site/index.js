@@ -51,7 +51,7 @@ module.exports = class extends Base {
       return this.fail('SITE_EXIST');
     }
 
-    data.user = [this.userInfo.id];
+    data.user = [{user_id: this.userInfo.id, status: global.ROLES.SITE_ADMIN}];
     const insertId = await this.modelInstance.addSite(data);
     return this.success(insertId);
   }
@@ -59,6 +59,14 @@ module.exports = class extends Base {
   async putAction() {
     if (!this.id) {
       return this.fail('SITE ID MISS');
+    }
+
+    const userInfo = await this.session('userInfo') || {};
+    const role = await this.model('site_user')
+      .where({site_id: this.id, user_id: userInfo.id})
+      .find();
+    if (think.isEmpty(role) || global.ADMIN.is(role.status)) {
+      return this.fail('PERMISSION_DENIED');
     }
 
     const {name} = this.post();
@@ -74,8 +82,16 @@ module.exports = class extends Base {
     if (!this.id) {
       return this.fail('SITE ID MISS');
     }
-    this.id = parseInt(this.id);
 
+    const userInfo = await this.session('userInfo') || {};
+    const role = await this.model('site_user')
+      .where({site_id: this.id, user_id: userInfo.id})
+      .find();
+    if (think.isEmpty(role) || global.ADMIN.is(role.status)) {
+      return this.fail('PERMISSION_DENIED');
+    }
+
+    this.id = parseInt(this.id);
     let siteIds = await this.model('site_user').where({
       user_id: this.userInfo.id
     }).select();
