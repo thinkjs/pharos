@@ -14,3 +14,7 @@ global.interval = [
   [5000, '5-6s'],
   [6000, '6-7s']
 ];
+
+// 定义超管角色的 status 值
+global.SUPER_ADMIN = [1];
+global.SUPER_ADMIN.is = status => global.SUPER_ADMIN.indexOf(status) > -1;
