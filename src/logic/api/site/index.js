@@ -1,4 +1,5 @@
-module.exports = class extends think.Logic {
+const Base = require('../base');
+module.exports = class extends Base {
   /**
    * @api {GET} /site 获取网站列表
    * @apiGroup Site

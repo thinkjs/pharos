@@ -1,12 +1,21 @@
 const Base = require('./base');
 module.exports = class extends Base {
+  async __before(...args) {
+    const result = await Base.prototype.__before.call(this, ...args);
+    if (result) {
+      return this.fail(result);
+    }
+
+    if (!this.isAdmin) {
+      return this.fail('PERMISSION_DENIED');
+    }
+  }
   /**
    * @api {GET} /site/:id/user 获取网站成员
    * @apiGroup Site
    * @apiVersion  0.0.1
    */
   getAction() {
-
   }
   /**
    * @api {POST} /site/:id/user/:user_id 为网站添加成员
@@ -17,11 +26,28 @@ module.exports = class extends Base {
   }
 
   /**
+   * @api {PUT} /site/:id/user/:user_id 修改网站成员角色
+   * @apiGroup Site
+   * @apiVersion 0.0.1
+   * 
+   * @apiParam  {Int=0,1}  status  角色代号
+   */ 
+  putAction() {
+    this.rules = {
+      status: {
+        int: true,
+        required: true,
+        default: global.ROLES.NORMAL_USER,
+        in: [global.ROLES.NORMAL_USER, global.ROLES.SITE_ADMIN]
+      }
+    };
+  }
+
+  /**
    * @api {DELETE} /site/:id/user/:user_id 为网站删除成员
    * @apiGroup Site
    * @apiVersion 0.0.1
    */ 
   deleteAction() {
-
   }
 };

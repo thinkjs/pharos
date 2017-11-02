@@ -1,17 +1,29 @@
-module.exports = class extends think.Logic {
-  async __before() {
-    const {site_id} = this.get();
-    if (!site_id) {
-      return this.fail('SITE_ID MISS');
+const Base = require('../base');
+module.exports = class extends Base {
+  async __before(...args) {
+    const result = await Base.prototype.__before.call(this, ...args);
+    if (result) {
+      return result;
     }
 
-    const userInfo = await this.session('userInfo') || {};
-    const isSiteUser = await this.model('site_user').where({
-      site_id,
-      user_id: userInfo.id
-    }).find();
-    if (think.isEmpty(isSiteUser)) {
-      return this.fail('PERMISSION_DENIED');
+    const {site_id} = this.get();
+    if (!site_id) {
+      return 'SITE_ID MISS';
     }
+
+    if (global.SUPER_ADMIN.is(this.userInfo.status)) {
+      this.isAdmin = true;
+      return;
+    }
+
+    const siteUser = await this.model('site_user').where({
+      site_id,
+      user_id: this.userInfo.id
+    }).find();
+    if (think.isEmpty(siteUser)) {
+      return 'PERMISSION_DENIED';
+    }
+
+    this.isAdmin = global.ADMIN.is(siteUser.status);
   }
 };
