@@ -2,7 +2,7 @@ module.exports = class extends think.Logic {
   async __before() {
     const userInfo = await this.session('userInfo') || {};
     if (!global.SUPER_ADMIN.is(userInfo.status)) {
-      return this.fail('PERMISSION_DENIED!');
+      return this.fail('PERMISSION_DENIED');
     }
   }
   /**

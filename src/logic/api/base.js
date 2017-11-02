@@ -1,9 +1,9 @@
-const BaseRest = require('../rest');
-
-module.exports = class extends BaseRest {
+module.exports = class extends think.Logic {
   async __before() {
-    // session
     const userInfo = await this.session('userInfo') || {};
+    if (think.isEmpty(userInfo)) {
+      return 'USER_NOT_LOGIN';
+    }
     this.userInfo = userInfo;
   }
 };

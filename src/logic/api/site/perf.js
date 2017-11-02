@@ -1,5 +1,15 @@
 const Base = require('./base');
 module.exports = class extends Base {
+  async __before(...args) {
+    const result = await Base.prototype.__before.call(this, ...args);
+    if (result) {
+      return this.fail(result);
+    }
+
+    if (!this.isAdmin && this.ctx.method !== 'get') {
+      return this.fail('PERMISSION_DENIED');
+    }
+  }
   /**
    * @api {GET} /site/:id/perf 获取网站性能指标列表
    * @apiGroup Site
@@ -56,6 +66,5 @@ module.exports = class extends Base {
    * @apiVersion 0.0.1
    */ 
   deleteAction() {
-
   }
 };
