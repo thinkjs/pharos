@@ -13,7 +13,7 @@ module.exports = class extends BaseRest {
     // 账号不存在或者被删除
     if (
       think.isEmpty(userInfo) ||
-      userInfo.status === 1 ||
+      userInfo.status === global.ROLES.WRITE_OFF ||
       !userModel.checkPassword(userInfo, password)
     ) {
       return this.fail('ACCOUNT_ERROR');
