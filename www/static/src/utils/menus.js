@@ -1,19 +1,17 @@
 const menus = [
   {
-    name:'项目管理',
-    icon:'credit-card',
-    url:'/site'
-  },
-  {
     name:'性能分析',
-    icon:'line-chart',
+    key: 'perf',
+    url:'/perf/overview',
     children:[
       {
         name:'概览',
+        icon:'desktop',
         url:'/perf/overview',
       },
       {
         name:'数据分析',
+        icon:'line-chart',        
         children:[
           {
             name:'按时段',
@@ -44,15 +42,34 @@ const menus = [
     ]
   },
   {
-    name:'基础设置',
-    icon:'user',
+    name:'项目管理',
+    key:'site',
+    url:'/site/list',
     children:[
       {
-        name:'用户管理',
-        url:'/setting/user'
+        name:'项目列表',
+        icon:'database',
+        url:'/site/list'
+      },
+      {
+        name:'性能指标',
+        icon:'bars',
+        url:'/site/field'
       }
     ]
   },
-];
+  {
+    name:'基础设置',
+    key:'setting',
+    url:'/setting/user',    
+    children:[
+      {
+        name:'用户管理',
+        icon:'user',
+        url:'/setting/user'
+      }
+    ]
+  }
+]
 
 export default menus;

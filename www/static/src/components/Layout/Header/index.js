@@ -1,13 +1,17 @@
 import React from 'react';
 // import PropTypes from 'prop-types'
-import { config } from 'utils'
+import { config,menus } from 'utils'
 import { Layout , Menu } from 'antd';
-const { Header } = Layout;
+import { Link } from 'dva/router';
 import User from './user';
 import ProjectSelector from './project-selector'
 import styles from '../index.less'
+const { Header } = Layout;
 
 const MainHeader = ({data}) => {
+  const {header} = data;
+  const {onChangeMenu,topMenu={}} = header;
+  console.log(topMenu);
   return (
     <Header className={styles.header}>
       <div className={styles.logo}>
@@ -18,11 +22,18 @@ const MainHeader = ({data}) => {
         theme="dark"
         style={{display:'inline-block'}}
         mode="horizontal"
-        defaultSelectedKeys={['1']}
+        defaultSelectedKeys={[topMenu.key]}
         style={{ lineHeight: '64px' }}
       >
-        <Menu.Item key="1">前端监控</Menu.Item>
-        <Menu.Item key="2">其他监控</Menu.Item>
+        {
+          menus.map(item=>{
+            return (
+              <Menu.Item key={item.key}>
+                <Link to={item.url} onClick={()=>{onChangeMenu(item.key)}}>{item.name}</Link>
+              </Menu.Item>
+            )
+          })
+        }
       </Menu>
       <User user={data.user} />
       <ProjectSelector site={data.site} />

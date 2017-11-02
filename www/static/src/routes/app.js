@@ -8,7 +8,7 @@ import './app.less';
 let lastHref;
 const App = ({children, dispatch, app, location, loading}) => {
 
-  const {user,sites,currentSite}  = app;
+  const {user,sites,currentSite,leftMenus,topMenu}  = app;
   const href = window.location.href;
   if (lastHref !== href) {
     NProgress.start();
@@ -39,6 +39,18 @@ const App = ({children, dispatch, app, location, loading}) => {
             payload:val
           })
         }
+      },
+      header:{
+        onChangeMenu(key){
+          dispatch({
+            type:'app/changeTopMenu',
+            payload:key
+          })
+        },
+        topMenu
+      },
+      slider:{
+        leftMenus
       }
     }
     return (

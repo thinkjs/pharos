@@ -3,6 +3,7 @@ import qs from 'qs'
 import { baseURL } from './config'
 import lodash from 'lodash'
 import {message} from 'antd';
+import pathToRegexp from 'path-to-regexp';
 
 axios.defaults.baseURL = baseURL;
 axios.defaults.withCredentials = true;
@@ -15,19 +16,21 @@ const fetch = (options) => {
   } = options;
 
   const cloneData = lodash.cloneDeep(data) || {};
-
+  const toPath = pathToRegexp.compile(url);
+  url = toPath(cloneData);
+  
   switch (method.toLowerCase()) {
     case 'get':
       return axios.get(url, {
         params: cloneData,
       });
     case 'delete':
-      url += `/${cloneData.id || ''}`;
+      // url += `/${cloneData.id || ''}`;
       return axios.delete(url);
     case 'post':
       return axios.post(url, qs.stringify(cloneData));
     case 'put':
-      url += `/${cloneData.id || ''}`;
+      // url += `/${cloneData.id || ''}`;
       return axios.put(url,cloneData);
     case 'patch':
       return axios.patch(url, cloneData);
