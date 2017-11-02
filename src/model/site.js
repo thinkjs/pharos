@@ -76,7 +76,13 @@ module.exports = class extends think.Model {
     if (!think.isArray(user)) {
       user = [user];
     }
-    user = user.map(user_id => ({site_id: id, user_id}));
+    user = user.map(user => {
+      if (typeof user !== 'object') {
+        return {site_id: id, user_id: user};
+      }
+      user.site_id = id;
+      return user;
+    });
     await this.model('site_user').addMany(user);
 
     const perfs = PERFS.map(perf => {
