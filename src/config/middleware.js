@@ -35,6 +35,12 @@ module.exports = [
         const AJAXRequest = ctx.is('X-Requested-With', 'XMLHttpRequest');
 
         return APIRequest || AJAXRequest ? 'json' : 'html';
+      },
+      error(err) {
+        if (think.isPrevent(err)) {
+          return false;
+        }
+        console.error(err);
       }
     }
   },
