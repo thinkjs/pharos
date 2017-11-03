@@ -1,10 +1,7 @@
 const Base = require('./base');
 module.exports = class extends Base {
   async __before(...args) {
-    const result = await Base.prototype.__before.call(this, ...args);
-    if (result) {
-      return this.fail(result);
-    }
+    await Base.prototype.__before.call(this, ...args);
 
     if (!this.isAdmin && this.ctx.method !== 'get') {
       return this.fail('PERMISSION_DENIED');
