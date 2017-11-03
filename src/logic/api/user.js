@@ -1,5 +1,8 @@
 module.exports = class extends think.Logic {
   async __before() {
+    if (this.ctx.method === 'POST') {
+      return;
+    }
     const userInfo = await this.session('userInfo') || {};
     if (!global.SUPER_ADMIN.is(userInfo.status)) {
       return this.fail('PERMISSION_DENIED');

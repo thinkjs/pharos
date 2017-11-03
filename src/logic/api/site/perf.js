@@ -3,7 +3,7 @@ module.exports = class extends Base {
   async __before(...args) {
     await Base.prototype.__before.call(this, ...args);
 
-    if (!this.isAdmin && this.ctx.method !== 'get') {
+    if (!this.isAdmin && this.ctx.method !== 'GET') {
       return this.fail('PERMISSION_DENIED');
     }
   }
