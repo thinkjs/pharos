@@ -92,10 +92,10 @@ module.exports = class extends BaseRest {
   }
 
   /** 查找时间所在区间 */
-  findInterval(time) {
-    const interval = global.interval;
-    for (let i = interval.length - 1; i >= 0; i--) {
-      if (time < interval[i][0]) {
+  findsection(time) {
+    const section = global.section;
+    for (let i = section.length - 1; i >= 0; i--) {
+      if (time < section[i][0]) {
         continue;
       }
       return i;
@@ -135,14 +135,14 @@ module.exports = class extends BaseRest {
     const site_page_id = await this.sitePage(site_id, visit_url.url);
     const perfs = await this.getPerfs(site_id);
     gather((time, perf) => {
-      const interval = this.findInterval(time);
+      const section = this.findsection(time);
       const consume_time = this.global(
         [
           'consume_time',
           site_id,
           site_page_id,
           perfs[perf],
-          interval
+          section
         ],
         {time: 0, count: 0}
       );

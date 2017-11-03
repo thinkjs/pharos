@@ -21,23 +21,23 @@ module.exports = class extends Base {
     let categories;
     switch (type) {
       case 'interval':
-        categories = global.interval.map(interval => interval[1]);
+        categories = global.section.map(section => section[1]);
         series = await this.groupWithPerf(
           site_id,
           data,
           perfData => {
             const result = {};
             for (let i = 0; i < perfData.length; i++) {
-              const interval = perfData[i].interval;
-              if (!result[interval]) {
-                result[interval] = 0;
+              const section = perfData[i].section;
+              if (!result[section]) {
+                result[section] = 0;
               }
-              result[interval] += perfData[i].count;
+              result[section] += perfData[i].count;
             }
 
             let total = 0;
-            for (const interval in result) {
-              total += result[interval];
+            for (const section in result) {
+              total += result[section];
             }
 
             const output = [];
@@ -148,7 +148,7 @@ module.exports = class extends Base {
     think.logger.info('crontab', 'consume_time', createTime);
     const arr = this.map(
       await think.messenger.map('consume_time'),
-      ['site_id', 'site_page_id', 'perf', 'interval'],
+      ['site_id', 'site_page_id', 'perf', 'section'],
       item => {
         item.create_time = createTime;
       }
