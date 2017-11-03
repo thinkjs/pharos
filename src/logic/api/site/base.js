@@ -1,14 +1,11 @@
 const Base = require('../base');
 module.exports = class extends Base {
   async __before(...args) {
-    const result = await Base.prototype.__before.call(this, ...args);
-    if (result) {
-      return result;
-    }
+    await Base.prototype.__before.call(this, ...args);
 
     const {site_id} = this.get();
     if (!site_id) {
-      return 'SITE_ID MISS';
+      return this.fail('SITE_ID MISS');
     }
 
     if (global.SUPER_ADMIN.is(this.userInfo.status)) {
@@ -21,7 +18,7 @@ module.exports = class extends Base {
       user_id: this.userInfo.id
     }).find();
     if (think.isEmpty(siteUser)) {
-      return 'PERMISSION_DENIED';
+      return this.fail('PERMISSION_DENIED');
     }
 
     this.isAdmin = global.ADMIN.is(siteUser.status);
