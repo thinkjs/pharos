@@ -31,7 +31,8 @@ export default {
   state: {
     user: {},
     leftMenus:menus[0].children || [],
-    topMenu:menus[0]
+    topMenu:menus[0],
+    currentSite:{}
   },
   reducers: {
     save(state, { payload }) {
