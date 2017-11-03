@@ -2,7 +2,7 @@
 
 global.PHAROS_DATA = {};
 
-global.interval = [
+global.section = [
   [0, '0.1s以内'],
   [100, '0.1s-0.25s'],
   [250, '0.25-0.5s'],
