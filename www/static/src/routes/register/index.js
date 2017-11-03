@@ -23,7 +23,7 @@ const Login = ({
       if (errors) {
         return
       }
-      dispatch({ type: 'login/register', payload: {values,img} })
+      dispatch({ type: 'login/register', payload: {values} })
     })
   }
 

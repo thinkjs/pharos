@@ -33,10 +33,10 @@ const menus = [
             name:'按浏览器',
             url:'/perf/specific/browser'
           },
-          {
-            name:'按地区',
-            url:'/perf/specific/region'
-          },
+          // {
+          //   name:'按地区',
+          //   url:'/perf/specific/region'
+          // },
         ]
       }
     ]
@@ -44,13 +44,8 @@ const menus = [
   {
     name:'项目管理',
     key:'site',
-    url:'/site/list',
+    url:'/site/field',
     children:[
-      {
-        name:'项目列表',
-        icon:'database',
-        url:'/site/list'
-      },
       {
         name:'性能指标',
         icon:'bars',
@@ -59,7 +54,20 @@ const menus = [
     ]
   },
   {
+    name:'系统管理',
+    key:'site-list',
+    url:'/site/list',
+    children:[
+      {
+        name:'项目列表',
+        icon:'database',
+        url:'/site/list'
+      }
+    ]
+  },
+  {
     name:'基础设置',
+    hidden: window.USER.status !== 1,
     key:'setting',
     url:'/setting/user',    
     children:[
