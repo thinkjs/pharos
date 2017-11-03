@@ -11,7 +11,6 @@ const { Header } = Layout;
 const MainHeader = ({data}) => {
   const {header} = data;
   const {onChangeMenu,topMenu={}} = header;
-  console.log(topMenu);
   return (
     <Header className={styles.header}>
       <div className={styles.logo}>
@@ -27,6 +26,9 @@ const MainHeader = ({data}) => {
       >
         {
           menus.map(item=>{
+            if(item.hidden){
+              return
+            }
             return (
               <Menu.Item key={item.key}>
                 <Link to={item.url} onClick={()=>{onChangeMenu(item.key)}}>{item.name}</Link>
