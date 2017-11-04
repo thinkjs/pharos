@@ -72,18 +72,6 @@ const menus = [
       }
     ]
   },
-  // {
-  //   name:'系统管理',
-  //   key:'site-list',
-  //   url:'/site/list',
-  //   children:[
-  //     {
-  //       name:'项目列表',
-  //       icon:'database',
-  //       url:'/site/list'
-  //     }
-  //   ]
-  // },
   {
     name:'基础设置',
     hidden: window.USER.status !== 1,

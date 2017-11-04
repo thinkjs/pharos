@@ -1,4 +1,5 @@
-import { site } from 'services';
+import { site,user } from 'services';
+import {message} from 'antd';
 const initialState = {
   data: [],
   organs: [],
@@ -20,7 +21,9 @@ export default {
           dispatch({ type: 'query', payload: location.query });
         } else if (location.pathname === '/site/field') {
           dispatch({ type: 'queryField', payload: location.query });
-        } else {
+        } else if (location.pathname === '/site/user'){
+          dispatch({ type: 'queryUser', payload: location.query });
+        }else {
           dispatch({ type: 'clear' });
         }
       })
@@ -78,6 +81,41 @@ export default {
       let ret = yield call(site.deleteField, payload);
       if (ret) {
         yield put({ type: 'queryField' });
+      }
+    },
+    *queryUser({ payload = {} }, { call, put, select }) {
+      const currentSite = yield select(state => state.app.currentSite);
+      payload.siteId = currentSite.id;
+      let ret = yield call(site.queryUser, payload);
+      let userList = yield call(user.query);
+      if (ret) {
+        yield put({ type: 'save', payload: { userData: ret,userList } })
+      }
+    },
+    *addUser({ payload = {} }, { call, put, select }) {
+      const currentSite = yield select(state => state.app.currentSite);
+      payload.siteId = currentSite.id;
+      let ret = yield call(site.addUser, payload);
+      if (ret) {
+        yield put({ type: 'save', payload: { addModalVisible: false } });
+        yield put({ type: 'queryUser' });
+      }
+    },
+    *editUser({ payload = {} }, { call, put, select }) {
+      const currentSite = yield select(state => state.app.currentSite);
+      payload.siteId = currentSite.id;
+      let ret = yield call(site.editUser, payload);
+      if (ret) {
+        message.success('修改成功');
+        yield put({ type: 'queryUser' });
+      }
+    },
+    *deleteUser({ payload = {} }, { call, put,select }) {
+      const currentSite = yield select(state => state.app.currentSite);
+      payload.siteId = currentSite.id;
+      let ret = yield call(site.deleteUser, payload);
+      if (ret) {
+        yield put({ type: 'queryUser' });
       }
     },
   },

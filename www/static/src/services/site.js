@@ -1,6 +1,8 @@
 import {request,config} from 'utils';
 const api = config.api.site;
 const fieldApi = config.api.site.field;
+const userApi = config.api.site.user;
+
 export default {
   query: (params = {})=> {
     return request({
@@ -52,6 +54,33 @@ export default {
   deleteField: (params = {})=> {
     return request({
       url: fieldApi.delete,
+      data: params,
+      method:'DELETE'
+    })
+  },
+  queryUser: (params = {})=> {
+    return request({
+      url: userApi.query,
+      data: params,
+    })
+  },
+  addUser: (params = {})=> {
+    return request({
+      url: userApi.add,
+      data: params,
+      method:'POST'
+    })
+  },
+  editUser: (params = {})=> {
+    return request({
+      url: userApi.edit,
+      data: params,
+      method:'PUT'
+    })
+  },
+  deleteUser: (params = {})=> {
+    return request({
+      url: userApi.delete,
       data: params,
       method:'DELETE'
     })
