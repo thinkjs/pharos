@@ -21,7 +21,7 @@ module.exports = class extends think.Logic {
     this.rules = {
       page: {
         int: true,
-        default: 1
+        // default: 1
       },
       pagesize: {
         int: true,
