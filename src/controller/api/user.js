@@ -16,7 +16,11 @@ module.exports = class extends BaseRest {
         _logic: 'OR'
       });
     }
-    data = await this.modelInstance.page([page, pagesize]).countSelect();
+    if(page){
+      data = await this.modelInstance.page([page, pagesize]).countSelect();      
+    }else{
+      data = await this.modelInstance.select();
+    }
     return this.success(data);
   }
 
