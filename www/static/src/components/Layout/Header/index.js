@@ -31,14 +31,17 @@ const MainHeader = ({data}) => {
             }
             return (
               <Menu.Item key={item.key}>
-                <Link to={item.url} onClick={()=>{onChangeMenu(item.key)}}>{item.name}</Link>
+                <Link to={item.url} onClick={()=>{onChangeMenu(item)}}>{item.name}</Link>
               </Menu.Item>
             )
           })
         }
       </Menu>
       <User user={data.user} />
-      <ProjectSelector site={data.site} />
+      {
+        topMenu.hideProject ? null:
+        <ProjectSelector site={data.site} />      
+      }
     </Header>
   )
 }
