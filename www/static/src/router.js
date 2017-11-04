@@ -22,10 +22,10 @@ function Routers({ history, app }) {
       // },
       getIndexRoute (nextState, cb) {
         require.ensure([], require => {
-          registerModel(app, require('./models/perf'));
+          registerModel(app, require('./models/site'));
           registerModel(app, require('./models/app'));
-          cb(null, { component: require('./routes/perf/overview/') })
-        }, 'site')
+          cb(null, { component: require('./routes/site/list') })
+        }, 'site-list')
       },
       childRoutes: [
         {

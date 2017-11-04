@@ -39,8 +39,9 @@ export default {
       return { ...state, ...payload };
     },
     changeTopMenu(state, { payload }) {
-      const leftMenus = menus.filter(item=>item.key === payload)[0].children;
-      return { ...state, ...payload,leftMenus };      
+      // const leftMenus = menus.filter(item=>item.key === payload)[0].children;
+      const leftMenus = payload.children;
+      return { ...state,topMenu:payload,leftMenus };      
     },
   },
   effects: {
