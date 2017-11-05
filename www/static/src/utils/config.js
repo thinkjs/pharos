@@ -1,6 +1,6 @@
 const TEST_URL = 'test.com';
-// let baseURL = 'http://test.com:8360/';
-let baseURL = 'https://pharos.eming.li';
+let baseURL = 'http://test.com:8360/';
+// let baseURL = 'https://pharos.eming.li';
 if (!location.host.includes(TEST_URL)) {
   baseURL = location.protocol + '//' + location.host + '/';
 }
@@ -26,6 +26,12 @@ module.exports = {
         add:'/api/site/:siteId/perf',
         edit:'/api/site/:siteId/perf/:id',
         delete:'/api/site/:siteId/perf/:id',
+      },
+      user:{
+        query:'/api/site/:siteId/user',
+        add:'/api/site/:siteId/user/:id',
+        edit:'/api/site/:siteId/user/:id',
+        delete:'/api/site/:siteId/user/:id',
       },
     },
     user: {
