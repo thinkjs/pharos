@@ -1,12 +1,11 @@
-module.exports = class extends think.Logic {
-  async __before() {
+const Base = require('./base');
+module.exports = class extends Base {
+  async __before(...args) {
     if (this.ctx.method === 'POST') {
       return;
     }
-    const userInfo = await this.session('userInfo') || {};
-    if (!global.SUPER_ADMIN.is(userInfo.status)) {
-      return this.fail('PERMISSION_DENIED');
-    }
+    await Base.prototype.__before.call(this, ...args);
+    this.isSuperAdmin = global.SUPER_ADMIN.is(this.userInfo.status);
   }
   /**
    * @api {GET} /user 获取用户列表
@@ -18,6 +17,12 @@ module.exports = class extends think.Logic {
    * @apiParam  {String}  pagesize  分页大小
    */
   getAction() {
+    // default return first page
+    // after pages should have super admin permission
+    if (this.get('page') && !this.isSuperAdmin) {
+      return this.fail('PERMISSION_DENIED');
+    }
+
     this.rules = {
       page: {
         int: true,
@@ -73,6 +78,9 @@ module.exports = class extends think.Logic {
    * @apiVersion 0.0.1
    */
   deleteAction() {
+    if (!this.isSuperAdmin) {
+      return this.fail('PERMISSION_DENIED');
+    }
   }
 
   /**
@@ -85,6 +93,19 @@ module.exports = class extends think.Logic {
    * @apiParam  {String}  status  用户状态
    */
   putAction() {
+    // Suer Admin 
+    // Modify info myself
+    // Others have no permission
+    if (!this.id) {
+      return this.fail('MISS_ID');
+    } else if (!this.isSuperAdmin) {
+      if (this.id !== this.userInfo.id) {
+        return this.fail('PERMISSION_DENIED');
+      } else {
+        this.get('status', undefined);
+      }
+    }
+
     this.rules = {
       display_name: {
         string: true,
