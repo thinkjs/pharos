@@ -26,7 +26,7 @@ module.exports = class extends Base {
     this.rules = {
       page: {
         int: true,
-        default: 1
+        // default: 1
       },
       pagesize: {
         int: true,

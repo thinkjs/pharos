@@ -19,6 +19,11 @@ export default {
     {value: 'interval', label: '按耗时', key: '3'},
   ],
 
+  SITE_USER_STATUS:[
+    {value: '0', label: '普通成员', key: '0'},
+    {value: '1', label: '管理员', key: '1'},
+  ],
+
 
   PERF_PAGE_NAME:{
     'hour':'按时段',
