@@ -82,6 +82,7 @@ function Routers({ history, app }) {
           getComponent (nextState, cb) {
             require.ensure([], require => {
               registerModel(app, require('./models/site'));
+              registerModel(app, require('./models/user'));              
               registerModel(app, require('./models/app'));
               cb(null, require('./routes/site/user'))
             }, 'site-user')
