@@ -25,6 +25,12 @@ function Whatever({dispatch, site, location, loading,}) {
         type: 'site/addUser',
         payload: data
       })
+    },
+    fetchUser:(keyword)=>{
+      dispatch({
+        type:'site/queryUserList',
+        payload:{keyword}
+      })
     }
   };
 

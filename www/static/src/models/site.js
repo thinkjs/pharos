@@ -87,9 +87,9 @@ export default {
       const currentSite = yield select(state => state.app.currentSite);
       payload.siteId = currentSite.id;
       let ret = yield call(site.queryUser, payload);
-      let userList = yield call(user.query);
       if (ret) {
-        yield put({ type: 'save', payload: { userData: ret,userList } })
+        // yield put({ type: 'queryUserList' });
+        yield put({ type: 'save', payload: { userData: ret } })
       }
     },
     *addUser({ payload = {} }, { call, put, select }) {
@@ -116,6 +116,12 @@ export default {
       let ret = yield call(site.deleteUser, payload);
       if (ret) {
         yield put({ type: 'queryUser' });
+      }
+    },
+    *queryUserList({ payload = {} }, { call, put, select }) {
+      let ret = yield call(user.query,payload);
+      if (ret) {
+        yield put({ type: 'save', payload: { userList:payload.keyword && ret.data } })
       }
     },
   },

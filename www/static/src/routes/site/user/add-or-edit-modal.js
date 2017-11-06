@@ -23,6 +23,7 @@ const modal = ({
     getFieldsValue,
   },
   userList,
+  fetchUser,
   ...modalProps,
 }) => {
 
@@ -34,6 +35,7 @@ const modal = ({
       const data = {
         ...getFieldsValue()
       };
+      data.id = data.id.join(',');
       onOk(data)
     })
   };
@@ -42,7 +44,6 @@ const modal = ({
     ...modalProps,
     onOk: handleOk,
   };
-
   return (
     <Modal {...modalOpts}>
       <Form layout="horizontal">
@@ -56,9 +57,12 @@ const modal = ({
             ]
           })(
             <Select
-              showSearch
+              mode="multiple"
+              multiple={false}
               optionFilterProp="children"
-              filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
+              //notFoundContent={false ? <Spin size="small" /> : null}
+              //filterOption={false}
+              onSearch={fetchUser}
             >
               {
                 (userList || []).map((item,index)=>{
