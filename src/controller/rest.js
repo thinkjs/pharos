@@ -32,8 +32,8 @@ module.exports = class extends think.Controller {
     if (id && (think.isString(id) || think.isNumber(id))) {
       return id;
     }
-    const last = this.ctx.path.split('/').slice(-1)[0];
-    if (last !== this.resource && /\d+/.test(last)) {
+    const last = decodeURIComponent(this.ctx.path.split('/').pop());
+    if (last !== this.resource && /^(\d+,?)*$/.test(last)) {
       return last;
     }
     return '';
