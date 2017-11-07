@@ -6,7 +6,7 @@ module.exports = class extends Base {
   }
 
   async installAction() {
-    const step = parseInt(this.query('step'));
+    const step = this.query('step');
     const install = think.service('install', this.ip);
 
     this.assign({step});
@@ -15,10 +15,10 @@ module.exports = class extends Base {
       if (global.isInstalled) {
         return this.redirect('/');
       }
-
       const dbConfig = install.dbConfig;
       const isDBConfig = think.isObject(dbConfig) && ['host', 'database', 'user', 'password'].every(k => dbConfig[k]);
       switch (step) {
+        default:
         case 1:
           if (isDBConfig) {
             return this.redirect('/index/install?step=2');
@@ -50,11 +50,12 @@ module.exports = class extends Base {
 
     const data = this.post();
     switch (data.step) {
-      case 2:
+      case '2':
         const siteInfo = {
           title: data.title,
           site_url: data.site_url,
-          username: data.username,
+          name: data.name,
+          email: data.email,
           password: data.password
         };
         try {
@@ -75,6 +76,7 @@ module.exports = class extends Base {
           prefix: data.db_table_prefix
         };
         try {
+          await install.checkDbInfo(dbInfo);
           await install.saveDbInfo(dbInfo);
           message = 'success';
         } catch (e) {
