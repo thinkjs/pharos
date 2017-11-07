@@ -36,7 +36,7 @@ module.exports = class extends think.Service {
     if (name === true) {
       name = '';
     }
-    return this.model(name, this.dbConfig);
+    return think.model(name, this.dbConfig);
   }
 
   async insertData(title, site_url) {
@@ -50,7 +50,7 @@ module.exports = class extends think.Service {
       await model.query('CREATE DATABASE `' + dbConfig.database + '`').catch(() => {});
     }
 
-    const dbFile = think.ROOT_PATH + think.sep + 'pharos.sql';
+    const dbFile = path.join(think.ROOT_PATH, 'pharos.sql');
     if (!think.isFile(dbFile)) {
       return Promise.reject(
         new Error('数据库文件（pharos.sql）不存在，请重新下载')
@@ -69,7 +69,6 @@ module.exports = class extends think.Service {
       return true;
     }).join(' ');
     content = content.replace(/\/\*.*?\*\//g, '').replace(/ph_/g, dbConfig.prefix || '');
-
     // 导入数据
     model = this.getModel(true);
     content = content.split(';');
@@ -77,12 +76,12 @@ module.exports = class extends think.Service {
       for (let item of content) {
         item = item.trim();
         if (item) {
-          think.log.info(item);
+          think.logger.info(item);
           await model.query(item);
         }
       }
     } catch (e) {
-      think.log.error(e);
+      think.logger.error(e);
       return Promise.reject(new Error('数据表导入失败，请在控制台下查看具体的错误信息，并在 GitHub 上发 issue。'));
     }
 
@@ -105,15 +104,22 @@ module.exports = class extends think.Service {
     await model.addUser(data, this.ip);
   }
 
-  async saveSiteInfo({title, site_url, username, password}) {
+  async saveSiteInfo({title, site_url, name, email, password}) {
     await this.insertData(title, site_url);
-    await this.createAccount(username, password);
+    await this.createAccount(name, email, password);
     this.installed = true;
   }
 
-  async saveDbInfo() {
+  async checkDbInfo(config) {
+    const dbInstance = this.model('', config);
+    return dbInstance.query('SELECT VERSION()').catch(() => {
+      return Promise.reject(new Error('数据库信息有误'));
+    });
+  }
+
+  async saveDbInfo(dbConfig) {
     const data = {
-      mysql: this.dbConfig
+      mysql: dbConfig
     };
     const content = `exports.model = ${JSON.stringify(data, undefined, 4)};`;
 
@@ -121,12 +127,16 @@ module.exports = class extends think.Service {
     try {
       const srcPath = path.join(think.ROOT_PATH, 'src/config');
       fs.statSync(srcPath);
-      dbConfigFile = path.join(srcPath, 'adapter.production.js');
+      dbConfigFile = path.join(srcPath, 'adapter.development.js');
     } catch (e) {
       dbConfigFile = path.join(think.APP_PATH, '/config/adapter.production.js');
     }
     fs.writeFileSync(dbConfigFile, content);
-    think.config('model.mysql', data);
+    const config = this.dbConfig;
+    for (var i in dbConfig) {
+      config[i] = dbConfig[i];
+    }
+    this.dbConfig = config;
   }
 
   async checkInstalled() {
@@ -146,11 +156,11 @@ module.exports = class extends think.Service {
       existTables = existTables.map(table => table.TABLE_NAME);
       const installed = tables.every(table => existTables.includes(prefix + table));
       if (installed) {
-        this.isInstalled = true;
+        this.installed = true;
       }
       return installed;
     } catch (e) {
-      think.log.error(e);
+      think.logger.error(e);
       this.installed = false;
       return false;
     }
