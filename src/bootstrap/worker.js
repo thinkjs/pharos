@@ -1,5 +1,5 @@
 // invoked in worker
-
+const cluster = require('cluster');
 global.PHAROS_DATA = {};
 
 global.section = [
@@ -38,4 +38,7 @@ think.beforeStartServer(async() => {
 
 think.messenger.on('install', install => {
   global.isInstalled = install;
+});
+think.messenger.on('restart', () => {
+  cluster.worker.kill();
 });

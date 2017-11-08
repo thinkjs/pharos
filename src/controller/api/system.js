@@ -1,8 +1,8 @@
-// const fs = require('fs');
-// const path = require('path');
+const fs = require('fs');
+const path = require('path');
 const semver = require('semver');
-// const cluster = require('cluster');
-// const {exec} = require('child_process');
+const cluster = require('cluster');
+const {exec} = require('child_process');
 const rq = require('request-promise-native');
 const pkg = require('../../../package.json');
 
@@ -44,5 +44,59 @@ module.exports = class extends Base {
       update
     };
     return this.success(data);
+  }
+
+  async putAction() {
+    if (/^win/.test(process.platform)) {
+      return this.fail('PLATFORM_NOT_SUPPORT');
+    }
+
+    const {step} = this.get();
+    switch (step) {
+      /** 下载文件 */
+      case '1':
+      default:
+        return rq({uri: this.get('url')})
+          .pipe(fs.createWriteStream(path.join(think.ROOT_PATH, 'www/latest.tar.gz')))
+          .on('close', () => this.success())
+          .on('error', err => this.fail(err));
+
+      /** 解压覆盖，删除更新文件 */
+      case '2':
+        return exec(`
+          cd ${think.ROOT_PATH}/www;
+          tar zvxf latest.tar.gz;
+          cp -r pharos/* ../;
+          rm -rf pharos latest.tar.gz`, error => {
+          if (error) {
+            this.fail(error);
+          }
+
+          this.success();
+        });
+
+      /** 安装依赖 */
+      case '3':
+        const registry = think.config('registry') || 'https://registry.npm.taobao.org';
+        return exec(`npm install --registry=${registry}`, error => {
+          if (error) {
+            this.fail(error);
+          }
+
+          this.success();
+        });
+
+      /** 重启服务 */
+      case '4':
+        if (cluster.isWorker) {
+          this.success();
+          setTimeout(() => {
+            cluster.worker.kill();
+            think.messenger.broadcast('restart');
+          }, 200);
+        }
+
+        break;
+    }
   }
 };
