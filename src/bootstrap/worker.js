@@ -35,3 +35,7 @@ think.beforeStartServer(async() => {
   const install = think.service('install');
   global.isInstalled = await install.checkInstalled();
 });
+
+think.message.on('install', install => {
+  global.isInstalled = install;
+});
