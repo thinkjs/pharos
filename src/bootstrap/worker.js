@@ -36,6 +36,6 @@ think.beforeStartServer(async() => {
   global.isInstalled = await install.checkInstalled();
 });
 
-think.message.on('install', install => {
+think.messenger.on('install', install => {
   global.isInstalled = install;
 });
