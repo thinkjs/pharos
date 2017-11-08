@@ -1,4 +1,3 @@
-const path = require('path');
 module.exports = class extends think.Logic {
   async __before() {
     const userInfo = await this.session('userInfo') || {};
@@ -21,9 +20,9 @@ module.exports = class extends think.Logic {
     if (id && (think.isString(id) || think.isNumber(id))) {
       return parseInt(id);
     }
-    const last = this.ctx.path.split('/').pop();
-    if (last !== this.resource && /\d+/.test(last)) {
-      return parseInt(last);
+    const last = decodeURIComponent(this.ctx.path.split('/').pop());
+    if (last !== this.resource && /^(\d+,?)*$/.test(last)) {
+      return last;
     }
     return undefined;
   }
