@@ -7,7 +7,13 @@ module.exports = class extends think.Controller {
     }
     // session
     const userInfo = await this.session('userInfo') || {};
-    this.assign({userInfo: JSON.stringify(userInfo, null, '\t')});
+
+    const optModel = this.model('options');
+    const options = await optModel.getOptions();
+    this.assign({
+      userInfo: JSON.stringify(userInfo, null, '\t'),
+      options: JSON.stringify(options, null, '\t')
+    });
   }
 
   async __call() {
