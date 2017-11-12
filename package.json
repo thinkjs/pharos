@@ -1,6 +1,6 @@
 {
-  "name": "thinkjs-application",
-  "description": "application created by thinkjs",
+  "name": "pharos",
+  "description": "Web monitor system base on Performance API",
   "version": "1.0.0",
   "scripts": {
     "start": "node development.js",
