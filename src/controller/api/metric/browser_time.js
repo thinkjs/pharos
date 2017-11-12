@@ -92,18 +92,15 @@ module.exports = class extends Base {
     const startTime = Date.now();
     const createTime = think.datetime(Date.now(), 'YYYY-MM-DD HH:mm:00');
     think.logger.info('crontab', 'browser_time', createTime);
-    const arr = this.map(
-      await think.messenger.map('browser_time'),
-      ['site_id', 'site_page_id', 'perf', 'browser', 'version'],
-      item => {
-        item.create_time = createTime;
-      }
-    );
 
+    const gatherData = await think.messenger.map('browser_time');
+    const gatherKeys = ['site_id', 'site_page_id', 'perf', 'browser', 'version'];
+    const arr = this.map(gatherData, gatherKeys, item => { item.create_time = createTime });
     if (think.isEmpty(arr)) {
       return think.logger.warn('browser_time is empty');
     }
-    await this.modelInstance.addMany(arr);
+    await this.addData(arr, ['create_time', ...gatherKeys]);
+
     think.logger.info(`browser_time crontab time: ${Date.now() - startTime}ms`);
     return this.success();
   }
