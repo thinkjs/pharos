@@ -9,7 +9,10 @@ module.exports = class extends BaseRest {
     const name = `pharos_${think.uuid()}`;
     await this.cache(name, text, {timeout: TEN_MINS});
     this.cookie('captcha', name, {maxAge: TEN_MINS});
-    return this.success(data);
+
+    this.ctx.type = 'image/svg+xml';
+    this.ctx.body = data;
+    return true;
   }
 
   async postAction() {
