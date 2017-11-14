@@ -14,7 +14,7 @@ export default {
     },
     // 刷新验证码,黑科技么?
     reloadCode(state, { payload }) {
-      if (payload && payload.img) {
+      if ((payload && payload.img)) {
         payload.img.src = `${config.baseURL}api/token?d=${Date.now()}`;
       }
       return { ...state, ...payload }
@@ -33,6 +33,8 @@ export default {
         } else {
           yield put(routerRedux.push('/'))
         }
+      }else{
+        yield put({type: 'reloadCode', payload: {img: payload.img}});
       }
     },
     *register({ payload = {} }, { call, put }) {

@@ -68,6 +68,7 @@ export default {
       if (ret) {
         localStorage.removeItem('USER');
         yield put(routerRedux.push('/login'))
+        yield put({type:'login/reload',payload:{refreshToken:Date.now()}});
       }
     },
     *changeSite({ payload }, { call, put, select }) {
