@@ -48,7 +48,7 @@ const menus = [
             url:'/perf/specific/browser'
           },
           // {
-          //   name:'按地区',
+          //   name:'按地域',
           //   url:'/perf/specific/region'
           // },
         ]

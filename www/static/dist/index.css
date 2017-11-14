@@ -475,6 +475,10 @@ textarea {
   line-height: inherit;
   color: inherit;
 }
+input[type="text"],
+textarea {
+  -webkit-appearance: none;
+}
 ul,
 ol {
   list-style: none;
@@ -3164,6 +3168,7 @@ samp {
   line-height: 64px;
 }
 .ant-layout-footer {
+  background: #ececec;
   padding: 24px 50px;
   color: rgba(0, 0, 0, 0.65);
   font-size: 12px;
@@ -3184,6 +3189,8 @@ samp {
 }
 .ant-layout-sider-children {
   height: 100%;
+  padding-top: 0.1px;
+  margin-top: -0.1px;
 }
 .ant-layout-sider-has-trigger {
   padding-bottom: 48px;
@@ -4457,6 +4464,8 @@ samp {
   white-space: nowrap;
   cursor: pointer;
   overflow: hidden;
+  -o-text-overflow: ellipsis;
+     text-overflow: ellipsis;
   -webkit-transition: background 0.3s ease;
   -o-transition: background 0.3s ease;
   transition: background 0.3s ease;
@@ -5048,7 +5057,7 @@ textarea.ant-input {
 .ant-input-group.ant-input-group-compact > * {
   border-radius: 0;
   border-right-width: 0;
-  vertical-align: middle;
+  vertical-align: top;
   float: none;
   display: inline-block;
 }
@@ -6485,7 +6494,7 @@ input[type="checkbox"].disabled {
   color: rgba(0, 0, 0, 0.65);
   vertical-align: top;
 }
-.ant-form-item > .ant-form-item,
+.ant-form-item > .ant-form-item:last-child,
 .ant-form-item :not(.ant-form) > .ant-form-item {
   margin-bottom: -24px;
 }
@@ -6566,6 +6575,9 @@ form .has-feedback .ant-cascader-picker-arrow {
   margin-right: 21px;
 }
 form .has-feedback .ant-cascader-picker-clear {
+  right: 28px;
+}
+form .has-feedback .ant-input-search .ant-input-suffix {
   right: 28px;
 }
 form .has-feedback .ant-calendar-picker-icon,
@@ -6651,6 +6663,7 @@ form .ant-input-group-addon .ant-cascader-picker:only-child {
 .ant-col-24.ant-form-item-label,
 .ant-col-xl-24.ant-form-item-label {
   padding: 0 0 8px;
+  margin: 0;
   display: block;
   text-align: left;
   line-height: 1.5;
@@ -6663,6 +6676,7 @@ form .ant-input-group-addon .ant-cascader-picker:only-child {
 @media (max-width: 767px) {
   .ant-col-xs-24.ant-form-item-label {
     padding: 0 0 8px;
+    margin: 0;
     display: block;
     text-align: left;
     line-height: 1.5;
@@ -6674,6 +6688,7 @@ form .ant-input-group-addon .ant-cascader-picker:only-child {
 @media (max-width: 991px) {
   .ant-col-sm-24.ant-form-item-label {
     padding: 0 0 8px;
+    margin: 0;
     display: block;
     text-align: left;
     line-height: 1.5;
@@ -6685,6 +6700,7 @@ form .ant-input-group-addon .ant-cascader-picker:only-child {
 @media (max-width: 1199px) {
   .ant-col-md-24.ant-form-item-label {
     padding: 0 0 8px;
+    margin: 0;
     display: block;
     text-align: left;
     line-height: 1.5;
@@ -6696,6 +6712,7 @@ form .ant-input-group-addon .ant-cascader-picker:only-child {
 @media (max-width: 1599px) {
   .ant-col-lg-24.ant-form-item-label {
     padding: 0 0 8px;
+    margin: 0;
     display: block;
     text-align: left;
     line-height: 1.5;
@@ -6836,6 +6853,12 @@ form .ant-input-group-addon .ant-cascader-picker:only-child {
 .has-warning .ant-time-picker-input:not([disabled]):hover {
   border-color: #ffbf00;
 }
+.has-warning .ant-cascader-picker:focus .ant-cascader-input {
+  border-color: #ffce3d;
+  outline: 0;
+  -webkit-box-shadow: 0 0 0 2px rgba(255, 191, 0, 0.2);
+          box-shadow: 0 0 0 2px rgba(255, 191, 0, 0.2);
+}
 .has-error .ant-form-explain,
 .has-error .ant-form-split {
   color: #f04134;
@@ -6919,6 +6942,12 @@ form .ant-input-group-addon .ant-cascader-picker:only-child {
 }
 .has-error .ant-mention-wrapper.ant-mention-active:not([disabled]) .ant-mention-editor,
 .has-error .ant-mention-wrapper .ant-mention-editor:not([disabled]):focus {
+  border-color: #f46e65;
+  outline: 0;
+  -webkit-box-shadow: 0 0 0 2px rgba(240, 65, 52, 0.2);
+          box-shadow: 0 0 0 2px rgba(240, 65, 52, 0.2);
+}
+.has-error .ant-cascader-picker:focus .ant-cascader-input {
   border-color: #f46e65;
   outline: 0;
   -webkit-box-shadow: 0 0 0 2px rgba(240, 65, 52, 0.2);
@@ -10139,7 +10168,6 @@ form .ant-input-group-addon .ant-cascader-picker:only-child {
   filter: blur(0.5px);
   /* autoprefixer: off */
   filter: progid\:DXImageTransform\.Microsoft\.Blur(PixelRadius\=1, MakeShadow\=false);
-  /* autoprefixer: on */
   -webkit-transform: translateZ(0);
 }
 .ant-spin-blur:after {
@@ -10417,6 +10445,10 @@ form .ant-input-group-addon .ant-cascader-picker:only-child {
   text-align: center;
   min-width: 62px;
   width: 62px;
+}
+.ant-table-thead > tr > th.ant-table-selection-column .ant-radio-wrapper,
+.ant-table-tbody > tr > td.ant-table-selection-column .ant-radio-wrapper {
+  margin-right: 0;
 }
 .ant-table-expand-icon-th,
 .ant-table-row-expand-icon-cell {
@@ -11322,6 +11354,13 @@ span.ant-radio + * {
 }
 .ant-checkbox-group-item {
   display: inline-block;
+  margin-right: 8px;
+}
+.ant-checkbox-group-item:last-child {
+  margin-right: 0;
+}
+.ant-checkbox-group-item + .ant-checkbox-group-item {
+  margin-left: 0;
 }
 @media \0screen {
   .ant-checkbox-checked .ant-checkbox-inner:before,
@@ -12039,7 +12078,7 @@ textarea.ant-pagination-options-quick-jumper input {
   left: 50%;
   margin: -160px 0 0 -160px;
   width: 320px;
-  height: 320px;
+  height: 360px;
   padding: 36px;
   -webkit-box-shadow: 0 0 100px rgba(0, 0, 0, 0.08);
           box-shadow: 0 0 100px rgba(0, 0, 0, 0.08);

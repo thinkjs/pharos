@@ -20,4 +20,10 @@ export default {
       data: params,
     })
   },
+  queryByRegion:(params = {})=> {
+    return request({
+      url: api.queryByRegion,
+      data: params,
+    })
+  },
 }
