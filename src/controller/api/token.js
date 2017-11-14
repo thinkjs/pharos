@@ -1,5 +1,17 @@
+const SVGCaptcha = require('think-svg-captcha');
 const BaseRest = require('../rest.js');
 module.exports = class extends BaseRest {
+  async getAction() {
+    const captcha = new SVGCaptcha();
+    const {data, text} = captcha.create();
+
+    const TEN_MINS = 10 * 60 * 1000;
+    const name = `pharos_${think.uuid()}`;
+    await this.cache(name, text, {timeout: TEN_MINS});
+    this.cookie('captcha', name, {maxAge: TEN_MINS});
+    return this.success(data);
+  }
+
   async postAction() {
     // 校验帐号和密码
     const {credential, password} = this.post();
