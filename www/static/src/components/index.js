@@ -3,7 +3,9 @@ import Page from './Page';
 import FilterWrapper from './FilterWrapper';
 import SiteSelector from './SiteSelector';
 import helper from './helper';
-import HighCharts from './HighCharts'
+import HighCharts from './HighCharts';
+import HighChartsMap from './HighChartsMap'
+
 export {
   Layout,
   Page,
@@ -11,4 +13,5 @@ export {
   SiteSelector,
   HighCharts,
   helper,
+  HighChartsMap,
 }

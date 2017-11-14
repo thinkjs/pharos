@@ -43,7 +43,8 @@ module.exports = {
     perf: {
       overview:'/api/metric/consume_time',
       queryByOs:'/api/metric/os_time',
-      queryByBrowser:'/api/metric/browser_time'
+      queryByBrowser:'/api/metric/browser_time',
+      queryByRegion:'/api/metric/region_time',
     }
   },
   ls_key:{

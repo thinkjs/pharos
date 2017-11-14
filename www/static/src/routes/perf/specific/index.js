@@ -1,6 +1,6 @@
 import React from 'react';
 import {connect} from 'dva';
-import {Page,helper,HighCharts} from 'components';
+import {Page,helper,HighCharts,HighChartsMap} from 'components';
 import Filter from './filter';
 import List from './list';
 import {Modal} from 'antd';
@@ -42,9 +42,20 @@ function Whatever({dispatch, perf, location, loading}) {
 
   return (
     <Page>
-      <Filter {...filterProps} />
-      <HighCharts {...chartProps}/>
+      {
+        /* <Filter {...filterProps} />*/
+      }
+      
+      {
+        pageConfig.chartType === 'map' ?
+        <HighChartsMap {...chartProps}/>
+        :<HighCharts {...chartProps}/>
+      }
+      {
+        /*
       <List {...listProps} />
+        */
+      }
     </Page>
   );
 }

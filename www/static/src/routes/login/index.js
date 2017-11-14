@@ -34,6 +34,15 @@ const Login = ({
     })
   };
 
+  function handleRefresh(){
+    dispatch({
+      type:'login/reloadCode',
+      payload:{
+        img
+      }
+    })
+  }
+
   return (
     <div className={styles.form}>
       <div className={styles.logo}>
@@ -60,6 +69,21 @@ const Login = ({
               },
             ],
           })(<Input size="large" type="password" onPressEnter={handleOk} placeholder="密码" />)}
+        </FormItem>
+        <FormItem>
+          {getFieldDecorator('captcha', {
+            rules: [
+              {
+                required: true,
+                message:'验证码不能为空'                
+              },
+            ],
+          })(
+            <div>
+              <Input className={styles.codeText} size="large" type="text" onPressEnter={handleOk} placeholder="验证码" />
+              <img className={styles.codeImg} ref={c => (img = c)} src={`${config.baseURL}api/token/get`} onClick={handleRefresh} />
+            </div>
+          )}
         </FormItem>
         <Row>
           <Button type="primary" size="large" onClick={handleOk} loading={loginLoading}>

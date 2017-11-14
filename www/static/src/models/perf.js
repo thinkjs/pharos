@@ -45,6 +45,12 @@ const PAGE_CONFIG = {
     service:'queryByBrowser',
     chartSubTitle:'按浏览器',
     chartType:'column'
+  },
+  region:{
+    type:'region',
+    service:'queryByRegion',
+    chartSubTitle:'按地域',
+    chartType:'map'
   }
 }
 export default {
@@ -106,8 +112,8 @@ export default {
       //   });
       // }  
 
-      //  payload.end_time = moment().format('YYYY-MM-DD'),//最近7天
-      //  payload.start_time = moment().subtract(7, 'days').format('YYYY-MM-DD')
+      payload.end_time = '2017-11-11'
+      payload.start_time = '2017-10-01'
       const pageConfig = PAGE_CONFIG[payload.type];
       if(!pageConfig){
         // 概览页直接返回
@@ -125,9 +131,11 @@ export default {
           key:'name'
         }
       ];
-      if (payload.type) {
+      if(payload.type === 'region'){
+        data = rawData;
+      }else{
         const { categories, series } = rawData;
-        data = series.map((item, index) => {
+        data = (series || []).map((item, index) => {
           let s = {};
           categories.forEach((c, i) => {
             s[`${i}`] = item.data[i];
