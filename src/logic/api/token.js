@@ -1,5 +1,14 @@
 module.exports = class extends think.Logic {
   /**
+   * @api {GET} /token  获取验证码
+   * @apiGroup  User
+   * @apiVersion  0.0.1
+   */
+  getAction() {
+
+  }
+
+  /**
    * @api {POST} /token 用户登录
    * @apiGroup User
    * @apiVersion 0.0.1
