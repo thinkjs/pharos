@@ -29,6 +29,7 @@ module.exports = class extends think.Logic {
     }
 
     const captchaAns = await this.cache(captchaName);
+    await this.cache(captchaName, null);
     if (!captchaAns || captchaText.toLowerCase() !== captchaAns.toLowerCase()) {
       return this.fail('CAPTCHA_ERROR');
     }
