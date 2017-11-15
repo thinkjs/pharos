@@ -2,7 +2,9 @@ const SVGCaptcha = require('think-svg-captcha');
 const BaseRest = require('../rest.js');
 module.exports = class extends BaseRest {
   async getAction() {
-    const captcha = new SVGCaptcha();
+    const captcha = new SVGCaptcha({
+      fontSize: 62
+    });
     const {data, text} = captcha.create();
 
     const TEN_MINS = 10 * 60 * 1000;
