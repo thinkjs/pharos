@@ -81,7 +81,7 @@ const Login = ({
           })(
             <div>
               <Input className={styles.codeText} size="large" type="text" onPressEnter={handleOk} placeholder="验证码" />
-              <img className={styles.codeImg} ref={c => (img = c)} src={`${config.baseURL}api/token/get?v=${refreshToken}`} onClick={handleRefresh} />
+              <img className={styles.codeImg} ref={c => (img = c)} src={`${config.baseURL}api/token?v=${refreshToken}`} onClick={handleRefresh} />
             </div>
           )}
         </FormItem>
