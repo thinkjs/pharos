@@ -46,19 +46,21 @@ export default {
   },
   effects: {
     *init({ payload = {} }, { call, select, put }) {
-      const sites = yield call(site.query, payload);
-      if(!sites){
-        return;
+      if(window.USER.id){
+        const sites = yield call(site.query, payload);
+        if(!sites){
+          return;
+        }
+        let currentSite = localStorage.getItem(config.ls_key.site);
+        if (currentSite) {
+          currentSite = JSON.parse(currentSite);
+        } else {
+          currentSite = sites[0];
+          localStorage.setItem(config.ls_key.site, JSON.stringify(currentSite));
+        }
+        const topMenu = getSelectKey();
+        yield put({ type: 'save', payload: { sites, currentSite,topMenu,leftMenus:topMenu.children } })
       }
-      let currentSite = localStorage.getItem(config.ls_key.site);
-      if (currentSite) {
-        currentSite = JSON.parse(currentSite);
-      } else {
-        currentSite = sites[0];
-        localStorage.setItem(config.ls_key.site, JSON.stringify(currentSite));
-      }
-      const topMenu = getSelectKey();
-      yield put({ type: 'save', payload: { sites, currentSite,topMenu,leftMenus:topMenu.children } })
     },
     *redirect({ payload = {} }, { put }) {
       yield put(routerRedux.push(payload))

@@ -52,7 +52,12 @@ export default function request (options) {
     // }
 
     if(data.errno != 0) {
-      message.error(data.errmsg);
+      const errmsg = data.errmsg;
+      if (typeof errmsg === 'string' || errmsg instanceof String){
+        message.error(errmsg);
+      } else if( (typeof errmsg === "object") && (errmsg !== null) ){
+        message.error(errmsg[Object.keys(errmsg)[0]]);
+      }
       return false;
     }
     data = data.data;
