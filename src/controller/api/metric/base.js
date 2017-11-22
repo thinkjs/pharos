@@ -6,14 +6,14 @@ module.exports = class extends BaseRest {
       if (keys.length) {
         for (const i in obj) {
           info.push([keys[0], i]);
-          mapReduce(obj[i], keys.slice(1), info, fn);
+          mapReduce(obj[i], keys.slice(1), info);
         }
         return;
       }
 
       const keyObj = {};
       const key = info.map(([k, v]) => {
-        keyObj[k] = [v];
+        keyObj[k] = v;
         return v;
       }).join('/');
 
@@ -27,7 +27,7 @@ module.exports = class extends BaseRest {
     }
 
     for (let i = 0; i < arr.length; i++) {
-      mapReduce(arr[i], keys, {});
+      mapReduce(arr[i], keys, []);
     }
 
     const result = [];
