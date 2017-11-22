@@ -71,6 +71,9 @@ export default {
     *init({ payload = {} }, { call, select, put }) {
       const routing = yield select(state => state.routing.locationBeforeTransitions);
       const app = yield select(state => state.app);
+      if(!app.currentSite){
+        return
+      }
       const { pathname, query } = routing;
       let param = {
         ...query,
