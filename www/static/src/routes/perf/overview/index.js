@@ -21,7 +21,7 @@ function Whatever({dispatch, perf, location, loading}) {
   };
 
   const listProps = {
-    loading:loading.effects['perf/query'],
+    loading:loading.effects['perf/query'] || false,
     onPageChange: (page)=> {
       helper.queryByUrl(dispatch, location, {
         pageNo: page.current,

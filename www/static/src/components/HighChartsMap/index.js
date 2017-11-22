@@ -1,6 +1,6 @@
 import React from 'react';
-import ReactHighCharts from 'react-highcharts';
-import ReactHighChartsMap from 'react-highcharts/ReactHighmaps';
+// import ReactHighCharts from 'react-highcharts';
+// import ReactHighChartsMap from 'react-highcharts/ReactHighmaps';
 const maps1 = require('./ep');
 const maps = require('./cn-all-sar');
 var data = [
@@ -124,7 +124,8 @@ const config = {
 
 const HighChartsMap = ({ data = {}, ...props }) => {
   return (
-    <ReactHighChartsMap config={config} />
+    // <ReactHighChartsMap config={config} />
+    <div></div>
   )
 }
 
