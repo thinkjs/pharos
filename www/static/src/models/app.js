@@ -52,11 +52,13 @@ export default {
           return;
         }
         let currentSite = localStorage.getItem(config.ls_key.site);
-        if (currentSite) {
+        if (currentSite && currentSite !== 'undefined') {
           currentSite = JSON.parse(currentSite);
         } else {
           currentSite = sites[0];
-          localStorage.setItem(config.ls_key.site, JSON.stringify(currentSite));
+          if(currentSite){
+            localStorage.setItem(config.ls_key.site, JSON.stringify(currentSite));            
+          }
         }
         const topMenu = getSelectKey();
         yield put({ type: 'save', payload: { sites, currentSite,topMenu,leftMenus:topMenu.children } })

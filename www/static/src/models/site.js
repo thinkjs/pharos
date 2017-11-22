@@ -50,12 +50,15 @@ export default {
       if (ret) {
         yield put({ type: 'save', payload: { addModalVisible: false, codeModalVisible: !payload.id, current: { id: ret.id, ...payload } } });
         yield put({ type: 'query' });
+        yield put({ type: 'app/init' });
+        
       }
     },
     *delete({ payload = {} }, { call, put }) {
       let ret = yield call(site.delete, payload);
       if (ret) {
         yield put({ type: 'query' });
+        yield put({ type: 'app/init' });
       }
     },
     *queryField({ payload = {} }, { call, put, select }) {
