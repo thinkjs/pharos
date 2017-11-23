@@ -42,20 +42,13 @@ function Whatever({dispatch, perf, location, loading}) {
 
   return (
     <Page>
-      {
-        /* <Filter {...filterProps} />*/
-      }
-      
+      <Filter {...filterProps} />
       {
         pageConfig.chartType === 'map' ?
         <HighChartsMap {...chartProps}/>
         :<HighCharts {...chartProps}/>
       }
-      {
-        /*
       <List {...listProps} />
-        */
-      }
     </Page>
   );
 }
