@@ -1,4 +1,4 @@
-const Base = require('../base');
+const Base = require('./base');
 module.exports = class extends Base {
   constructor(...args) {
     super(...args);

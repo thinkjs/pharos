@@ -1,10 +1,10 @@
-const Base = require('../base');
+const Base = require('./base');
 module.exports = class extends Base {
   /**
    * @api {GET} /site 获取网站列表
    * @apiGroup Site
    * @apiVersion  0.0.1
-   * 
+   *
    * @apiParam  {String}  page  页数
    * @apiParam  {String}  pagesize  分页大小
    */
@@ -29,10 +29,10 @@ module.exports = class extends Base {
    * @api {POST} /site 添加网站
    * @apiGroup Site
    * @apiVersion 0.0.1
-   * 
+   *
    * @apiParam  {String}  url  网站地址
    * @apiParam  {String}  name  网站名称
-   */  
+   */
   postAction() {
     this.rules = {
       url: {
@@ -59,9 +59,9 @@ module.exports = class extends Base {
    * @api {PUT} /site/:id 修改网站信息
    * @apiGroup Site
    * @apiVersion 0.0.1
-   * 
+   *
    * @apiParam  {String}  name  网站名称
-   */  
+   */
   putAction() {
     this.rules = {
       name: {
@@ -73,7 +73,7 @@ module.exports = class extends Base {
   /**
    * @api {DELETE} /site/:id  删除网站
    * @apiGroup Site
-   * @apiVersion  0.0.1 
+   * @apiVersion  0.0.1
    */
   deleteAction() {}
 };
