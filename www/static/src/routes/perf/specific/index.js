@@ -48,11 +48,7 @@ function Whatever({dispatch, perf, location, loading}) {
         <HighChartsMap {...chartProps}/>
         :<HighCharts {...chartProps}/>
       }
-      {
-        /*
       <List {...listProps} />
-        */
-      }
     </Page>
   );
 }
