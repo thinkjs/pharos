@@ -115,8 +115,8 @@ export default {
       //   });
       // }  
 
-      payload.end_time = '2017-11-11'
-      payload.start_time = '2017-10-01'
+      // payload.end_time = '2017-11-11'
+      // payload.start_time = '2017-10-01'
       const pageConfig = PAGE_CONFIG[payload.type];
       if(!pageConfig){
         // 概览页直接返回
