@@ -89,8 +89,12 @@ const Login = ({
           <Button type="primary" size="large" onClick={handleOk} loading={loginLoading}>
             登 录
           </Button>
+          {/* <Button size="large" onClick={handleOk} loading={loginLoading}>
+            域账号登录
+          </Button> */}
           <p>
-            <a onClick={goRegister}>没有账号？现在注册</a>
+            <a href="/api/token/intranet">域账号登录</a><br/>
+            <a onClick={goRegister}>没有账号？现在注册</a>            
           </p>
         </Row>
       </form>
