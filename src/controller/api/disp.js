@@ -86,6 +86,10 @@ module.exports = class extends BaseRest {
       }
 
       for (const k in data) {
+        if (data[k] < 0) {
+          continue;
+        }
+
         arr.forEach(fn => fn(data[k], k));
       }
     };
