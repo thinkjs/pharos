@@ -13,8 +13,8 @@ module.exports = class extends Base {
   }
 
   async postAction() {
-    const data = this.post();
-    const result = await this.modelInstance.updateOptions(data);
+    const {site_id, ...options} = this.post();
+    const result = await this.modelInstance.updateOptions(options, null, site_id);
     this.success(result);
   }
 };
