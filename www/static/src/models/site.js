@@ -23,6 +23,8 @@ export default {
           dispatch({ type: 'queryField', payload: location.query });
         } else if (location.pathname === '/site/user'){
           dispatch({ type: 'queryUser', payload: location.query });
+        } else if (location.pathname === '/site/setting'){
+          dispatch({ type: 'queryOptions', payload: location.query });          
         }else {
           dispatch({ type: 'clear' });
         }
@@ -125,6 +127,31 @@ export default {
       let ret = yield call(user.query,payload);
       if (ret) {
         yield put({ type: 'save', payload: { userList:payload.keyword && ret.data } })
+      }
+    },
+    *queryOptions({ payload = {} }, { call, put, select }) {
+      const currentSite = yield select(state => state.app.currentSite);
+      payload.site_id = currentSite.id;
+      let ret = yield call(site.getOptions, payload);
+      try{
+        ret = JSON.parse(ret.name);
+      }catch(e){
+        ret = {}
+      }
+      if (ret) {
+        yield put({ type: 'save', payload: { optionsData: ret } })
+      }
+    },
+    *options({ payload = {} }, { call, put, select }) {
+      const currentSite = yield select(state => state.app.currentSite);
+      // payload.site_id = currentSite.id;
+      const data = {
+        site_id:currentSite.id,
+        name:JSON.stringify(payload)
+      }
+      let ret = yield call(site.options, data);
+      if (ret) {
+        message.success('设置成功');
       }
     },
   },
