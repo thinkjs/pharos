@@ -69,6 +69,11 @@ const menus = [
         name:'用户管理',
         icon:'user',
         url:'/site/user'
+      },
+      {
+        name:'项目配置',
+        icon:'calculator',
+        url:'/site/setting'
       }
     ]
   },
