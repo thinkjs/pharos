@@ -2,7 +2,7 @@ import { perf, site } from 'services';
 import { routerRedux } from 'dva/router'
 import moment from 'moment';
 import pathToRegexp from 'path-to-regexp';
-import { constant } from 'utils';
+import { constant,config,helper } from 'utils';
 
 const initialState = {
   data: [],
@@ -70,14 +70,18 @@ export default {
   effects: {
     *init({ payload = {} }, { call, select, put }) {
       const routing = yield select(state => state.routing.locationBeforeTransitions);
-      const app = yield select(state => state.app);
-      if(!app.currentSite){
+      // const app = yield select(state => state.app);
+      // if(!app.currentSite){
+      //   return
+      // }
+      const currentSite = helper.getDataFromLs(config.ls_key.site);
+      if(!currentSite){
         return
       }
       const { pathname, query } = routing;
       let param = {
         ...query,
-        site_id: app.currentSite.id,
+        site_id: currentSite.id,
         // end_time: moment().format('YYYY-MM-DD'),//最近7天
         // start_time: moment().subtract(7, 'days').format('YYYY-MM-DD')
       }
