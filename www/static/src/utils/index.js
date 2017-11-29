@@ -5,6 +5,7 @@ import classnames from 'classnames'
 import { color } from './theme'
 import lodash from 'lodash'
 import constant from './constant'
+import helper from './helper'
 // 连字符转驼峰
 String.prototype.hyphenToHump = function () {
   return this.replace(/-(\w)/g, (...args) => {
@@ -109,4 +110,5 @@ module.exports = {
   queryArray,
   arrayToTree,
   constant,
+  helper
 }

@@ -85,4 +85,17 @@ export default {
       method:'DELETE'
     })
   },
+  options: (params = {})=> {
+    return request({
+      url: api.options,
+      data: params,
+      method:'POST'
+    })
+  },
+  getOptions: (params = {})=> {
+    return request({
+      url: api.options,
+      data: params
+    })
+  },
 }
