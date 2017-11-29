@@ -183,7 +183,7 @@ DROP TABLE IF EXISTS `ph_user`;
 CREATE TABLE `ph_user` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `email` varchar(255) NOT NULL DEFAULT '',
-  `name` varchar(255) NOT NULL DEFAULT '',
+  `name` varchar(191) NOT NULL DEFAULT '',
   `display_name` varchar(255) NOT NULL DEFAULT '',
   `password` varchar(255) NOT NULL DEFAULT '',
   `status` int(11) NOT NULL DEFAULT '0',
@@ -192,8 +192,9 @@ CREATE TABLE `ph_user` (
   `last_login_time` datetime DEFAULT NULL,
   `last_login_ip` varchar(20) NOT NULL DEFAULT '',
   `user_agent` varchar(255) NOT NULL DEFAULT '',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `name` (`name`)
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=COMPRESSED KEY_BLOCK_SIZE=8;
 
 
 
