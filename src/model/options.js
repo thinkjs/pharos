@@ -3,7 +3,11 @@ module.exports = class extends think.Model {
     const ret = await this.where({site_id}).field('name, value').select();
     const opts = {};
     ret.forEach(({name, value}) => {
-      opts[name] = value;
+      try {
+        opts[name] = JSON.parse(value);
+      } catch (e) {
+        opts[name] = value;
+      }
     });
     return opts;
   }

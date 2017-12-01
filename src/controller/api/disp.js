@@ -78,7 +78,7 @@ module.exports = class extends BaseRest {
   }
 
   /** 对每个监控数据进行监控项行为的收集 */
-  gather(data) {
+  gather(data, {limit}) {
     const arr = [];
     return cb => {
       if (typeof cb === 'function') {
@@ -87,6 +87,10 @@ module.exports = class extends BaseRest {
 
       for (const k in data) {
         if (data[k] < 0) {
+          continue;
+        }
+
+        if (typeof limit === 'number' && data[k] > limit) {
           continue;
         }
 
@@ -134,10 +138,14 @@ module.exports = class extends BaseRest {
     const {site_id, info: performance} = this.get();
     const visit_url = this.visitUrl;
     const user_ua = this.userUA;
-    const gather = this.gather(performance);
+
+    const options = await this.model('options').getOptions(site_id);
+    const gather = this.gather(performance, options);
+
     const location = await this.userIP();
     const site_page_id = await this.sitePage(site_id, visit_url.url);
     const perfs = await this.getPerfs(site_id);
+
     gather((time, perf) => {
       const section = this.findsection(time);
       const consume_time = this.global(
