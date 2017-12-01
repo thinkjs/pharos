@@ -147,7 +147,8 @@ export default {
       // payload.site_id = currentSite.id;
       const data = {
         site_id:currentSite.id,
-        name:JSON.stringify(payload)
+        // name:JSON.stringify(payload)
+        payload
       }
       let ret = yield call(site.options, data);
       if (ret) {
