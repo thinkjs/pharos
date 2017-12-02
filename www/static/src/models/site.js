@@ -133,11 +133,11 @@ export default {
       const currentSite = yield select(state => state.app.currentSite);
       payload.site_id = currentSite.id;
       let ret = yield call(site.getOptions, payload);
-      try{
-        ret = JSON.parse(ret.name);
-      }catch(e){
-        ret = {}
-      }
+      // try{
+      //   ret = JSON.parse(ret.name);
+      // }catch(e){
+      //   ret = {}
+      // }
       if (ret) {
         yield put({ type: 'save', payload: { optionsData: ret } })
       }
@@ -145,12 +145,13 @@ export default {
     *options({ payload = {} }, { call, put, select }) {
       const currentSite = yield select(state => state.app.currentSite);
       // payload.site_id = currentSite.id;
-      const data = {
-        site_id:currentSite.id,
-        // name:JSON.stringify(payload)
-        payload
-      }
-      let ret = yield call(site.options, data);
+      // const data = {
+      //   site_id:currentSite.id,
+      //   // name:JSON.stringify(payload)
+      //   payload
+      // }
+      payload.site_id = currentSite.id;
+      let ret = yield call(site.options, payload);
       if (ret) {
         message.success('设置成功');
       }
