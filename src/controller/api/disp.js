@@ -61,20 +61,37 @@ module.exports = class extends BaseRest {
       properties = [properties];
     }
 
-    let data = global.PHAROS_DATA;
-    const lastProperty = properties.pop();
-    for (let i = 0; i < properties.length; i++) {
-      const property = properties[i];
-      if (!data.hasOwnProperty(property)) {
-        data[property] = {};
-      }
-      data = data[property];
+    const data = global.PHAROS_DATA;
+    const metric = properties.shift();
+    if (!data[metric]) {
+      data[metric] = {};
     }
 
-    if (!data.hasOwnProperty(lastProperty)) {
-      data[lastProperty] = value;
+    let index = '';
+    const metricData = {};
+    for (const [name, val] of properties) {
+      index = val + '/';
+      metricData[name] = val;
     }
-    return data[lastProperty];
+    index = index.slice(0, -1);
+    if (!data[metric][index]) {
+      data[metric][index] = Object.assign(value, metricData);
+    }
+    return data[metric][index];
+    // let data = global.PHAROS_DATA;
+    // const lastProperty = properties.pop();
+    // for (let i = 0; i < properties.length; i++) {
+    //   const property = properties[i];
+    //   if (!data.hasOwnProperty(property)) {
+    //     data[property] = {};
+    //   }
+    //   data = data[property];
+    // }
+
+    // if (!data.hasOwnProperty(lastProperty)) {
+    //   data[lastProperty] = value;
+    // }
+    // return data[lastProperty];
   }
 
   /** 对每个监控数据进行监控项行为的收集 */
@@ -151,10 +168,10 @@ module.exports = class extends BaseRest {
       const consume_time = this.global(
         [
           'consume_time',
-          site_id,
-          site_page_id,
-          perfs[perf],
-          section
+          ['site_id', site_id],
+          ['site_page_id', site_page_id],
+          ['perf', perfs[perf]],
+          ['section', section]
         ],
         {time: 0, count: 0}
       );
@@ -165,11 +182,11 @@ module.exports = class extends BaseRest {
       const browser_time = this.global(
         [
           'browser_time',
-          site_id,
-          site_page_id,
-          perfs[perf],
-          user_ua.browser_name,
-          user_ua.browser_version
+          ['site_id', site_id],
+          ['site_page_id', site_page_id],
+          ['perf', perfs[perf]],
+          ['browser', user_ua.browser_name],
+          ['version', user_ua.browser_version]
         ],
         {time: 0, count: 0}
       );
@@ -180,11 +197,11 @@ module.exports = class extends BaseRest {
       const os_time = this.global(
         [
           'os_time',
-          site_id,
-          site_page_id,
-          perfs[perf],
-          user_ua.os,
-          user_ua.os_version
+          ['site_id', site_id],
+          ['site_page_id', site_page_id],
+          ['perf', perfs[perf]],
+          ['os', user_ua.os],
+          ['version', user_ua.os_version]
         ],
         {time: 0, count: 0}
       );
@@ -195,12 +212,12 @@ module.exports = class extends BaseRest {
       const region_time = this.global(
         [
           'region_time',
-          site_id,
-          site_page_id,
-          perfs[perf],
-          location.country,
-          location.region,
-          location.city
+          ['site_id', site_id],
+          ['site_page_id', site_page_id],
+          ['perf', perfs[perf]],
+          ['country', location.country],
+          ['region', location.region],
+          ['city', location.city]
         ],
         {time: 0, count: 0}
       );
