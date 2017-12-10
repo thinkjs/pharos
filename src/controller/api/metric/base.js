@@ -75,18 +75,13 @@ module.exports = class extends BaseRest {
 
   async addData(data, whereKeys = []) {
     for (const i in data) {
-      const item = data[i];
-      const where = {};
-      for (const key of whereKeys) {
-        where[key] = item[key];
-      }
-
+      const {time, count, ...where} = data[i];
       const rows = await this.modelInstance.where(where).update({
-        time: `time + ${item.time}`,
-        count: `count + ${item.count}`
+        time: `time + ${time}`,
+        count: `count + ${count}`
       });
       if (!rows) {
-        await this.modelInstance.add(item);
+        await this.modelInstance.add(data[i]);
       }
     }
   }
