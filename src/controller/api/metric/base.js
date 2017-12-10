@@ -74,7 +74,6 @@ module.exports = class extends BaseRest {
   }
 
   async addData(data, whereKeys = []) {
-    const result = [];
     for (const i in data) {
       const item = data[i];
       const where = {};
@@ -82,17 +81,14 @@ module.exports = class extends BaseRest {
         where[key] = item[key];
       }
 
-      const store = await this.modelInstance.where(where).find();
-      if (think.isEmpty(store)) {
-        result.push(await this.modelInstance.add(item));
-        continue;
+      const rows = await this.modelInstance.where(where).update({
+        time: `time + ${item.time}`,
+        count: `count + ${item.count}`
+      });
+      if (!rows) {
+        await this.modelInstance.add(item);
       }
-
-      item.time += store.time;
-      item.count += store.count;
-      result.push(await this.modelInstance.where(where).update(item));
     }
-    return result;
   }
 
   async dataCollection(metric, indexs) {
