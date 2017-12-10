@@ -142,34 +142,11 @@ module.exports = class extends Base {
     return this.success({categories, series});
   }
 
-  async postAction() {
-    const startTime = Date.now();
-    const createTime = think.datetime(Date.now(), 'YYYY-MM-DD HH:mm:00');
-    think.logger.info('crontab', 'consume_time', createTime);
-
-    const gatherData = await think.messenger.map('consume_time');
-    const gatherKeys = ['site_id', 'site_page_id', 'perf', 'section'];
-    // const arr = this.map(gatherData, gatherKeys, item => { item.create_time = createTime });
-    const gatherMetric = {};
-    for (const data of gatherData) {
-      for (const item in data) {
-        if (!gatherMetric[item]) {
-          data[item].create_time = createTime;
-          gatherMetric[item] = data[item];
-        }
-
-        gatherMetric[item].time += data[item].time;
-        gatherMetric[item].count += data[item].count;
-      }
-    }
-
-    if (think.isEmpty(gatherMetric)) {
-      return think.logger.warn('consume_time is empty');
-    }
-    await this.addData(gatherMetric, ['create_time', ...gatherKeys]);
-
-    think.logger.info(`consume_time crontab time: ${Date.now() - startTime}ms`);
-    return this.success();
+  postAction() {
+    return this.dataCollection(
+      'consume_time',
+      ['site_id', 'site_page_id', 'perf', 'section']
+    );
   }
 
   generateDayCates(start_time, end_time) {

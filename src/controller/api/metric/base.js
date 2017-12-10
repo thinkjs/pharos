@@ -94,4 +94,34 @@ module.exports = class extends BaseRest {
     }
     return result;
   }
+
+  async dataCollection(metric, indexs) {
+    const startTime = Date.now();
+    const createTime = think.datetime(Date.now(), 'YYYY-MM-DD HH:mm:00');
+    think.logger.info('crontab', metric, createTime);
+
+    const gatherData = await think.messenger.map(metric);
+
+    const gatherMetric = {};
+    for (let i = 0; i < gatherData.length; i++) {
+      const data = gatherData[i];
+      for (const item in data) {
+        if (!gatherMetric[item]) {
+          data[item].create_time = createTime;
+          gatherMetric[item] = data[item];
+        }
+
+        gatherMetric[item].time += data[item].time;
+        gatherMetric[item].count += data[item].count;
+      }
+    }
+
+    if (think.isEmpty(gatherMetric)) {
+      return think.logger.warn(`${metric} is empty`);
+    }
+    await this.addData(gatherMetric, ['create_time', ...indexs]);
+
+    think.logger.info(`${metric} crontab time: ${Date.now() - startTime}ms`);
+    return this.success();
+  }
 };
