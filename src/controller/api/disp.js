@@ -69,7 +69,8 @@ module.exports = class extends BaseRest {
 
     const indexs = [];
     const metricData = {};
-    for (const [name, val] of properties) {
+    for (let i = 0; i < properties.length; i++) {
+      const [name, val] = properties[i];
       indexs.push(val);
       metricData[name] = val;
     }
@@ -140,14 +141,15 @@ module.exports = class extends BaseRest {
 
   async getAction() {
     const {site_id, info: performance} = this.get();
-    const visit_url = this.visitUrl;
+    // const visit_url = this.visitUrl;
     const user_ua = this.userUA;
 
     const options = await this.model('options').getOptions(site_id);
     const gather = this.gather(performance, options);
 
     const location = await this.userIP();
-    const site_page_id = await this.sitePage(site_id, visit_url.url);
+    const site_page_id = null;
+    // const site_page_id = await this.sitePage(site_id, visit_url.url);
     const perfs = await this.getPerfs(site_id);
 
     gather((time, perf) => {
