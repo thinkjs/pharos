@@ -74,6 +74,7 @@ module.exports = class extends BaseRest {
   }
 
   async addData(data, whereKeys = []) {
+    const startTime = Date.now();
     for (const i in data) {
       const {time, count, ...where} = data[i];
       const rows = await this.modelInstance.where(where).update({
@@ -84,6 +85,7 @@ module.exports = class extends BaseRest {
         await this.modelInstance.add(data[i]);
       }
     }
+    think.logger.debug(`add data costs ${Date.now() - startTime}ms`);
   }
 
   async dataCollection(metric, indexs) {
@@ -115,10 +117,11 @@ module.exports = class extends BaseRest {
     const handleDataTime = Date.now() - startTime - gatherDataTime;
     think.logger.debug(`${metric} handle data costs ${handleDataTime}ms`);
 
-    await this.addData(gatherMetric, ['create_time', ...indexs]);
-    const addDataTime = Date.now() - startTime - gatherDataTime - handleDataTime;
-    think.logger.debug(`${metric} add data costs ${addDataTime}ms`);
-
+    try {
+      await this.addData(gatherMetric, ['create_time', ...indexs]);
+    } catch (e) {
+      think.logger.error(e);
+    }
     think.logger.info(`${metric} crontab time: ${Date.now() - startTime}ms`);
     return this.success();
   }
