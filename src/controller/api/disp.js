@@ -67,31 +67,18 @@ module.exports = class extends BaseRest {
       data[metric] = {};
     }
 
-    let index = '';
+    const indexs = [];
     const metricData = {};
     for (const [name, val] of properties) {
-      index = val + '/';
+      indexs.push(val);
       metricData[name] = val;
     }
-    index = index.slice(0, -1);
+
+    const index = indexs.join('/');
     if (!data[metric][index]) {
       data[metric][index] = Object.assign(value, metricData);
     }
     return data[metric][index];
-    // let data = global.PHAROS_DATA;
-    // const lastProperty = properties.pop();
-    // for (let i = 0; i < properties.length; i++) {
-    //   const property = properties[i];
-    //   if (!data.hasOwnProperty(property)) {
-    //     data[property] = {};
-    //   }
-    //   data = data[property];
-    // }
-
-    // if (!data.hasOwnProperty(lastProperty)) {
-    //   data[lastProperty] = value;
-    // }
-    // return data[lastProperty];
   }
 
   /** 对每个监控数据进行监控项行为的收集 */
