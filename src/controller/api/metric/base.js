@@ -101,6 +101,8 @@ module.exports = class extends BaseRest {
     think.logger.info('crontab', metric, createTime);
 
     const gatherData = await think.messenger.map(metric);
+    const gatherDataTime = Date.now() - startTime;
+    think.logger.debug(`${metric} get gather data costs ${gatherDataTime}ms`);
 
     const gatherMetric = {};
     for (let i = 0; i < gatherData.length; i++) {
@@ -119,7 +121,12 @@ module.exports = class extends BaseRest {
     if (think.isEmpty(gatherMetric)) {
       return think.logger.warn(`${metric} is empty`);
     }
+    const handleDataTime = Date.now() - startTime - gatherDataTime;
+    think.logger.debug(`${metric} handle data costs ${handleDataTime}ms`);
+
     await this.addData(gatherMetric, ['create_time', ...indexs]);
+    const addDataTime = Date.now() - startTime - gatherDataTime - handleDataTime;
+    think.logger.debug(`${metric} add data costs ${addDataTime}ms`);
 
     think.logger.info(`${metric} crontab time: ${Date.now() - startTime}ms`);
     return this.success();

@@ -8,7 +8,7 @@ module.exports = [
   {
     handle: 'meta',
     options: {
-      logRequest: isDev,
+      logRequest: true,
       sendResponseTime: isDev
     }
   },
