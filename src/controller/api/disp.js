@@ -39,6 +39,7 @@ module.exports = class extends BaseRest {
 
   /** 根据 IP 获取位置信息 */
   async userIP() {
+    const startTime = Date.now();
     const [
       country,
       region,
@@ -47,6 +48,8 @@ module.exports = class extends BaseRest {
       .ipFind(this.ip)
       .catch(() => ['', '', '']);
 
+    const ipTime = Date.now() - startTime();
+    think.logger.debug(`ip parse costs ${ipTime}ms`);
     return {
       country,
       region,
