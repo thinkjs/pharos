@@ -143,17 +143,22 @@ module.exports = class extends BaseRest {
   }
 
   async getAction() {
+    this.ctx.type = 'gif';
+    this.ctx.res.end(Buffer.from(
+      'R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==',
+      'base64'
+    ));
+
     const startTime = Date.now();
     const {site_id, info: performance} = this.get();
-    // const visit_url = this.visitUrl;
+    const visit_url = this.visitUrl;
     const user_ua = this.userUA;
 
     const options = await this.model('options').getOptions(site_id);
     const gather = this.gather(performance, options);
 
     const location = await this.userIP();
-    const site_page_id = null;
-    // const site_page_id = await this.sitePage(site_id, visit_url.url);
+    const site_page_id = await this.sitePage(site_id, visit_url.url);
     const perfs = await this.getPerfs(site_id);
     const beforeGatherTime = Date.now() - startTime;
     think.logger.debug(`before gather costs ${beforeGatherTime}ms`);
@@ -210,9 +215,9 @@ module.exports = class extends BaseRest {
           ['site_id', site_id],
           ['site_page_id', site_page_id],
           ['perf', perfs[perf]],
-          ['country', location.country],
-          ['region', location.region],
-          ['city', location.city]
+          // ['country', location.country],
+          ['region', location.region]
+          // ['city', location.city]
         ],
         {time: 0, count: 0}
       );
@@ -223,11 +228,6 @@ module.exports = class extends BaseRest {
     const gatherTime = Date.now() - startTime - beforeGatherTime;
     think.logger.debug(`gather costs ${gatherTime}ms`);
 
-    this.ctx.type = 'gif';
-    this.ctx.body = Buffer.from(
-      'R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==',
-      'base64'
-    );
     return false;
   }
 };
