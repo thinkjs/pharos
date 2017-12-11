@@ -48,7 +48,7 @@ module.exports = class extends BaseRest {
       .ipFind(this.ip)
       .catch(() => ['', '', '']);
 
-    const ipTime = Date.now() - startTime();
+    const ipTime = Date.now() - startTime;
     think.logger.debug(`ip parse costs ${ipTime}ms`);
     return {
       country,
