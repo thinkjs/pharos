@@ -42,7 +42,8 @@ module.exports = class extends Base {
   postAction() {
     return this.dataCollection(
       'region_time',
-      ['site_id', 'site_page_id', 'perf', 'country', 'region', 'city']
+      ['site_id', 'site_page_id', 'perf', 'region']
+      // ['site_id', 'site_page_id', 'perf', 'country', 'region', 'city']
     );
   }
 };
