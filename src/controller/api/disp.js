@@ -228,10 +228,10 @@ module.exports = class extends BaseRest {
     this.gatherTask();
 
     this.ctx.type = 'gif';
-    this.ctx.body = (Buffer.from(
+    this.ctx.body = Buffer.from(
       'R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==',
       'base64'
-    ));
+    );
     return false;
   }
 };
