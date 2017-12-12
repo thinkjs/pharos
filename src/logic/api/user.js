@@ -2,9 +2,9 @@ const Base = require('./base');
 module.exports = class extends Base {
   async __before(...args) {
     if (this.isPost) {
-      const {register_off} = this.model('options').getOptions();
+      const {register_off} = await this.model('options').getOptions();
       if (register_off) {
-        return this.fail('REGISTRY_DENIED');
+        return this.fail('REGISTER_DENIED');
       }
 
       return true;
