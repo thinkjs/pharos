@@ -1,8 +1,13 @@
 const Base = require('./base');
 module.exports = class extends Base {
   async __before(...args) {
-    if (this.ctx.method === 'POST') {
-      return;
+    if (this.isPost) {
+      const {register_off} = this.model('options').getOptions();
+      if (register_off) {
+        return this.fail('REGISTRY_DENIED');
+      }
+
+      return true;
     }
     await Base.prototype.__before.call(this, ...args);
     this.isSuperAdmin = global.SUPER_ADMIN.is(this.userInfo.status);
@@ -11,7 +16,7 @@ module.exports = class extends Base {
    * @api {GET} /user 获取用户列表
    * @apiGroup User
    * @apiVersion  0.0.1
-   * 
+   *
    * @apiParam  {String}  keyword 搜索关键词
    * @apiParam  {String}  page  页数
    * @apiParam  {String}  pagesize  分页大小
@@ -25,7 +30,7 @@ module.exports = class extends Base {
 
     this.rules = {
       page: {
-        int: true,
+        int: true
         // default: 1
       },
       pagesize: {
@@ -38,7 +43,7 @@ module.exports = class extends Base {
    * @api {POST} /user 用户注册
    * @apiGroup User
    * @apiVersion 0.0.1
-   * 
+   *
    * @apiParam  {String}  name  用户 ID
    * @apiParam  {String}  display_name  用户昵称
    * @apiParam  {String}  email 用户邮箱
@@ -87,13 +92,13 @@ module.exports = class extends Base {
    * @api {PUT} /user/:id 更新用户信息
    * @apiGroup  User
    * @apiVersion  0.0.1
-   * 
+   *
    * @apiParam  {String}  display_name  用户昵称
    * @apiParam  {String}  password  用户密码
    * @apiParam  {String}  status  用户状态
    */
   putAction() {
-    // Suer Admin 
+    // Suer Admin
     // Modify info myself
     // Others have no permission
     if (!this.id) {
