@@ -73,19 +73,53 @@ module.exports = class extends BaseRest {
     return Math.round(time / count * fixed) / fixed;
   }
 
-  async addData(data, whereKeys = []) {
-    const startTime = Date.now();
-    for (const i in data) {
-      const {time, count, ...where} = data[i];
-      const rows = await this.modelInstance.where(where).update({
-        time: `time + ${time}`,
-        count: `count + ${count}`
-      });
-      if (!rows) {
-        await this.modelInstance.add(data[i]);
-      }
+  async addData(data, create_time, indexs = []) {
+    // 多机情况下查询是否已存在数据，并转成 indexs => value 的键值对
+    const store = await this.modelInstance
+      .where({create_time})
+      .select();
+
+    const storeData = {};
+    for (let i = 0; i < store.length; i++) {
+      const {id, time, count} = store[i];
+      const key = indexs.map(index => store[i][index]).join('/');
+      storeData[key] = {id, time, count};
     }
-    think.logger.debug(`add data costs ${Date.now() - startTime}ms`);
+
+    // 根据提取出来的数据情况对数据进行拆分，分为需要更新数据和新增数据
+    const updateData = [];
+    const addData = [];
+    for (const i in data) {
+      if (!storeData[i]) {
+        addData.push(data[i]);
+        continue;
+      }
+
+      const {time, count} = data[i];
+      storeData[i].time += time;
+      storeData[i].count += count;
+      updateData.push(storeData[i]);
+    }
+
+    if (!think.isEmpty(updateData)) {
+      await this.modelInstance.updateMany(updateData);
+    }
+    if (!think.isEmpty(addData)) {
+      await this.modelInstance.addMany(addData);
+    }
+
+    // const startTime = Date.now();
+    // for (const i in data) {
+    //   const {time, count, ...where} = data[i];
+    //   const rows = await this.modelInstance.where(where).update({
+    //     time: `time + ${time}`,
+    //     count: `count + ${count}`
+    //   });
+    //   if (!rows) {
+    //     await this.modelInstance.add(data[i]);
+    //   }
+    // }
+    // think.logger.debug(`add data costs ${Date.now() - startTime}ms`);
   }
 
   async dataCollection(metric, indexs) {
@@ -94,8 +128,8 @@ module.exports = class extends BaseRest {
     think.logger.info('crontab', metric, createTime);
 
     const gatherData = await think.messenger.map(metric);
-    const gatherDataTime = Date.now() - startTime;
-    think.logger.debug(`${metric} get gather data costs ${gatherDataTime}ms`);
+    // const gatherDataTime = Date.now() - startTime;
+    // think.logger.debug(`${metric} get gather data costs ${gatherDataTime}ms`);
 
     const gatherMetric = {};
     for (let i = 0; i < gatherData.length; i++) {
@@ -114,14 +148,11 @@ module.exports = class extends BaseRest {
     if (think.isEmpty(gatherMetric)) {
       return think.logger.warn(`${metric} is empty`);
     }
-    const handleDataTime = Date.now() - startTime - gatherDataTime;
-    think.logger.debug(`${metric} handle data costs ${handleDataTime}ms`);
+    // const handleDataTime = Date.now() - startTime - gatherDataTime;
+    // think.logger.debug(`${metric} handle data costs ${handleDataTime}ms`);
 
-    try {
-      await this.addData(gatherMetric, ['create_time', ...indexs]);
-    } catch (e) {
-      think.logger.error(e);
-    }
+    await this.addData(gatherMetric, createTime, indexs);
+
     think.logger.info(`${metric} crontab time: ${Date.now() - startTime}ms`);
     return this.success();
   }
