@@ -142,13 +142,7 @@ module.exports = class extends BaseRest {
     return sitePageId;
   }
 
-  async getAction() {
-    this.ctx.type = 'gif';
-    this.ctx.res.end(Buffer.from(
-      'R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==',
-      'base64'
-    ));
-
+  async gatherTask() {
     const startTime = Date.now();
     const {site_id, info: performance} = this.get();
     const visit_url = this.visitUrl;
@@ -227,7 +221,17 @@ module.exports = class extends BaseRest {
     gather();
     const gatherTime = Date.now() - startTime - beforeGatherTime;
     think.logger.debug(`gather costs ${gatherTime}ms`);
+  }
 
+  getAction() {
+    // 异步不等待让请求优先返回
+    this.gatherTask();
+
+    this.ctx.type = 'gif';
+    this.ctx.res.end(Buffer.from(
+      'R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==',
+      'base64'
+    ));
     return false;
   }
 };
