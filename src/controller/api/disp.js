@@ -228,7 +228,7 @@ module.exports = class extends BaseRest {
     this.gatherTask();
 
     this.ctx.type = 'gif';
-    this.ctx.res.end(Buffer.from(
+    this.ctx.body = (Buffer.from(
       'R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==',
       'base64'
     ));
