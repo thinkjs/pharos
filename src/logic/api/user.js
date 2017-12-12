@@ -72,7 +72,7 @@ module.exports = class extends Base {
       },
       status: {
         int: true,
-        default: 0
+        value: 0
       }
     };
   }

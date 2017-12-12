@@ -1,5 +1,13 @@
 module.exports = class extends think.Logic {
   async __before() {
+    if (!this.isCli && !this.isGet) {
+      const referrer = this.referrer(true);
+      const {site_url} = await this.model('options').getOptions();
+      if (!site_url || referrer.indexOf(site_url) !== 0) {
+        return this.fail();
+      }
+    }
+
     const userInfo = await this.session('userInfo') || {};
     if (think.isEmpty(userInfo)) {
       this.fail('USER_NOT_LOGIN');
