@@ -44,7 +44,7 @@ module.exports = class extends Base {
   getAction() {
     const ONE_DAY = 24 * 3600000;
     const ONE_MONTH = ONE_DAY * 30;
-    const INTERVAL = this.get('type') === 'day' ? ONE_MONTH : ONE_DAY;
+    const INTERVAL = this.get('type') === 'day' ? ONE_MONTH : 0;
 
     this.rules = {
       site_id: {
@@ -55,10 +55,10 @@ module.exports = class extends Base {
         int: true
       },
       start_time: {
-        default: think.datetime(Date.now(), 'YYYY-MM-DD')
+        default: think.datetime(Date.now() - INTERVAL, 'YYYY-MM-DD')
       },
       end_time: {
-        default: think.datetime(Date.now() + INTERVAL, 'YYYY-MM-DD')
+        default: think.datetime(Date.now() + ONE_DAY, 'YYYY-MM-DD')
       },
       type: {
         in: ['interval', 'hour', 'day']
