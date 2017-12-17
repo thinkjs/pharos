@@ -71,7 +71,7 @@ module.exports = class extends Base {
       const perfName = perfs[perf];
       if (!think.isArray(series[perfName])) {
         series[perfName] = Array.from(
-          {length: perfs.length},
+          {length: categories.length},
           () => ({time: 0, count: 0})
         );
       }
