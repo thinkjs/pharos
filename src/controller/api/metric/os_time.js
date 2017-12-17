@@ -62,12 +62,17 @@ module.exports = class extends Base {
     let series = {};
     const categories = [];
     for (let i = 0; i < data.length; i++) {
-      const {perf, os, time, count} = data[i];
-      if (!think.isNumber(categories[os])) {
-        categories.push(os);
-        categories[os] = categories.length - 1;
+      const {os} = data[i];
+      if (think.isNumber(categories[os])) {
+        continue;
       }
 
+      categories.push(os);
+      categories[os] = categories.length - 1;
+    }
+
+    for (let i = 0; i < data.length; i++) {
+      const {perf, os, time, count} = data[i];
       const perfName = perfs[perf];
       if (!think.isArray(series[perfName])) {
         series[perfName] = Array.from(
