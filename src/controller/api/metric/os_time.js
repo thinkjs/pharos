@@ -23,7 +23,7 @@ module.exports = class extends Base {
 
     const data = await this.modelInstance.where(where).select();
 
-    if (where.perf !== undefined) {
+    if (!think.isEmpty(where.perf)) {
       let series = {};
       let drillSeries = {};
       for (let i = 0; i < data.length; i++) {
@@ -63,13 +63,13 @@ module.exports = class extends Base {
     const categories = [];
     for (let i = 0; i < data.length; i++) {
       const {perf, os, time, count} = data[i];
-      if (!categories[os]) {
+      if (!think.isNumber(categories[os])) {
         categories.push(os);
         categories[os] = categories.length - 1;
       }
 
       const perfName = perfs[perf];
-      if (!Array.isArray(series[perfName])) {
+      if (!think.isArray(series[perfName])) {
         series[perfName] = Array.from(
           {length: perfs.length},
           () => ({time: 0, count: 0})
