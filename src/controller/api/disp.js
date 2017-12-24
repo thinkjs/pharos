@@ -9,7 +9,11 @@ module.exports = class extends BaseRest {
   get visitUrl() {
     const referrer = this.referer();
     if (!referrer) {
-      return this.fail('REFERRER_EMPTY');
+      return {
+        protocol: 'http:',
+        url: 'test'
+      };
+      // return this.fail('REFERRER_EMPTY');
     }
 
     const {protocol, host, pathname, query} = url.parse(referrer);
