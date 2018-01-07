@@ -9,11 +9,12 @@ module.exports = class extends think.Logic {
    * @apiParam  {Int}     site_id 网站ID
    */
   async getAction() {
-    const {site_id} = this.get();
-    const site = await this.model('site').where({id: site_id}).find();
-    if (think.isEmpty(site)) {
-      return this.fail('SITE_EMPTY');
-    }
+    // 忽略 site 检测
+    // const {site_id} = this.get();
+    // const site = await this.model('site').where({id: site_id}).find();
+    // if (think.isEmpty(site)) {
+    //   return this.fail('SITE_EMPTY');
+    // }
 
     this.rules = {
       screen: {
