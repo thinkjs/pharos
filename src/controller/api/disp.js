@@ -53,7 +53,7 @@ module.exports = class extends BaseRest {
       .catch(() => ['', '', '']);
 
     const ipTime = Date.now() - startTime;
-    think.logger.debug(`ip parse costs ${ipTime}ms`);
+    // think.logger.debug(`ip parse costs ${ipTime}ms`);
     return {
       country,
       region,
@@ -159,7 +159,7 @@ module.exports = class extends BaseRest {
     const site_page_id = await this.sitePage(site_id, visit_url.url);
     const perfs = await this.getPerfs(site_id);
     const beforeGatherTime = Date.now() - startTime;
-    think.logger.debug(`before gather costs ${beforeGatherTime}ms`);
+    // think.logger.debug(`before gather costs ${beforeGatherTime}ms`);
 
     gather((time, perf) => {
       const section = this.findsection(time);
@@ -224,7 +224,7 @@ module.exports = class extends BaseRest {
     });
     gather();
     const gatherTime = Date.now() - startTime - beforeGatherTime;
-    think.logger.debug(`gather costs ${gatherTime}ms`);
+    // think.logger.debug(`gather costs ${gatherTime}ms`);
   }
 
   getAction() {

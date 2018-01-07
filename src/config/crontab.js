@@ -21,7 +21,7 @@ const tasks = metrics.map(metric => ({
 
 tasks.push({
   type: 'all',
-  interval: 3 * 60 * 1000,
+  interval: 1 * 60 * 1000,
   handle() {
     const useage = {
       memoryUsage: process.memoryUsage(),
