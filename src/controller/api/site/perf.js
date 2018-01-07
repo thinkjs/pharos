@@ -15,7 +15,7 @@ module.exports = class extends Base {
     const {site_id} = this.get();
     const {name, description} = this.post();
     const result = await this.modelInstance
-      .where({name})
+      .where({name, site_id})
       .thenAdd({site_id, name, description});
     return this.success(result);
   }
