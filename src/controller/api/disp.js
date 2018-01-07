@@ -229,7 +229,7 @@ module.exports = class extends BaseRest {
 
   getAction() {
     // 异步不等待让请求优先返回
-    this.gatherTask();
+    setTimeout(() => this.gatherTask(), 50);
 
     this.ctx.type = 'gif';
     this.ctx.body = Buffer.from(
