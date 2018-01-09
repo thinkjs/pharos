@@ -1,4 +1,26 @@
 const Base = require('./base');
+
+const FIVE_MINS = 5 * 60 * 1000;
+const ONE_HOUR = FIVE_MINS * 12;
+const ONE_DAY = ONE_HOUR * 24;
+const BETWEEN = {
+  day: {
+    delta: ONE_DAY,
+    format: 'YYYY-MM-DD',
+    transform: 'YYYY-MM-DD 00:00:00'
+  },
+  hour: {
+    delta: ONE_HOUR,
+    format: 'MM-DD HH:00',
+    transform: 'YYYY-MM-DD HH:00:00'
+  },
+  mins: {
+    delta: FIVE_MINS,
+    format: 'MM-DD HH:mm',
+    transform: 'YYYY-MM-DD HH:mm:00'
+  }
+};
+
 module.exports = class extends Base {
   constructor(...args) {
     super(...args);
@@ -47,7 +69,7 @@ module.exports = class extends Base {
             return output;
           });
         break;
-      case 'hour':
+      case 'hour.interval':
         categories = [
           '0-1点',
           '1-2点',
@@ -102,19 +124,24 @@ module.exports = class extends Base {
           });
         break;
       case 'day':
-        categories = this.generateDayCates(start_time, end_time);
+      case 'hour':
+      case 'mins':
+        categories = this.generateCates(start_time, end_time, type);
         series = await this.groupWithPerf(
           site_id,
           data,
           perfData => {
             const result = {};
             for (let i = 0; i < perfData.length; i++) {
-              const day = think.datetime(new Date(perfData[i].create_time), 'YYYY-MM-DD');
-              if (!result[day]) {
-                result[day] = {time: 0, count: 0};
+              const date = think.datetime(
+                new Date(perfData[i].create_time),
+                BETWEEN[type].format
+              );
+              if (!result[date]) {
+                result[date] = {time: 0, count: 0};
               }
-              result[day].time += perfData[i].time;
-              result[day].count += perfData[i].count;
+              result[date].time += perfData[i].time;
+              result[date].count += perfData[i].count;
             }
 
             for (const day in result) {
@@ -149,15 +176,15 @@ module.exports = class extends Base {
     );
   }
 
-  generateDayCates(start_time, end_time) {
-    const startTime = new Date(think.datetime(new Date(start_time), 'YYYY-MM-DD 00:00:00')).getTime();
-    const endTime = new Date(think.datetime(new Date(end_time), 'YYYY-MM-DD 00:00:00')).getTime();
-    const ONE_DAY = 24 * 60 * 60 * 1000;
-    const days = [];
+  generateCates(start_time, end_time, type = 'day') {
+    const {delta, format, transform} = BETWEEN[type] || BETWEEN['day'];
+    const startTime = new Date(think.datetime(new Date(start_time), transform)).getTime();
+    const endTime = new Date(think.datetime(new Date(end_time), transform)).getTime();
 
-    for (let time = startTime; time < endTime; time += ONE_DAY) {
-      days.push(think.datetime(new Date(time), 'YYYY-MM-DD'));
+    const times = [];
+    for (let time = startTime; time < endTime; time += delta) {
+      times.push(think.datetime(new Date(time), format));
     }
-    return days;
+    return times;
   }
 };

@@ -21,7 +21,7 @@ module.exports = class extends Base {
    * @apiParam  {String}  end_time  终止时间
    */
   /**
-   * @api {GET} /metric/consume_time?type=hour  性能耗时按照小时分布
+   * @api {GET} /metric/consume_time?type=hour.interval  性能耗时按照小时分布
    * @apiGroup Performance
    * @apiVersion  0.0.1
    *
@@ -32,6 +32,26 @@ module.exports = class extends Base {
    */
   /**
    * @api {GET} /metric/consume_time?type=day 性能耗时按照日期分布
+   * @apiGroup Performance
+   * @apiVersion  0.0.1
+   *
+   * @apiParam  {Int}     site_id 网站ID
+   * @apiParam  {Int}     site_page_id 网页ID
+   * @apiParam  {String}  start_time  起始时间
+   * @apiParam  {String}  end_time  终止时间
+   */
+  /**
+   * @api {GET} /metric/consume_time?type=hour 性能耗时按照小时分布
+   * @apiGroup Performance
+   * @apiVersion  0.0.1
+   *
+   * @apiParam  {Int}     site_id 网站ID
+   * @apiParam  {Int}     site_page_id 网页ID
+   * @apiParam  {String}  start_time  起始时间
+   * @apiParam  {String}  end_time  终止时间
+   */
+  /**
+   * @api {GET} /metric/consume_time?type=mins 性能耗时按照分钟分布
    * @apiGroup Performance
    * @apiVersion  0.0.1
    *
@@ -61,7 +81,7 @@ module.exports = class extends Base {
         default: think.datetime(Date.now() + ONE_DAY, 'YYYY-MM-DD')
       },
       type: {
-        in: ['interval', 'hour', 'day']
+        in: ['interval', 'hour', 'day', 'mins', 'hour.interval']
       }
     };
   }
