@@ -7,29 +7,37 @@ module.exports = class extends Base {
 
   async getAction() {
     const {page, pagesize} = this.get();
-
-    let siteIds = await this.model('site_user').where({
-      user_id: this.userInfo.id
-    }).select();
-    if (think.isEmpty(siteIds)) {
-      siteIds = [ null ];
-    } else {
-      siteIds = siteIds.map(({site_id}) => site_id);
-    }
+    const isSuperAdmin = global.SUPER_ADMIN.is(this.userInfo.status);
 
     if (this.id) {
       this.id = parseInt(this.id);
-      if (!siteIds.includes(this.id)) {
-        return this.fail('SITE PERMISSION DENY');
+    }
+
+    if (!isSuperAdmin) {
+      let siteIds = await this.model('site_user').where({
+        user_id: this.userInfo.id
+      }).select();
+      if (think.isEmpty(siteIds)) {
+        siteIds = [ null ];
+      } else {
+        siteIds = siteIds.map(({site_id}) => site_id);
       }
 
+      if (this.id) {
+        if (!site_id.includes(this.id)) {
+          return this.fail('SITE PERMISSION DENY');
+        }
+      }
+
+      this.modelInstance = this.modelInstance.where({
+        id: ['IN', siteIds]
+      });
+    }
+
+    if (this.id) {
       const siteInfo = await this.modelInstance.where({id: this.id}).find();
       return this.success(siteInfo);
     }
-
-    this.modelInstance = this.modelInstance.where({
-      id: ['IN', siteIds]
-    });
 
     let result;
     if (page) {
