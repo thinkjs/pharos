@@ -13,6 +13,7 @@
     "fe-watch": "roadhog build --watch"
   },
   "dependencies": {
+    "moment": "^2.22.2",
     "request": "^2.83.0",
     "request-promise-native": "^1.0.5",
     "semver": "^5.4.1",
