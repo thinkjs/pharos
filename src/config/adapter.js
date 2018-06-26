@@ -17,7 +17,7 @@ exports.cache = {
   },
   file: {
     handle: fileCache,
-    cachePath: path.join(think.ROOT_PATH, 'runtime/cache'), // absoulte path is necessarily required
+    cachePath: path.join(think.ROOT_PATH, 'runtime/cache'), // absolute path is necessarily required
     pathDepth: 1,
     gcInterval: 24 * 60 * 60 * 1000 // gc interval
   }
