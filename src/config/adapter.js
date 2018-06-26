@@ -3,6 +3,7 @@ const nunjucks = require('think-view-nunjucks');
 const fileSession = require('think-session-file');
 const mysql = require('think-model-mysql');
 const path = require('path');
+const {DateFile} = require('think-logger3');
 const isDev = think.env === 'development';
 
 /**
@@ -78,5 +79,21 @@ exports.view = {
   },
   nunjucks: {
     handle: nunjucks
+  }
+};
+
+exports.logger = {
+  type: isDev ? 'console' : 'dateFile',
+  dateFile: {
+    handle: DateFile,
+    level: 'error',
+    absolute: true,
+    pattern: '-yyyy-MM-dd',
+    alwaysIncludePattern: true,
+    filename: path.join(think.ROOT_PATH, 'logs/xx.log'),
+    layout: {
+      type: 'pattern',
+      pattern: '%[[%d] [%z] [%p]%] - %m'
+    }
   }
 };
