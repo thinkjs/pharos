@@ -41,7 +41,7 @@ tasks.push({
 // 清理线上老数据
 tasks.push({
   type: 'one',
-  cron: '* * 1 * *',
+  cron: '0 0 1 * *',
   handle: 'cron/clean'
 });
 
