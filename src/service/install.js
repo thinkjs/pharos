@@ -29,7 +29,9 @@ module.exports = class extends think.Service {
   }
 
   set installed(val) {
-    think.messenger.broadcast('install', val);
+    if (think.config('workers') !== 1) {
+      think.messenger.broadcast('install', val);
+    }
     global.isInstalled = val;
   }
 
