@@ -15,12 +15,11 @@ module.exports = class extends think.Controller {
     for (const metric of metrics) {
       const tableName = 'perf_' + metric;
       const model = this.model(tableName);
-      let page = 1;
       while (true) {
         // 分片删除避免一次性删除过多数据
         const {totalPages, data} = await model.where({
           create_time: ['<', twoMonthAgo]
-        }).page(page, pageSize)
+        }).page(1, pageSize)
           .field('id')
           .countSelect();
 
@@ -28,13 +27,8 @@ module.exports = class extends think.Controller {
           break;
         }
 
+        think.logger.info(`${tableName} 还剩 ${totalPages} 页数据`);
         await model.where({id: ['IN', data.map(({id}) => id)]}).delete();
-
-        if (totalPages === page) {
-          break;
-        } else {
-          page += 1;
-        }
       }
       think.logger.info(`清除 ${twoMonthAgo} 之前的 ${tableName} 老数据成功`);
     }
