@@ -29,6 +29,8 @@
     "think-view": "^1.0.10",
     "think-view-nunjucks": "^1.0.1",
     "thinkjs": "^3.2.4",
+    "detector": "^2.5.0",
+    "kcors": "^2.2.1",
     "phpass": "^0.1.1"
   },
   "devDependencies": {
@@ -43,7 +45,6 @@
     "babel-preset-react": "^6.24.1",
     "babel-preset-think-node": "^1.0.0",
     "babel-runtime": "^6.9.2",
-    "detector": "^2.5.0",
     "dva": "^1.2.1",
     "dva-loading": "^1.0.4",
     "eslint": "^4.9.0",
@@ -57,7 +58,6 @@
     "husky": "^0.12.0",
     "ip": "^1.1.5",
     "jsonp": "^0.2.1",
-    "kcors": "^2.2.1",
     "node-notifier": "^5.0.2",
     "nprogress": "^0.2.0",
     "react-copy-to-clipboard": "^5.0.1",
