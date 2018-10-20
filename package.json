@@ -28,7 +28,8 @@
     "think-svg-captcha": "^1.0.3",
     "think-view": "^1.0.10",
     "think-view-nunjucks": "^1.0.1",
-    "thinkjs": "^3.2.4"
+    "thinkjs": "^3.2.4",
+    "phpass": "^0.1.1"
   },
   "devDependencies": {
     "antd": "^2.13.10",
@@ -59,7 +60,6 @@
     "kcors": "^2.2.1",
     "node-notifier": "^5.0.2",
     "nprogress": "^0.2.0",
-    "phpass": "^0.1.1",
     "react-copy-to-clipboard": "^5.0.1",
     "react-dom": "^15.6.2",
     "react-helmet": "^5.1.3",
