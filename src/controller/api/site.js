@@ -104,13 +104,17 @@ module.exports = class extends Base {
     }
 
     try {
-      const tables = ['option', 'perf_browser_time', 'perf_consume_time', 'perf_os_time', 'pref_region_time', 'site', 'site_page'];
+      const tables = ['options', 'perf_browser_time', 'perf_consume_time', 'perf_os_time', 'perf_region_time', 'site', 'site_page'];
       await Promise.all(
         tables.map(async table => this.model(table).where({ id: this.id }).delete())
       );
       return this.success();
     } catch (e) {
-      think.logger(e);
+      if (think.isPrevent(e)) {
+        return;
+      }
+
+      think.logger.error(e);
       this.fail('DELETE FAILED');
     }
   }
