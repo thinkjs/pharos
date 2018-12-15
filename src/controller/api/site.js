@@ -6,7 +6,7 @@ module.exports = class extends Base {
   }
 
   async getAction() {
-    const {page, pagesize} = this.get();
+    const { page, pagesize } = this.get();
     const isSuperAdmin = global.SUPER_ADMIN.is(this.userInfo.status);
 
     if (this.id) {
@@ -18,9 +18,9 @@ module.exports = class extends Base {
         user_id: this.userInfo.id
       }).select();
       if (think.isEmpty(siteIds)) {
-        siteIds = [ null ];
+        siteIds = [null];
       } else {
-        siteIds = siteIds.map(({site_id}) => site_id);
+        siteIds = siteIds.map(({ site_id }) => site_id);
       }
 
       if (this.id) {
@@ -35,7 +35,7 @@ module.exports = class extends Base {
     }
 
     if (this.id) {
-      const siteInfo = await this.modelInstance.where({id: this.id}).find();
+      const siteInfo = await this.modelInstance.where({ id: this.id }).find();
       return this.success(siteInfo);
     }
 
@@ -59,7 +59,7 @@ module.exports = class extends Base {
       return this.fail('SITE_EXIST');
     }
 
-    data.user = [{user_id: this.userInfo.id, status: global.ROLES.SITE_ADMIN}];
+    data.user = [{ user_id: this.userInfo.id, status: global.ROLES.SITE_ADMIN }];
     const insertId = await this.modelInstance.addSite(data);
     return this.success(insertId);
   }
@@ -71,18 +71,18 @@ module.exports = class extends Base {
 
     const userInfo = await this.session('userInfo') || {};
     const role = await this.model('site_user')
-      .where({site_id: this.id, user_id: userInfo.id})
+      .where({ site_id: this.id, user_id: userInfo.id })
       .find();
     if (think.isEmpty(role) || global.ADMIN.is(role.status)) {
       return this.fail('PERMISSION_DENIED');
     }
 
-    const {name} = this.post();
+    const { name } = this.post();
     if (!name) {
       return this.success();
     }
 
-    await this.modelInstance.where({id: this.id}).update({name});
+    await this.modelInstance.where({ id: this.id }).update({ name });
     return this.success();
   }
 
@@ -91,28 +91,18 @@ module.exports = class extends Base {
       return this.fail('SITE ID MISS');
     }
 
-    const userInfo = await this.session('userInfo') || {};
-    const role = await this.model('site_user')
-      .where({site_id: this.id, user_id: userInfo.id})
-      .find();
-    if (think.isEmpty(role) || global.ADMIN.is(role.status)) {
-      return this.fail('PERMISSION_DENIED');
-    }
-
     this.id = parseInt(this.id);
-    let siteIds = await this.model('site_user').where({
-      user_id: this.userInfo.id
-    }).select();
-    if (think.isEmpty(siteIds)) {
-      siteIds = [ null ];
-    } else {
-      siteIds = siteIds.map(({site_id}) => site_id);
+    const userInfo = await this.session('userInfo') || {};
+    if (!global.ADMIN.is(userInfo.status)) {
+      const role = await this.model('site_user').where({
+        user_id: userInfo.id,
+        site_id: this.id
+      }).find();
+      if (think.isEmpty(role)) {
+        return this.fail('PERMISSION_DENIED');
+      }
     }
 
-    if (!siteIds.includes(this.id)) {
-      return this.fail('SITE PERMISSION DENY');
-    }
-
-    return this.modelInstance.where({id: this.id}).delete();
+    return this.modelInstance.where({ id: this.id }).delete();
   }
 };
