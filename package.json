@@ -28,7 +28,11 @@
     "think-svg-captcha": "^1.0.3",
     "think-view": "^1.0.10",
     "think-view-nunjucks": "^1.0.1",
-    "thinkjs": "^3.2.4"
+    "thinkjs": "^3.2.4",
+    "detector": "^2.5.0",
+    "kcors": "^2.2.1",
+    "ip": "^1.1.5",
+    "phpass": "^0.1.1"
   },
   "devDependencies": {
     "antd": "^2.13.10",
@@ -42,7 +46,6 @@
     "babel-preset-react": "^6.24.1",
     "babel-preset-think-node": "^1.0.0",
     "babel-runtime": "^6.9.2",
-    "detector": "^2.5.0",
     "dva": "^1.2.1",
     "dva-loading": "^1.0.4",
     "eslint": "^4.9.0",
@@ -54,12 +57,9 @@
     "expect": "^1.20.2",
     "highcharts": "^6.0.3",
     "husky": "^0.12.0",
-    "ip": "^1.1.5",
     "jsonp": "^0.2.1",
-    "kcors": "^2.2.1",
     "node-notifier": "^5.0.2",
     "nprogress": "^0.2.0",
-    "phpass": "^0.1.1",
     "react-copy-to-clipboard": "^5.0.1",
     "react-dom": "^15.6.2",
     "react-helmet": "^5.1.3",
