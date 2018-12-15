@@ -9,15 +9,24 @@ module.exports = class extends think.Controller {
       .filter(name => name !== 'base.js')
       .map(name => name.split('.js')[0]);
 
+    // eslint-disable-next-line
+    console.log(`当前共有监控项：${metrics.join()}`);
+
     const twoMonthAgo = moment().subtract(2, 'months').format('YYYY-MM-DD 00:00:00');
     const pageSize = 2500;
 
+    // eslint-disable-next-line
+    console.log(`准备清理 ${twoMonthAgo} 之前的数据`);
+
     for (const metric of metrics) {
+      // eslint-disable-next-line
+      console.log(`====开始清理 ${metric} 监控项数据====`);
+
       const tableName = 'perf_' + metric;
       const model = this.model(tableName);
       while (true) {
         // 分片删除避免一次性删除过多数据
-        const {totalPages, data} = await model.where({
+        const { totalPages, data } = await model.where({
           create_time: ['<', twoMonthAgo]
         }).page(1, pageSize)
           .field('id')
@@ -27,10 +36,15 @@ module.exports = class extends think.Controller {
           break;
         }
 
-        think.logger.info(`${tableName} 还剩 ${totalPages} 页数据`);
-        await model.where({id: ['IN', data.map(({id}) => id)]}).delete();
+        // think.logger.info(`${tableName} 还剩 ${totalPages} 页数据`);
+        // eslint-disable-next-line
+        console.log(`${tableName} 还剩 ${totalPages} 页数据`);
+        await model.where({ id: ['IN', data.map(({ id }) => id)] }).delete();
       }
-      think.logger.info(`清除 ${twoMonthAgo} 之前的 ${tableName} 老数据成功`);
+
+      // eslint-disable-next-line
+      console.log(`====清除 ${twoMonthAgo} 之前的 ${metric} 老数据成功====`);
+      // think.logger.info(`清除 ${twoMonthAgo} 之前的 ${tableName} 老数据成功`);
     }
 
     return this.success();
