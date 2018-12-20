@@ -38,9 +38,9 @@ module.exports = class extends think.Controller {
         }
 
         metricTotalPages -= 1;
-        // think.logger.info(`${tableName} 还剩 ${totalPages} 页数据`);
+        // think.logger.info(`${tableName} 还剩 ${metricTotalPages} 页数据`);
         // eslint-disable-next-line
-        console.log(`${tableName} 还剩 ${totalPages} 页数据`);
+        console.log(`${tableName} 还剩 ${metricTotalPages} 页数据`);
         await model.where({ id: ['IN', data.map(({ id }) => id)] }).delete();
       }
 
