@@ -15,7 +15,7 @@ module.exports = class extends Base {
     } = this.get();
     const where = {
       site_id,
-      create_time: {'>=': start_time, '<': end_time}
+      create_time: { '>=': start_time, '<': end_time }
     };
     const perfs = await this.getPerfs(site_id);
     if (perf) { where.perf = perfs[perf] }
@@ -24,9 +24,9 @@ module.exports = class extends Base {
     const data = await this.modelInstance.where(where).select();
     const result = {};
     for (let i = 0; i < data.length; i++) {
-      const {region, time, count} = data[i];
+      const { region, time, count } = data[i];
       if (!result[region]) {
-        result[region] = {time: 0, count: 0};
+        result[region] = { time: 0, count: 0 };
       }
 
       result[region].time += time;
@@ -40,10 +40,6 @@ module.exports = class extends Base {
   }
 
   postAction() {
-    return this.dataCollection(
-      'region_time',
-      ['site_id', 'site_page_id', 'perf', 'region']
-      // ['site_id', 'site_page_id', 'perf', 'country', 'region', 'city']
-    );
+    return this.dataCollection('region_time', ['region']);
   }
 };

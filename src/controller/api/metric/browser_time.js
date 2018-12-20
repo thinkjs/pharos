@@ -15,7 +15,7 @@ module.exports = class extends Base {
     } = this.get();
     const where = {
       site_id,
-      create_time: {'>=': start_time, '<': end_time}
+      create_time: { '>=': start_time, '<': end_time }
     };
     const perfs = await this.getPerfs(site_id);
     if (perf) { where.perf = perfs[perf] }
@@ -27,15 +27,15 @@ module.exports = class extends Base {
       let series = {};
       let drillSeries = {};
       for (let i = 0; i < data.length; i++) {
-        const {browser, version, time, count} = data[i];
+        const { browser, version, time, count } = data[i];
         if (!series[browser]) {
-          series[browser] = {time: 0, count: 0};
+          series[browser] = { time: 0, count: 0 };
         }
         if (!drillSeries[browser]) {
           drillSeries[browser] = {};
         }
         if (!drillSeries[browser][version]) {
-          drillSeries[browser][version] = {time: 0, count: 0};
+          drillSeries[browser][version] = { time: 0, count: 0 };
         }
         series[browser].time += time;
         series[browser].count += count;
@@ -56,13 +56,13 @@ module.exports = class extends Base {
           })
         };
       });
-      return this.success({series, drilldown: {series: drillSeries}});
+      return this.success({ series, drilldown: { series: drillSeries } });
     }
 
     let series = {};
     const categories = [];
     for (let i = 0; i < data.length; i++) {
-      const {browser} = data[i];
+      const { browser } = data[i];
       if (think.isNumber(categories[browser])) {
         continue;
       }
@@ -72,12 +72,12 @@ module.exports = class extends Base {
     }
 
     for (let i = 0; i < data.length; i++) {
-      const {perf, browser, time, count} = data[i];
+      const { perf, browser, time, count } = data[i];
       const perfName = perfs[perf];
       if (!think.isArray(series[perfName])) {
         series[perfName] = Array.from(
-          {length: categories.length},
-          () => ({time: 0, count: 0})
+          { length: categories.length },
+          () => ({ time: 0, count: 0 })
         );
       }
 
@@ -90,13 +90,10 @@ module.exports = class extends Base {
       name: perf,
       data: series[perf].map(serie => this.avg(serie))
     }));
-    return this.success({categories, series});
+    return this.success({ categories, series });
   }
 
   postAction() {
-    return this.dataCollection(
-      'browser_time',
-      ['site_id', 'site_page_id', 'perf', 'browser', 'version']
-    );
+    return this.dataCollection('browser_time', ['browser', 'version']);
   }
 };
