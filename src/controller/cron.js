@@ -24,18 +24,20 @@ module.exports = class extends think.Controller {
 
       const tableName = 'perf_' + metric;
       const model = this.model(tableName);
-      while (true) {
+      const metricTotalCounts = await model.where({
+        create_time: ['<', twoMonthAgo]
+      }).count('id');
+      let metricTotalPages = Math.ceil(metricTotalCounts / pageSize);
+      while (metricTotalPages) {
         // 分片删除避免一次性删除过多数据
-        const { totalPages, data } = await model.where({
+        const data = await model.where({
           create_time: ['<', twoMonthAgo]
-        }).page(1, pageSize)
-          .field('id')
-          .countSelect();
-
+        }).page(1, pageSize).field('id').select();
         if (think.isEmpty(data)) {
           break;
         }
 
+        metricTotalPages -= 1;
         // think.logger.info(`${tableName} 还剩 ${totalPages} 页数据`);
         // eslint-disable-next-line
         console.log(`${tableName} 还剩 ${totalPages} 页数据`);
