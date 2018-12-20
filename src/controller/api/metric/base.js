@@ -1,6 +1,6 @@
 const BaseRest = require('../../rest.js');
 module.exports = class extends BaseRest {
-  map(arr, keys, fn = _ => {}) {
+  map(arr, keys, fn = _ => { }) {
     const data = {};
     function mapReduce(obj, keys, info = []) {
       if (keys.length) {
@@ -22,7 +22,7 @@ module.exports = class extends BaseRest {
           data[key][i] += obj[i];
         }
       } else {
-        data[key] = {...keyObj, ...obj};
+        data[key] = { ...keyObj, ...obj };
       }
     }
 
@@ -68,7 +68,7 @@ module.exports = class extends BaseRest {
     return output;
   }
 
-  avg({time, count}, digit = 2) {
+  avg({ time, count }, digit = 2) {
     const fixed = Math.pow(10, digit);
     return Math.round(time / count * fixed) / fixed;
   }
@@ -76,14 +76,14 @@ module.exports = class extends BaseRest {
   async addData(data, create_time, indexs = []) {
     // 多机情况下查询是否已存在数据，并转成 indexs => value 的键值对
     const store = await this.modelInstance
-      .where({create_time})
+      .where({ create_time })
       .select();
 
     const storeData = {};
     for (let i = 0; i < store.length; i++) {
-      const {id, time, count} = store[i];
+      const { id, time, count } = store[i];
       const key = indexs.map(index => store[i][index]).join('/');
-      storeData[key] = {id, time, count};
+      storeData[key] = { id, time, count };
     }
 
     // 根据提取出来的数据情况对数据进行拆分，分为需要更新数据和新增数据
@@ -95,7 +95,7 @@ module.exports = class extends BaseRest {
         continue;
       }
 
-      const {time, count} = data[i];
+      const { time, count } = data[i];
       storeData[i].time += time;
       storeData[i].count += count;
       updateData.push(storeData[i]);
@@ -123,6 +123,8 @@ module.exports = class extends BaseRest {
   }
 
   async dataCollection(metric, indexs) {
+    indexs = ['site_id', 'site_page_id', 'perf', ...indexs];
+
     const startTime = Date.now();
     const createTime = think.datetime(Date.now(), 'YYYY-MM-DD HH:mm:00');
     think.logger.info('crontab', metric, createTime);

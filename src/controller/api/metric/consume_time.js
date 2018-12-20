@@ -35,7 +35,7 @@ module.exports = class extends Base {
       end_time,
       type
     } = this.get();
-    const where = {site_id, create_time: {'>=': start_time, '<': end_time}};
+    const where = { site_id, create_time: { '>=': start_time, '<': end_time } };
     if (site_page_id) { where.site_page_id = site_page_id }
 
     const data = await this.modelInstance.where(where).select();
@@ -64,7 +64,7 @@ module.exports = class extends Base {
 
             const output = [];
             for (let i = 0; i < categories.length; i++) {
-              output.push(this.avg({time: result[i], count: total}, 3));
+              output.push(this.avg({ time: result[i], count: total }, 3));
             }
             return output;
           });
@@ -106,7 +106,7 @@ module.exports = class extends Base {
                 think.datetime(new Date(perfData[i].create_time), 'HH')
               );
               if (!result[hour]) {
-                result[hour] = {time: 0, count: 0};
+                result[hour] = { time: 0, count: 0 };
               }
               result[hour].time += perfData[i].time;
               result[hour].count += perfData[i].count;
@@ -138,7 +138,7 @@ module.exports = class extends Base {
                 BETWEEN[type].format
               );
               if (!result[date]) {
-                result[date] = {time: 0, count: 0};
+                result[date] = { time: 0, count: 0 };
               }
               result[date].time += perfData[i].time;
               result[date].count += perfData[i].count;
@@ -163,21 +163,18 @@ module.exports = class extends Base {
             time += perfData[i].time;
             count += perfData[i].count;
           }
-          return this.avg({time, count}, 0);
+          return this.avg({ time, count }, 0);
         }));
     }
-    return this.success({categories, series});
+    return this.success({ categories, series });
   }
 
   postAction() {
-    return this.dataCollection(
-      'consume_time',
-      ['site_id', 'site_page_id', 'perf', 'section']
-    );
+    return this.dataCollection('consume_time', ['section']);
   }
 
   generateCates(start_time, end_time, type = 'day') {
-    const {delta, format, transform} = BETWEEN[type] || BETWEEN['day'];
+    const { delta, format, transform } = BETWEEN[type] || BETWEEN['day'];
     const startTime = new Date(think.datetime(new Date(start_time), transform)).getTime();
     const endTime = new Date(think.datetime(new Date(end_time), transform)).getTime();
 

@@ -15,7 +15,7 @@ module.exports = class extends Base {
     } = this.get();
     const where = {
       site_id,
-      create_time: {'>=': start_time, '<': end_time}
+      create_time: { '>=': start_time, '<': end_time }
     };
     const perfs = await this.getPerfs(site_id);
     if (perf) { where.perf = perfs[perf] }
@@ -27,15 +27,15 @@ module.exports = class extends Base {
       let series = {};
       let drillSeries = {};
       for (let i = 0; i < data.length; i++) {
-        const {os, version, time, count} = data[i];
+        const { os, version, time, count } = data[i];
         if (!series[os]) {
-          series[os] = {time: 0, count: 0};
+          series[os] = { time: 0, count: 0 };
         }
         if (!drillSeries[os]) {
           drillSeries[os] = {};
         }
         if (!drillSeries[os][version]) {
-          drillSeries[os][version] = {time: 0, count: 0};
+          drillSeries[os][version] = { time: 0, count: 0 };
         }
         series[os].time += time;
         series[os].count += count;
@@ -56,13 +56,13 @@ module.exports = class extends Base {
           })
         };
       });
-      return this.success({series, drilldown: {series: drillSeries}});
+      return this.success({ series, drilldown: { series: drillSeries } });
     }
 
     let series = {};
     const categories = [];
     for (let i = 0; i < data.length; i++) {
-      const {os} = data[i];
+      const { os } = data[i];
       if (think.isNumber(categories[os])) {
         continue;
       }
@@ -72,12 +72,12 @@ module.exports = class extends Base {
     }
 
     for (let i = 0; i < data.length; i++) {
-      const {perf, os, time, count} = data[i];
+      const { perf, os, time, count } = data[i];
       const perfName = perfs[perf];
       if (!think.isArray(series[perfName])) {
         series[perfName] = Array.from(
-          {length: categories.length},
-          () => ({time: 0, count: 0})
+          { length: categories.length },
+          () => ({ time: 0, count: 0 })
         );
       }
 
@@ -90,13 +90,10 @@ module.exports = class extends Base {
       name: perf,
       data: series[perf].map(serie => this.avg(serie))
     }));
-    return this.success({categories, series});
+    return this.success({ categories, series });
   }
 
   postAction() {
-    return this.dataCollection(
-      'os_time',
-      ['site_id', 'site_page_id', 'perf', 'os', 'version']
-    );
+    return this.dataCollection('os_time', ['os', 'version']);
   }
 };
