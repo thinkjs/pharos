@@ -16,12 +16,12 @@ module.exports = class extends BaseRest {
       // return this.fail('REFERRER_EMPTY');
     }
 
-    const {protocol, host, pathname, query} = url.parse(referrer);
+    const { protocol, host, pathname, query } = url.parse(referrer);
     let visitUrl = host + pathname;
     if (query) {
       visitUrl += '?' + query;
     }
-    return {protocol, url: visitUrl};
+    return { protocol, url: visitUrl };
   }
 
   /** 根据 UA 获取信息 */
@@ -90,7 +90,7 @@ module.exports = class extends BaseRest {
   }
 
   /** 对每个监控数据进行监控项行为的收集 */
-  gather(data, {limit}) {
+  gather(data, { limit }) {
     const arr = [];
     return cb => {
       if (typeof cb === 'function') {
@@ -127,7 +127,7 @@ module.exports = class extends BaseRest {
   async sitePage(site_id, visit_url) {
     let sitePageId = null;
 
-    const sitePages = await this.model('site_page').where({site_id}).select();
+    const sitePages = await this.model('site_page').where({ site_id }).select();
 
     if (think.isEmpty(sitePages)) {
       return sitePageId;
@@ -148,7 +148,7 @@ module.exports = class extends BaseRest {
 
   async gatherTask() {
     const startTime = Date.now();
-    const {site_id, info: performance} = this.get();
+    const { site_id, info: performance } = this.get();
     const visit_url = this.visitUrl;
     const user_ua = this.userUA;
 
@@ -162,6 +162,9 @@ module.exports = class extends BaseRest {
     // think.logger.debug(`before gather costs ${beforeGatherTime}ms`);
 
     gather((time, perf) => {
+      if (!perfs[perf]) {
+        return;
+      }
       const section = this.findsection(time);
       const consume_time = this.global(
         [
@@ -171,12 +174,15 @@ module.exports = class extends BaseRest {
           ['perf', perfs[perf]],
           ['section', section]
         ],
-        {time: 0, count: 0}
+        { time: 0, count: 0 }
       );
       consume_time.time += time;
       consume_time.count += 1;
     });
     gather((time, perf) => {
+      if (!perfs[perf]) {
+        return;
+      }
       const browser_time = this.global(
         [
           'browser_time',
@@ -186,12 +192,15 @@ module.exports = class extends BaseRest {
           ['browser', user_ua.browser_name],
           ['version', user_ua.browser_version]
         ],
-        {time: 0, count: 0}
+        { time: 0, count: 0 }
       );
       browser_time.time += time;
       browser_time.count += 1;
     });
     gather((time, perf) => {
+      if (!perfs[perf]) {
+        return;
+      }
       const os_time = this.global(
         [
           'os_time',
@@ -201,12 +210,15 @@ module.exports = class extends BaseRest {
           ['os', user_ua.os],
           ['version', user_ua.os_version]
         ],
-        {time: 0, count: 0}
+        { time: 0, count: 0 }
       );
       os_time.time += time;
       os_time.count += 1;
     });
     gather((time, perf) => {
+      if (!perfs[perf]) {
+        return;
+      }
       const region_time = this.global(
         [
           'region_time',
@@ -217,7 +229,7 @@ module.exports = class extends BaseRest {
           ['region', location.region]
           // ['city', location.city]
         ],
-        {time: 0, count: 0}
+        { time: 0, count: 0 }
       );
       region_time.time += time;
       region_time.count += 1;
