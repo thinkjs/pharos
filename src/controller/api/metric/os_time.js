@@ -94,6 +94,6 @@ module.exports = class extends Base {
   }
 
   postAction() {
-    return this.dataCollection('os_time', ['os', 'version']);
+    return this.dataCollection('os_time', ['perf', 'os', 'version']);
   }
 };

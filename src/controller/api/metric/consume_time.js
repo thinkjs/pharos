@@ -170,7 +170,7 @@ module.exports = class extends Base {
   }
 
   postAction() {
-    return this.dataCollection('consume_time', ['section']);
+    return this.dataCollection('consume_time', ['perf', 'section']);
   }
 
   generateCates(start_time, end_time, type = 'day') {

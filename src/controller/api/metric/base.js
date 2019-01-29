@@ -95,9 +95,12 @@ module.exports = class extends BaseRest {
         continue;
       }
 
-      const { time, count } = data[i];
-      storeData[i].time += time;
-      storeData[i].count += count;
+      if (data[i].time) {
+        storeData[i].time += data[i].time;
+      }
+      if (data[i].count) {
+        storeData[i].count += data[i].count;
+      }
       updateData.push(storeData[i]);
     }
 
@@ -122,8 +125,8 @@ module.exports = class extends BaseRest {
     // think.logger.debug(`add data costs ${Date.now() - startTime}ms`);
   }
 
-  async dataCollection(metric, indexs) {
-    indexs = ['site_id', 'site_page_id', 'perf', ...indexs];
+  async dataCollection(metric, indexs = []) {
+    indexs = ['site_id', 'site_page_id', ...indexs];
 
     const startTime = Date.now();
     const createTime = think.datetime(Date.now(), 'YYYY-MM-DD HH:mm:00');
@@ -139,8 +142,12 @@ module.exports = class extends BaseRest {
           gatherMetric[item] = data[item];
         }
 
-        gatherMetric[item].time += data[item].time;
-        gatherMetric[item].count += data[item].count;
+        if (data[item].time) {
+          gatherMetric[item].time += data[item].time;
+        }
+        if (data[item].count) {
+          gatherMetric[item].count += data[item].count;
+        }
       }
     }
     if (think.isEmpty(gatherMetric)) {

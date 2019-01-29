@@ -4,7 +4,8 @@ const metrics = [
   'consume_time',
   'browser_time',
   'os_time',
-  'region_time'
+  'region_time',
+  'js_error'
 ];
 
 metrics.forEach(metric => think.messenger.on(metric, () => {

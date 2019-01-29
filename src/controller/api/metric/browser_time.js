@@ -94,6 +94,6 @@ module.exports = class extends Base {
   }
 
   postAction() {
-    return this.dataCollection('browser_time', ['browser', 'version']);
+    return this.dataCollection('browser_time', ['perf', 'browser', 'version']);
   }
 };
