@@ -148,7 +148,7 @@ module.exports = class extends BaseRest {
 
   async gatherTask() {
     const startTime = Date.now();
-    const { site_id, info: performance } = this.get();
+    const { site_id, info: performance, error } = this.get();
     const visit_url = this.visitUrl;
     const user_ua = this.userUA;
 
@@ -159,7 +159,7 @@ module.exports = class extends BaseRest {
     const site_page_id = await this.sitePage(site_id, visit_url.url);
     const perfs = await this.getPerfs(site_id);
     const beforeGatherTime = Date.now() - startTime;
-    // think.logger.debug(`before gather costs ${beforeGatherTime}ms`);
+    think.logger.debug(`before gather costs ${beforeGatherTime}ms`);
 
     gather((time, perf) => {
       if (!perfs[perf]) {
@@ -235,8 +235,22 @@ module.exports = class extends BaseRest {
       region_time.count += 1;
     });
     gather();
+
+    if (error) {
+      const js_error = this.global(
+        [
+          'js_error',
+          ['site_id', site_id],
+          ['site_page_id', site_page_id],
+          ['error', error]
+        ],
+        { count: 0 }
+      );
+      js_error.count += 1;
+    }
+
     const gatherTime = Date.now() - startTime - beforeGatherTime;
-    // think.logger.debug(`gather costs ${gatherTime}ms`);
+    think.logger.debug(`gather costs ${gatherTime}ms`);
   }
 
   getAction() {

@@ -40,6 +40,6 @@ module.exports = class extends Base {
   }
 
   postAction() {
-    return this.dataCollection('region_time', ['region']);
+    return this.dataCollection('region_time', ['perf', 'region']);
   }
 };
