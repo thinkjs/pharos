@@ -1,26 +1,5 @@
 const Base = require('./base');
 
-const FIVE_MINS = 5 * 60 * 1000;
-const ONE_HOUR = FIVE_MINS * 12;
-const ONE_DAY = ONE_HOUR * 24;
-const BETWEEN = {
-  day: {
-    delta: ONE_DAY,
-    format: 'YYYY-MM-DD',
-    transform: 'YYYY-MM-DD 00:00:00'
-  },
-  hour: {
-    delta: ONE_HOUR,
-    format: 'MM-DD HH:00',
-    transform: 'YYYY-MM-DD HH:00:00'
-  },
-  mins: {
-    delta: FIVE_MINS,
-    format: 'MM-DD HH:mm',
-    transform: 'YYYY-MM-DD HH:mm:00'
-  }
-};
-
 module.exports = class extends Base {
   constructor(...args) {
     super(...args);
@@ -171,17 +150,5 @@ module.exports = class extends Base {
 
   postAction() {
     return this.dataCollection('consume_time', ['perf', 'section']);
-  }
-
-  generateCates(start_time, end_time, type = 'day') {
-    const { delta, format, transform } = BETWEEN[type] || BETWEEN['day'];
-    const startTime = new Date(think.datetime(new Date(start_time), transform)).getTime();
-    const endTime = new Date(think.datetime(new Date(end_time), transform)).getTime();
-
-    const times = [];
-    for (let time = startTime; time < endTime; time += delta) {
-      times.push(think.datetime(new Date(time), format));
-    }
-    return times;
   }
 };
