@@ -26,4 +26,10 @@ export default {
       data: params,
     })
   },
+  queryByJSError:(params = {})=> {
+    return request({
+      url: api.queryByJSError,
+      data: params
+    })
+  }
 }
