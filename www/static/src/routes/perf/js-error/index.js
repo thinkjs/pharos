@@ -1,10 +1,19 @@
 import React from 'react';
 import { connect } from 'dva';
-import { Page } from 'components';
-function Whatever() {
+import { Page, HighCharts } from 'components';
+function Whatever({ perf }) {
+  const { rawData, pageConfig } = perf;
+  const chartProps = {
+    chart: {
+      type: 'line'
+    },
+    data: rawData,
+    title: { text: '实时数据' },
+    subtitle: { text: '每5分钟' }
+  };
   return (
     <Page>
-      Hello world
+      <HighCharts {...chartProps} />
     </Page>
   );
 }

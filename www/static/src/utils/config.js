@@ -46,6 +46,7 @@ module.exports = {
       queryByOs:'/api/metric/os_time',
       queryByBrowser:'/api/metric/browser_time',
       queryByRegion:'/api/metric/region_time',
+      queryByJSError: '/api/metric/js_error'
     }
   },
   ls_key:{
