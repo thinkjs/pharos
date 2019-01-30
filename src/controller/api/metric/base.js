@@ -180,8 +180,9 @@ module.exports = class extends BaseRest {
     return this.success();
   }
 
-  generateCates(start_time, end_time, type = 'day') {
-    const { delta, format, transform } = BETWEEN[type] || BETWEEN['day'];
+  generateCates(start_time, end_time, type = 'day', format) {
+    const { delta, transform } = BETWEEN[type] || BETWEEN['day'];
+    format = format || BETWEEN[type].format;
     const startTime = new Date(think.datetime(new Date(start_time), transform)).getTime();
     const endTime = new Date(think.datetime(new Date(end_time), transform)).getTime();
 

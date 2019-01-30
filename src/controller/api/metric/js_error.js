@@ -10,7 +10,8 @@ module.exports = class extends Base {
       site_id,
       site_page_id,
       start_time,
-      end_time
+      end_time,
+      type
     } = this.get();
 
     const where = { site_id, create_time: { '>=': start_time, '<': end_time } };
@@ -21,35 +22,73 @@ module.exports = class extends Base {
       .order('create_time DESC')
       .select();
 
-    const categories = this.generateCates(start_time, end_time, 'mins');
-    const series = {};
-    const total = {};
+    let categories;
+    let series;
 
-    for (let i = 0; i < data.length; i++) {
-      const { error, count, create_time } = data[i];
-      const time = think.datetime(create_time, 'MM-DD HH:mm');
-      if (!series[error]) {
-        series[error] = {};
-      }
-      if (!series[error][time]) {
-        series[error][time] = 0;
-      }
-      if (!total[time]) {
-        total[time] = 0;
-      }
+    switch (type) {
+      case 'day':
+      case 'day.hour':
+      case 'day.mins':
+        const days = this.generateCates(start_time, end_time, 'day');
+        const cateFormat = type.split('.')[1] || 'mins';
+        categories = this.generateCates(
+          '2019-01-01 00:00:00',
+          '2019-01-02 00:00:00',
+          cateFormat,
+          cateFormat === 'mins' ? 'HH:mm' : 'HH:00'
+        );
 
-      series[error][time] += count;
-      total[time] = 0;
+        const _seriesDay = {};
+        days.forEach(day => { _seriesDay[day] = {} });
+        for (let i = 0; i < data.length; i++) {
+          const { count, create_time } = data[i];
+          const day = think.datetime(create_time, 'YYYY-MM-DD');
+          const time = think.datetime(
+            create_time,
+            `HH:${cateFormat !== 'mins' ? '00' : 'mm'}`
+          );
+          if (!_seriesDay[day][time]) {
+            _seriesDay[day][time] = 0;
+          }
+          _seriesDay[day][time] += count;
+        }
+
+        series = days.map(day => ({
+          name: day,
+          data: categories.map(cate => _seriesDay[day][cate])
+        }));
+        break;
+
+      case 'hour':
+      case 'mins':
+        categories = this.generateCates(start_time, end_time, type);
+        const _seriesMins = {};
+
+        for (let i = 0; i < data.length; i++) {
+          const { error, count, create_time } = data[i];
+          const time = think.datetime(
+            create_time,
+            `MM-DD HH:${type !== 'mins' ? '00' : 'mm'}`
+          );
+          if (!_seriesMins[error]) {
+            _seriesMins[error] = {};
+          }
+          if (!_seriesMins[error][time]) {
+            _seriesMins[error][time] = 0;
+          }
+          _seriesMins[error][time] += count;
+        }
+
+        series = [];
+        for (const k in _seriesMins) {
+          series.push({
+            name: k,
+            data: categories.map(cate => _seriesMins[k][cate])
+          });
+        }
+        break;
     }
-    series.Total = total;
-    const result = [];
-    for (const k in series) {
-      result.push({
-        name: k,
-        data: categories.map(cate => series[k][cate])
-      });
-    }
-    return this.success({ categories, series: result });
+    return this.success({ categories, series });
   }
 
   postAction() {
