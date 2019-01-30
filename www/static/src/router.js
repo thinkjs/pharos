@@ -119,7 +119,7 @@ function Routers({ history, app }) {
           }
         },
         {
-          path: 'perf/js-error',
+          path: 'perf/js-error/:type',
           getComponent(nextState, cb) {
             require.ensure([], require => {
               registerModel(app, require('./models/perf'));

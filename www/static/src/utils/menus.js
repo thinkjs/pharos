@@ -58,8 +58,20 @@ const menus = [
         icon: 'bell',
         children: [
           {
-            name: '实时数据',
-            url: '/perf/js-error'
+            name: '实时数据（分）',
+            url: '/perf/js-error/day.mins'
+          },
+          {
+            name: '实时数据（时）',
+            url: '/perf/js-error/day.hour'
+          },
+          {
+            name: '详细错误（分）',
+            url: '/perf/js-error/mins'
+          },
+          {
+            name: '详细错误（时）',
+            url: '/perf/js-error/hour'
           }
         ]
       }
