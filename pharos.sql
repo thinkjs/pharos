@@ -19,6 +19,20 @@
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
+# Dump of table ph_js_error
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `ph_js_error`;
+
+CREATE TABLE `ph_js_error` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `site_id` int(11) DEFAULT NULL,
+  `site_page_id` int(11) DEFAULT NULL,
+  `error` text,
+  `count` int(11) DEFAULT NULL,
+  `create_time` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 # Dump of table ph_options
 # ------------------------------------------------------------
