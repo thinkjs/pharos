@@ -20,7 +20,7 @@ const BETWEEN = {
     transform: 'YYYY-MM-DD HH:mm:00'
   }
 };
-module.exports = class extends BaseRest {
+class Base extends BaseRest {
   map(arr, keys, fn = _ => { }) {
     const data = {};
     function mapReduce(obj, keys, info = []) {
@@ -193,3 +193,6 @@ module.exports = class extends BaseRest {
     return times;
   }
 };
+
+Base.BETWEEN = BETWEEN;
+module.exports = Base;

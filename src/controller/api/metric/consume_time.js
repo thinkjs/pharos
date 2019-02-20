@@ -114,7 +114,7 @@ module.exports = class extends Base {
             for (let i = 0; i < perfData.length; i++) {
               const date = think.datetime(
                 new Date(perfData[i].create_time),
-                BETWEEN[type].format
+                Base.BETWEEN[type].format
               );
               if (!result[date]) {
                 result[date] = { time: 0, count: 0 };
