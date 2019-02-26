@@ -28,6 +28,10 @@ const menus = [
         icon: 'line-chart',
         children: [
           {
+            name: '实时数据',
+            url: '/perf/specific/mins'
+          },
+          {
             name: '按时段',
             url: '/perf/specific/hour'
           },

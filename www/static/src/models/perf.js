@@ -12,6 +12,7 @@ const initialState = {
 };
 
 const serviceMap = {
+  mins: 'query',
   hour: 'query',
   day: 'query',
   interval: 'query',
@@ -19,6 +20,11 @@ const serviceMap = {
 };
 
 const PAGE_CONFIG = {
+  mins: {
+    type: 'mins',
+    service: 'query',
+    chartSubTitle: '每5分钟'
+  },
   hour: {
     type: 'hour',
     service: 'query',
