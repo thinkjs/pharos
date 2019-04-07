@@ -1,121 +1,122 @@
 import React from 'react';
-import {connect} from 'dva';
-import {Page} from 'components';
+import { connect } from 'dva';
+import { Page } from 'components';
 import AddModal from './add-or-edit-modal';
 import CodeModal from './code-modal';
 import Filter from './filter';
 import List from './list';
-import {Modal,Button,message} from 'antd';
-import {CopyToClipboard} from 'react-copy-to-clipboard';
+import { Modal, Button, message } from 'antd';
+import { CopyToClipboard } from 'react-copy-to-clipboard';
 
-function Whatever({dispatch, site, location, loading,}) {
-  const {data, pagination, organs, addModalVisible, codeModalVisible, current, modalType} = site;
+function Whatever({ dispatch, site, location, loading }) {
+  const { data, pagination, organs, addModalVisible, codeModalVisible, current, modalType } = site;
   const modalProps = {
     title: modalType === 'add' ? '新增' : '编辑',
     current: modalType === 'add' ? {} : current,
     visible: addModalVisible,
     organs,
-    onCancel: ()=> {
+    onCancel: () => {
       dispatch({
         type: 'site/save',
-        payload: {addModalVisible: false}
-      })
+        payload: { addModalVisible: false }
+      });
     },
-    onOk: (data)=> {
+    onOk: (data) => {
       dispatch({
         type: 'site/add',
         payload: data
-      })
+      });
     }
   };
 
-  const getCode = ()=>{
-    if(!current){
-      return
+  const getCode = () => {
+    if (!current) {
+      return;
     }
     return `
-      <script>
-        var _pScript = _pScript || [];
-        (function(){
-          var _pScript = document.createElement('script');
-          _pScript.setAttribute('data-siteid', '${current.id}');
-          _pScript.src = window.location.protocol + '//pharos.eming.li/static/js/performance.js';
-          document.body.appendChild(_pScript);
-        })();
-      </script>
-    `
+    <script 
+      src="//lib.baomitu.com/lightkeeper/latest/pharos.min.js"
+      data-siteid="${current.id}"
+      data-host="//pharos.baomitu.com"  
+    ></script>
+    <script type="text/javascript">
+    window.addEventListener('load', function() {
+      pharos.monitor();
+    });
+    </script>
+    `;
   };
 
   const codeModalProps = {
-    width:610,
+    width: 610,
     title: '获取代码',
     current,
     visible: codeModalVisible,
     code: getCode(),
-    footer:[
+    footer: [
       <Button
         key="back"
         size="large"
-        onClick={()=>{
+        onClick={() => {
           dispatch({
             type: 'site/save',
-            payload: {codeModalVisible: false}
-          })
+            payload: { codeModalVisible: false }
+          });
         }}>
         关闭
       </Button>,
       <CopyToClipboard
         text={getCode()}
-        onCopy={()=>{
+        onCopy={() => {
           message.success('已成功复制到剪切板');
         }}
       >
         <Button key="copy" size="large" type="primary">复制代码</Button>
       </CopyToClipboard>
-    ],
+    ]
   };
 
   const filterProps = {
-    onAdd: ()=> {
+    onAdd: () => {
       dispatch({
         type: 'site/save',
-        payload: {addModalVisible: true, modalType: 'add'}
-      })
+        payload: { addModalVisible: true, modalType: 'add' }
+      });
     },
     ...location.query
   };
 
   const listProps = {
-    loading:loading.effects['site/query'],
-    onPageChange: (page)=> {
+    loading: loading.effects['site/query'],
+    onPageChange: (page) => {
       helper.queryByUrl(dispatch, location, {
         pageNo: page.current,
         pageSize: page.pageSize
       });
     },
-    onEdit: (item)=> {
+    onEdit: (item) => {
       dispatch({
         type: 'site/save',
-        payload: {addModalVisible: true, current: item, modalType: 'edit'}
-      })
+        payload: { addModalVisible: true, current: item, modalType: 'edit' }
+      });
     },
-    onDelete:(id)=>{
+    onDelete: (id) => {
       Modal.confirm({
-        title:'确认删除吗?',
+        title: '确认删除吗?',
         // content:'确认删除吗?',
-        onOk:()=>{
+        onOk: () => {
           dispatch({
             type: 'site/delete',
-            payload:{id}
-          })
+            payload: { id }
+          });
         }
-      })
+      });
     },
-    onGetCode(item){
+    onGetCode(item) {
       dispatch({
         type: 'site/save',
-        payload: {codeModalVisible: true, current: item}
-      })
+        payload: { codeModalVisible: true, current: item }
+      });
     },
     data,
     pagination
@@ -131,4 +132,4 @@ function Whatever({dispatch, site, location, loading,}) {
   );
 }
 
-export default connect(({site, app ,loading}) => ({site, app,loading}))(Whatever)
+export default connect(({ site, app, loading }) => ({ site, app, loading }))(Whatever);
