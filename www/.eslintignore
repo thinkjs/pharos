@@ -1,0 +1,6 @@
+node_modules/
+build/
+src/app/vnc/core
+src/app/vnc/vendor
+public/vendor/editormd.js
+src/app/common/s3weuploader/

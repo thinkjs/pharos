@@ -1,0 +1,43 @@
+{
+  "name": "pharos-fe",
+  "version": "1.0.0",
+  "description": "front-end of pharos",
+  "main": "index.js",
+  "scripts": {
+    "start": "webpack-dev-server  --mode development --inline --hot --open",
+    "build": "webpack  --mode development",
+    "lint": "eslint --ext .ts "
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@babel/cli": "7.4.4",
+    "@babel/core": "7.4.4",
+    "@babel/polyfill": "7.4.4",
+    "@babel/preset-env": "7.4.4",
+    "awesome-typescript-loader": "5.2.1",
+    "babel-loader": "8.0.5",
+    "css-loader": "2.1.1",
+    "file-loader": "3.0.1",
+    "html-webpack-plugin": "3.2.0",
+    "mini-css-extract-plugin": "0.6.0",
+    "style-loader": "0.23.1",
+    "typescript": "3.4.5",
+    "url-loader": "1.1.2",
+    "webpack": "4.30.0",
+    "webpack-cli": "3.3.2",
+    "webpack-dev-server": "3.3.1"
+  },
+  "dependencies": {
+    "@types/antd": "1.0.0",
+    "@types/react": "16.8.16",
+    "@types/react-dom": "16.8.4",
+    "@types/react-router": "4.4.5",
+    "@types/react-router-dom": "4.3.2",
+    "antd": "3.16.6",
+    "react": "16.8.6",
+    "react-dom": "16.8.6",
+    "react-router": "5.0.0",
+    "react-router-dom": "5.0.0"
+  }
+}
