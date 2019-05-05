@@ -1,0 +1,26 @@
+src/app/common/config/index.js:25:  { value: '1', label: '认证讲师', url: 'https://p3.ssl.qhimg.com/t0173d779b2cba52f81.png' },
+src/app/common/config/index.js:26:  { value: '2', label: '认证导师', url: 'https://p0.ssl.qhimg.com/t01efb36934d18fb60b.png' },
+src/app/common/config/index.js:27:  { value: '3', label: '金牌导师', url: 'https://p5.ssl.qhimg.com/t01c1e5805032804df4.png' }
+src/app/common/config/index.js:268:  { name: 'LAPTOP', type: '1', pic_url: 'https://p1.ssl.qhimg.com/t01a49b21a2a959ef70.png' },
+src/app/common/config/index.js:269:  { name: 'DESKTOP', type: '2', pic_url: 'https://p1.ssl.qhimg.com/t01970babb137bf146f.png' },
+src/app/common/config/index.js:270:  { name: 'SERVER', type: '3', pic_url: 'https://p0.ssl.qhimg.com/t0157ec8efa438f4657.png' },
+src/app/common/config/index.js:271:  { name: 'PHONE', type: '4', pic_url: 'https://p5.ssl.qhimg.com/t0121ce172a6c8992f2.png' },
+src/app/common/config/index.js:272:  { name: 'PUBLIC_CLOUD', type: '5', pic_url: 'https://p4.ssl.qhimg.com/t01f49f37b52c4a1ec2.png' },
+src/app/common/config/index.js:273:  { name: 'PRIVATE_CLOUD', type: '6', pic_url: 'https://p1.ssl.qhimg.com/t01d8f08745ab4472a0.png' },
+src/app/common/config/index.js:274:  { name: 'ROUTE', type: '7', pic_url: 'https://p2.ssl.qhimg.com/t01de7a9a4495914b70.png' },
+src/app/common/config/index.js:275:  { name: 'SWITCH', type: '8', pic_url: 'https://p3.ssl.qhimg.com/t0112c07449bf4fccb2.png' },
+src/app/common/config/index.js:276:  { name: 'FIREWALL', type: '9', pic_url: 'https://p5.ssl.qhimg.com/t01aa8aa9f8dec5bb7b.png' },
+src/app/common/config/index.js:277:  { name: 'USER', type: '10', pic_url: 'https://p3.ssl.qhimg.com/t01c88ba3f49c5aafe2.png' },
+src/app/common/config/index.js:278:  { name: 'PLATFORM', type: '11', pic_url: 'https://p4.ssl.qhimg.com/t016201be4b77e06b8a.png' },
+src/app/common/config/index.js:326:  { value: '', label: '专业课', url: 'https://p3.ssl.qhimg.com/t012f9aca8c85fda16a.png' },
+src/app/common/experiment-scene/style.less:5:  // background: url(https://p4.ssl.qhimg.com/t01dbd1c57bfd2cf39a.png) no-repeat 0/cover;
+src/app/common/logo/index.js:11:    const light = 'https://p3.ssl.qhimg.com/t013b43d5701fe06035.png'
+src/app/common/logo/index.js:12:    const dark = 'https://p3.ssl.qhimg.com/t013b43d5701fe06035.png'
+src/app/common/logo/index.js:13:    const small = "https://p4.ssl.qhimg.com/t0199ab1126ea891c20.png"
+src/app/common/target-icon/style.less:19:  background: url(https://p4.ssl.qhimg.com/t0117a2c0c6d9fb7ea0.png) no-repeat 10000px/cover;
+src/app/common/target-icon/style.less:74:    background: url(https://p4.ssl.qhimg.com/t01c274f1759d10b178.png) no-repeat 10000px/cover;
+src/app/common/target-icon/style.less:79:    background: url(https://p4.ssl.qhimg.com/t01c274f1759d10b178.png) no-repeat 10000px/cover;
+src/app/experiment/component/sider/style.less:30:      background: url(https://p0.ssl.qhimg.com/t018f28f4ecb262d5ca.png) 0/cover;
+src/app/system/routes/experiment/topo/d3.less:21:  background: url(https://p4.ssl.qhimg.com/t01dbd1c57bfd2cf39a.png) no-repeat 0/cover;
+src/app/system/routes/experiment/topo/style.less:64:    flex: 1; // background: url(https://p4.ssl.qhimg.com/t01dbd1c57bfd2cf39a.png) no-repeat 0/cover;
+src/app/system/routes/experiment/topo2/old-d3.js:30:    //       'href': 'https://p1.ssl.qhimg.com/t01a49b21a2a959ef70.png'
