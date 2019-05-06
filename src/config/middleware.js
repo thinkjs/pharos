@@ -1,4 +1,5 @@
 const path = require('path');
+const routerREST = require('think-router-rest');
 const isDev = think.env === 'development';
 
 module.exports = [
@@ -34,6 +35,9 @@ module.exports = [
   {
     handle: 'router',
     options: {}
+  },
+  {
+    handle: routerREST
   },
   'logic',
   'controller'
