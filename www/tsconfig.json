@@ -7,9 +7,22 @@
     "noImplicitAny": false,
     "jsx": "react",
     "sourceMap": true,
-    "noLib": false,
-    "suppressImplicitAnyIndexErrors": true
+    // "noLib": false,
+    "suppressImplicitAnyIndexErrors": true,
+    "lib": [
+      "es6",
+      "dom"
+    ]
   },
   "compileOnSave": false,
-  "exclude": ["node_modules"]
+  "exclude": [
+    "node_modules",
+    "dist",
+    ".git"
+  ],
+  "awesomeTypescriptLoaderOptions": {
+    "reportFiles": [
+      "src/**/*.{ts,tsx}"
+    ]
+  }
 }
