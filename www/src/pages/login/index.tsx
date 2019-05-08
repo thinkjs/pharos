@@ -4,7 +4,9 @@ import { Form, Button, Input, Row } from 'antd';
 import { FormComponentProps } from 'antd/lib/form';
 import './index.less'
 
-interface LoginFormProps extends FormComponentProps { }
+interface LoginFormProps extends FormComponentProps {
+
+}
 
 class LoginForm extends React.Component<LoginFormProps, any> {
 
@@ -19,12 +21,13 @@ class LoginForm extends React.Component<LoginFormProps, any> {
   goRegister = () => {
     console.log(3)
   }
+  // props: any;
 
   render() {
     const { getFieldDecorator } = this.props.form;
     return (
-      <div >
-        <div >
+      <div className="form">
+        <div className="logo">
           <img />
           <span></span>
         </div>
@@ -60,7 +63,7 @@ class LoginForm extends React.Component<LoginFormProps, any> {
             })(
               <div>
                 <Input size="large" type="text" onPressEnter={this.handleOk} placeholder="验证码" />
-                {/* <img ref={c => (img = c)} src={`${config.baseURL}api/token?v=${refreshToken}`} onClick={this.handleRefresh} /> */}
+                {/* <img  src={`${config.baseURL}api/token?v=${refreshToken}`} onClick={this.handleRefresh} /> */}
               </div>
             )}
           </Form.Item>
