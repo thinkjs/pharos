@@ -1,5 +1,5 @@
 import * as React from "react";
-import { HashRouter, Switch, Route } from "react-router-dom";
+import { HashRouter, Switch, Route, BrowserRouter as Router } from "react-router-dom";
 import { Index } from "./pages";
 import "./style.less";
 import Login from './pages/login';
@@ -17,7 +17,7 @@ function App() {
     <>
       <HashRouter>
         <Switch>
-          <Route exact={true} path="/" component={Index} />
+          <Route exact={true} path="/index" component={Index} />
           <Route exact={true} path="/" component={Login} />
         </Switch>
       </HashRouter>
