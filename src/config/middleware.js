@@ -1,4 +1,7 @@
 const path = require('path');
+const cors = require('kcors');
+const routerREST = require('think-router-rest');
+
 const isDev = think.env === 'development';
 
 module.exports = [
@@ -14,27 +17,56 @@ module.exports = [
     enable: isDev,
     options: {
       root: path.join(think.ROOT_PATH, 'www'),
-      publicPath: /^\/(static|favicon\.ico)/
+      publicPath: /^\/(static|doc|favicon\.ico)/
     }
   },
   {
     handle: 'trace',
     enable: !think.isCli,
     options: {
-      debug: isDev
+      debug: isDev,
+      contentType(ctx) {
+        // All request url starts of /api or request header contains `X-Requested-With: XMLHttpRequest` will output json error
+        if (!isDev) {
+          return 'json';
+        }
+
+        const APIRequest = /^\/api/.test(ctx.request.path);
+        const AJAXRequest = ctx.is('X-Requested-With', 'XMLHttpRequest');
+
+        return APIRequest || AJAXRequest ? 'json' : 'html';
+      },
+      error(err) {
+        if (think.isPrevent(err)) {
+          return false;
+        }
+        console.error(err);
+      }
     }
   },
   {
-    handle: 'payload',
+    handle: cors,
     options: {
-      keepExtensions: true,
-      limit: '5mb'
+      origin: (ctx) => {
+        return ctx.header.origin;
+      },
+      credentials: true,
+      allowMethods: 'GET,HEAD,PUT,POST,DELETE,PATCH'
     }
   },
+  'payload',
+  'router',
   {
-    handle: 'router',
-    options: {}
+    handle: routerREST
+  },
+  {
+    handle: routerREST
   },
   'logic',
-  'controller'
+  {
+    handle: 'controller',
+    options: {
+      emptyController: 'index'
+    }
+  }
 ];
