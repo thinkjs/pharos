@@ -6,7 +6,7 @@ CREATE TABLE `ph_user` (
   `name` varchar(255) NOT NULL DEFAULT '',
   `display_name` varchar(255) NOT NULL DEFAULT '',
   `password` varchar(255) NOT NULL DEFAULT '',
-  `status` int(11) NOT NULL,
+  `status` int(11) NOT NULL DEFAULT 1,
   `create_time` datetime NOT NULL,
   `create_ip` varchar(20) NOT NULL DEFAULT '',
   `last_login_time` datetime NOT NULL,
