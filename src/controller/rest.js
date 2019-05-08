@@ -17,7 +17,7 @@ module.exports = class extends think.Controller {
     assert(think.isFunction(this.model), 'this.model must be a function');
     this.modelInstance = this.model(this.resource);
   }
-  __before() { }
+  __before() {}
   /**
    * get resource
    * @return {String} [resource name]
@@ -42,7 +42,7 @@ module.exports = class extends think.Controller {
     let data;
     if (this.id) {
       const pk = await this.modelInstance.pk;
-      data = await this.modelInstance.where({ [pk]: this.id }).find();
+      data = await this.modelInstance.where({[pk]: this.id}).find();
       return this.success(data);
     }
     data = await this.modelInstance.select();
@@ -60,7 +60,7 @@ module.exports = class extends think.Controller {
       return this.fail('data is empty');
     }
     const insertId = await this.modelInstance.add(data);
-    return this.success({ id: insertId });
+    return this.success({id: insertId});
   }
   /**
    * delete resource
@@ -71,8 +71,8 @@ module.exports = class extends think.Controller {
       return this.fail('params error');
     }
     const pk = await this.modelInstance.pk;
-    const rows = await this.modelInstance.where({ [pk]: this.id }).delete();
-    return this.success({ affectedRows: rows });
+    const rows = await this.modelInstance.where({[pk]: this.id}).delete();
+    return this.success({affectedRows: rows});
   }
   /**
    * update resource
@@ -88,8 +88,8 @@ module.exports = class extends think.Controller {
     if (think.isEmpty(data)) {
       return this.fail('data is empty');
     }
-    const rows = await this.modelInstance.where({ [pk]: this.id }).update(data);
-    return this.success({ affectedRows: rows });
+    const rows = await this.modelInstance.where({[pk]: this.id}).update(data);
+    return this.success({affectedRows: rows});
   }
   __call() {
 
@@ -97,14 +97,14 @@ module.exports = class extends think.Controller {
 
   async getPerfs(site_id) {
     const result = {};
-    const perfs = await this.model('perf').where({ site_id }).select();
+    const perfs = await this.model('perf').where({site_id}).select();
     if (think.isEmpty(perfs)) {
       return result;
     }
 
     result.length = perfs.length;
     for (let i = 0; i < perfs.length; i++) {
-      const { id, name } = perfs[i];
+      const {id, name} = perfs[i];
       result[id] = name;
       result[name] = id;
     }
