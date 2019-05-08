@@ -21,20 +21,20 @@ export const Index = () => (
           style={{ marginLeft: 200 }}
         >
           <Menu.Item key="1">
-            <Link to="/">项目管理</Link>
+            <Link to="/index">项目管理</Link>
           </Menu.Item>
           <Menu.Item key="2">
-            <Link to="/analyse">性能分析</Link>
+            <Link to="/index/analyse">性能分析</Link>
           </Menu.Item>
           <Menu.Item key="3">
-            <Link to="/list">项目列表</Link>
+            <Link to="/index/list">项目列表</Link>
           </Menu.Item>
         </Menu>
       </Header>
       <Layout>
-        <Route path="/" exact component={Manage} />
-        <Route path="/analyse" exact component={Analyse} />
-        <Route path="/list" exact component={ItemList} />
+        <Route path="/index" exact component={Manage} />
+        <Route path="/index/analyse" exact component={Analyse} />
+        <Route path="/index/list" exact component={ItemList} />
       </Layout>
     </Router>
   </Layout>
