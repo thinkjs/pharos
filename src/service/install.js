@@ -1,12 +1,12 @@
 const fs = require('fs');
 const path = require('path');
 const tables = [
-  'site',
+  // 'site',
   'user',
-  'site_user',
-  'site_page',
-  'options',
-  'perf'
+  // 'site_user',
+  // 'site_page',
+  'options'
+  // 'perf'
 ];
 module.exports = class extends think.Service {
   constructor(ip) {
