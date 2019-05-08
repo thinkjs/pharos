@@ -5,6 +5,45 @@ var path = require('path');
 
 var basePath = __dirname;
 
+function cssLoaders(loader) {
+  var use;
+  var isNode = false;
+
+  use = isNode ? [
+    'css-loader/locals'
+  ] : [
+    'style-loader',
+    {
+      loader: require.resolve('css-loader'),
+      options: {
+        importLoaders: 1
+      }
+    },
+    {
+      loader: require.resolve('postcss-loader'),
+      options: {
+        ident: 'postcss',
+        // parser: 'sugarss',
+        plugins: () => [
+          require('autoprefixer')({
+            browsers: [
+              '>1%',
+              'last 4 versions',
+              'Firefox ESR',
+              'not ie < 9' // React doesn't support IE8 anyway
+            ],
+            flexbox: 'no-2009'
+          })
+        ]
+      }
+    }
+  ];
+  if (loader) {
+    use.push(...loader);
+  }
+  return use;
+}
+
 module.exports = {
   context: path.join(basePath, 'src'),
   resolve: {
@@ -28,36 +67,24 @@ module.exports = {
       {
         test: /\.(ts|tsx)$/,
         exclude: /node_modules/,
-        loader: 'awesome-typescript-loader',
-        options: {
-          useBabel: true,
-          babelCore: '@babel/core' // needed for Babel v7
-        }
+        loader: ['babel-loader', 'ts-loader']
       },
       {
         test: /\.css$/,
-        use: [MiniCssExtractPlugin.loader, 'css-loader']
-      },
-      {
-        test: /\.(png|jpg|gif|svg)$/,
-        loader: 'file-loader',
-        options: {
-          name: 'assets/img/[name].[ext]?[hash]'
-        }
+        use: cssLoaders()
       },
       {
         test: /\.less$/,
-        use: [
-          {
-            loader: 'style-loader' // creates style nodes from JS strings
-          },
-          {
-            loader: 'css-loader' // translates CSS into CommonJS
-          },
-          {
-            loader: 'less-loader' // compiles Less to CSS
-          }
-        ]
+        loader: cssLoaders([{
+          loader: 'less-loader'
+        }])
+      },
+      {
+        test: /\.(png|jpg|gif|ttf|eot|svg|woff|woff2)$/,
+        loader: 'url-loader',
+        options: {
+          name: '[path][name].[ext]&limit=200000'
+        }
       }
     ]
   },
