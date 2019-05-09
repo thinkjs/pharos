@@ -35,11 +35,13 @@
   },
   "dependencies": {
     "@types/antd": "1.0.0",
+    "@types/axios": "0.14.0",
     "@types/react": "16.8.16",
     "@types/react-dom": "16.8.4",
     "@types/react-router": "4.4.5",
     "@types/react-router-dom": "4.3.2",
     "antd": "3.16.6",
+    "axios": "0.18.0",
     "babel-plugin-import": "1.11.0",
     "react": "16.8.6",
     "react-dom": "16.8.6",
