@@ -39,4 +39,8 @@ module.exports = class extends think.Model {
 
     return this.where({[this.pk]: data.id}).update(data);
   }
+
+  deleteUser(data) {
+    return this.where({[this.pk]: data.id}).delete();
+  }
 };
