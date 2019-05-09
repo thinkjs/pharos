@@ -2,13 +2,21 @@ import * as React from 'react';
 import { withRouter, RouteComponentProps } from "react-router-dom";
 import { Form, Button, Input, Row } from 'antd';
 import { FormComponentProps } from 'antd/lib/form';
+import axios from 'axios';
 import './index.less'
+
+let baseURL = '127.0.0.1:8360/'
 
 interface LoginFormProps extends FormComponentProps {
 
 }
 
 class LoginForm extends React.Component<LoginFormProps, any> {
+
+  async componentDidMount() {
+    const result = await axios.post(`http://${baseURL}api/token?v=${222}`)
+    console.log(834, result)
+  }
 
   handleOk = () => {
     console.log(1)
@@ -24,6 +32,7 @@ class LoginForm extends React.Component<LoginFormProps, any> {
   // props: any;
 
   render() {
+    let refreshToken = undefined;
     const { getFieldDecorator } = this.props.form;
     return (
       <div className="form">
@@ -63,7 +72,7 @@ class LoginForm extends React.Component<LoginFormProps, any> {
             })(
               <div>
                 <Input size="large" type="text" onPressEnter={this.handleOk} placeholder="验证码" />
-                {/* <img  src={`${config.baseURL}api/token?v=${refreshToken}`} onClick={this.handleRefresh} /> */}
+                <img src={`http://${baseURL}api/token?v=${refreshToken}`} onClick={this.handleRefresh} />
               </div>
             )}
           </Form.Item>
