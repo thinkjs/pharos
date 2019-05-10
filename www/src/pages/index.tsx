@@ -7,7 +7,7 @@ import ItemList from './itemlist';
 
 const { Header } = Layout;
 
-export const Index = () => (
+const Index = () => (
   <Layout style={{ height: "100%" }}>
     <Router>
       <Header
@@ -39,3 +39,5 @@ export const Index = () => (
     </Router>
   </Layout>
 );
+
+export default Index
