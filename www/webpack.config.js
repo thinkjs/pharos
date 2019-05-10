@@ -1,7 +1,7 @@
-var HtmlWebpackPlugin = require("html-webpack-plugin");
-var MiniCssExtractPlugin = require("mini-css-extract-plugin");
-var webpack = require("webpack");
-var path = require("path");
+var HtmlWebpackPlugin = require('html-webpack-plugin');
+var MiniCssExtractPlugin = require('mini-css-extract-plugin');
+var webpack = require('webpack');
+var path = require('path');
 
 var basePath = __dirname;
 
@@ -16,8 +16,8 @@ function cssLoaders(loader) {
       {
         loader: require.resolve('css-loader'),
         options: {
-          importLoaders: 1,
-        },
+          importLoaders: 1
+        }
       },
       {
         loader: require.resolve('postcss-loader'),
@@ -30,14 +30,14 @@ function cssLoaders(loader) {
                 '>1%',
                 'last 4 versions',
                 'Firefox ESR',
-                'not ie < 9', // React doesn't support IE8 anyway
+                'not ie < 9' // React doesn't support IE8 anyway
               ],
-              flexbox: 'no-2009',
+              flexbox: 'no-2009'
             })
           ]
         }
       }
-    ]
+    ];
   if (loader) {
     use.push(...loader);
   }
@@ -45,29 +45,29 @@ function cssLoaders(loader) {
 }
 
 module.exports = {
-  context: path.join(basePath, "src"),
+  context: path.join(basePath, 'src'),
   resolve: {
-    extensions: [".js", ".ts", ".tsx"]
+    extensions: ['.js', '.ts', '.tsx']
   },
-  entry: ["@babel/polyfill", "./index.tsx"],
+  entry: ['@babel/polyfill', './index.tsx'],
   output: {
-    path: path.join(basePath, "dist"),
-    filename: "bundle.js"
+    path: path.join(basePath, 'dist'),
+    filename: 'bundle.js'
   },
-  devtool: "source-map",
+  devtool: 'source-map',
   devServer: {
-    contentBase: "./dist", // Content base
+    contentBase: './dist', // Content base
     inline: true, // Enable watch and live reload
-    host: "localhost",
-    port: 8088,
-    stats: "errors-only"
+    host: 'localhost',
+    port: 8080,
+    stats: 'errors-only'
   },
   module: {
     rules: [
       {
         test: /\.(ts|tsx)$/,
         exclude: /node_modules/,
-        loader: ["babel-loader", "ts-loader"],
+        loader: ['babel-loader', 'ts-loader']
       },
       {
         test: /\.css$/,
@@ -76,7 +76,7 @@ module.exports = {
       {
         test: /\.less$/,
         loader: cssLoaders([{
-          loader: "less-loader",
+          loader: 'less-loader'
         }])
       },
       {
@@ -89,15 +89,15 @@ module.exports = {
     ]
   },
   plugins: [
-    //Generate index.html in /dist => https://github.com/ampedandwired/html-webpack-plugin
+    // Generate index.html in /dist => https://github.com/ampedandwired/html-webpack-plugin
     new HtmlWebpackPlugin({
-      filename: "index.html", //Name of file in ./dist/
-      template: "index.html", //Name of template in ./src
+      filename: 'index.html', // Name of file in ./dist/
+      template: 'index.html', // Name of template in ./src
       hash: true
     }),
     new MiniCssExtractPlugin({
-      filename: "[name].css",
-      chunkFilename: "[id].css"
+      filename: '[name].css',
+      chunkFilename: '[id].css'
     })
   ]
 };

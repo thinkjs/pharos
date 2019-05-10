@@ -12,8 +12,13 @@
       "import",
       {
         "libraryName": "antd",
-        "libraryDirectory": "es",
         "style": "css"
+      }
+    ],
+    [
+      "babel-plugin-root-import",
+      {
+        "rootPathSuffix": "src"
       }
     ]
   ]
