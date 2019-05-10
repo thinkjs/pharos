@@ -36,7 +36,7 @@ module.exports = class extends BaseRest {
       return this.fail('MISS USER ID');
     }
 
-    let data = this.post();
+    let data = this.get();
     for (const i in data) {
       if (!data[i]) {
         delete data[i];
@@ -46,5 +46,17 @@ module.exports = class extends BaseRest {
     data.id = this.id;
     data = await this.modelInstance.updateUser(data);
     return this.success(data);
+  }
+
+  async deleteAction() {
+    if (!this.id) {
+      return this.fail('MISS USER ID');
+    }
+
+    const data = this.post();
+
+    data.id = this.id;
+    const affectedRows = await this.modelInstance.deleteUser(data);
+    return this.success(affectedRows);
   }
 };
