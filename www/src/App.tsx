@@ -1,29 +1,43 @@
 import * as React from "react";
-import { HashRouter, Switch, Route, BrowserRouter as Router } from "react-router-dom";
-import { Index } from "./pages";
-import "./style.less";
-// import Login from './pages/login';
+import { Route, Redirect, Switch } from 'react-router-dom'
+import Index from './pages/index'
+import Login from './pages/login'
+import Register from './pages/register'
+import NoMatch from './components/NoMatch'
 
 
-// export interface Props {
-//   name: string;
-//   enthusiasmLevel?: number;
-// }
 
-// interface AppProps { }
+const AuthRoute = ({ component: Component, ...rest }) => (
+  <Route
+    {...rest}
+    render={props =>
+      localStorage.getItem('token') ? (
+        <Component {...props} />
+      ) : (
+          <Redirect
+            to={{
+              pathname: "/login",
+              state: { from: props.location }
+            }}
+          />
+        )
+    }
+  />
+);
 
-function App() {
-  return (
-    <>
-      <div>123</div>
-      {/* <HashRouter>
-        <Switch>
-          <Route exact={true} path="/index" component={Index} />
-          <Route exact={true} path="/" component={Login} />
-        </Switch>
-      </HashRouter> */}
-    </>
-  );
+class App extends React.Component {
+
+  render() {
+    return (
+      <Switch>
+        <AuthRoute exact path="/" component={Index} />
+        {/* <Route path="/" component={Index} /> */}
+        <Route path="/login" component={Login} />
+        <Route path="/register" component={Register} />
+        <Route component={NoMatch} />
+      </Switch>
+    );
+  }
 }
 
-export default App;
+export default App
