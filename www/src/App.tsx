@@ -1,7 +1,8 @@
 import * as React from "react";
-import { HashRouter, Switch, Route } from 'react-router-dom';
-import Login from './pages/login';
-import { PageB } from './pages/PageB';
+import { HashRouter, Switch, Route, BrowserRouter as Router } from "react-router-dom";
+import { Index } from "./pages";
+import "./style.less";
+// import Login from './pages/login';
 
 
 // export interface Props {
@@ -14,12 +15,13 @@ import { PageB } from './pages/PageB';
 function App() {
   return (
     <>
-      <HashRouter>
+      <div>123</div>
+      {/* <HashRouter>
         <Switch>
+          <Route exact={true} path="/index" component={Index} />
           <Route exact={true} path="/" component={Login} />
-          <Route path="/pageB" component={PageB} />
         </Switch>
-      </HashRouter>
+      </HashRouter> */}
     </>
   );
 }
