@@ -1,29 +1,48 @@
 import * as React from 'react';
-import { withRouter, RouteComponentProps } from "react-router-dom";
 import { Form, Button, Input, Row } from 'antd';
+import { Link } from 'react-router-dom'
 import { FormComponentProps } from 'antd/lib/form';
-import axios from 'axios';
+import axios from '../../components/axios';
+import { baseURL } from '../../config/domain'
+import history from '../../components/history'
 import './index.less'
 
-let baseURL = '127.0.0.1:8360/'
+const formItemLayout = {
+  labelCol: { span: 6 },
+  wrapperCol: { span: 14 },
+};
 
-interface LoginFormProps extends FormComponentProps {
 
-}
+interface LoginFormProps extends FormComponentProps { }
 
 class LoginForm extends React.Component<LoginFormProps, any> {
 
   async componentDidMount() {
-    const result = await axios.post(`http://${baseURL}api/token?v=${222}`)
-    console.log(834, result)
+    // const result = await axios.post(`${baseURL}api/token?v=${222}`)
+    // console.log(834, result)
   }
 
-  handleOk = () => {
-    console.log(1)
+  handleOk = (e) => {
+    e.preventDefault();
+    this.props.form.validateFields(async (err, values) => {
+      if (!err) {
+        const result = await axios.post('/api/token', values)
+        if (result) {
+          localStorage.setItem('token', result.data.token)
+          history.push('/index')
+        }
+      }
+    });
+
   }
 
-  handleRefresh = () => {
-    console.log(2)
+  async handleRefresh() {
+
+    const result = await axios.get('/api/token')
+    if (result) {
+      console.log(333, result)
+      // document.querySelector('#imgToken').src=result.token
+    }
   }
 
   goRegister = () => {
@@ -40,8 +59,8 @@ class LoginForm extends React.Component<LoginFormProps, any> {
           <img />
           <span></span>
         </div>
-        <form>
-          <Form.Item hasFeedback>
+        <Form onSubmit={this.handleOk}>
+          <Form.Item hasFeedback {...formItemLayout}>
             {getFieldDecorator('credential', {
               rules: [
                 {
@@ -72,23 +91,20 @@ class LoginForm extends React.Component<LoginFormProps, any> {
             })(
               <div>
                 <Input size="large" type="text" onPressEnter={this.handleOk} placeholder="验证码" />
-                <img src={`http://${baseURL}api/token?v=${refreshToken}`} onClick={this.handleRefresh} />
+                <img id="imgToken" src={`${baseURL}api/token?v=${refreshToken}`} onClick={this.handleRefresh} />
               </div>
             )}
           </Form.Item>
           <Row>
-            <Button type="primary" size="large" onClick={this.handleOk} loading={false}>
-              登 录
+            <Button type="primary" htmlType="submit" className="login-form-button">
+              登录
           </Button>
-            {/* <Button size="large" onClick={handleOk} loading={loginLoading}>
-            域账号登录
-          </Button> */}
             <p>
               <a href="/api/token/intranet">域账号登录</a><br />
-              <a onClick={this.goRegister}>没有账号？现在注册</a>
+              <Link to="/register">没有账号？现在注册</Link>
             </p>
           </Row>
-        </form>
+        </Form>
       </div>
     )
   }
