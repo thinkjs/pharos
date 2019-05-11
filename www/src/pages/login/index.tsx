@@ -7,20 +7,16 @@ import { baseURL } from '../../config/domain'
 import history from '../../components/history'
 import './index.less'
 
-const formItemLayout = {
-  labelCol: { span: 6 },
-  wrapperCol: { span: 14 },
-};
+interface LoginFormProps extends FormComponentProps {
+  imgToken: any
+}
 
+class LoginForm extends React.Component<any, any> {
 
-interface LoginFormProps extends FormComponentProps { }
-
-class LoginForm extends React.Component<LoginFormProps, any> {
-
-  async componentDidMount() {
-    // const result = await axios.post(`${baseURL}api/token?v=${222}`)
-    // console.log(834, result)
+  constructor(props) {
+    super(props);
   }
+
 
   handleOk = (e) => {
     e.preventDefault();
@@ -28,7 +24,7 @@ class LoginForm extends React.Component<LoginFormProps, any> {
       if (!err) {
         const result = await axios.post('/api/token', values)
         if (result) {
-          localStorage.setItem('token', result.data.token)
+          localStorage.setItem('isLogin', result.data.name)
           history.push('/index')
         }
       }
@@ -36,19 +32,9 @@ class LoginForm extends React.Component<LoginFormProps, any> {
 
   }
 
-  async handleRefresh() {
-
-    const result = await axios.get('/api/token')
-    if (result) {
-      console.log(333, result)
-      // document.querySelector('#imgToken').src=result.token
-    }
+  handleRefresh = async () => {
+    document.querySelector('#imgToken').setAttribute('src', `${baseURL}api/token?v=${Date.now()}`)
   }
-
-  goRegister = () => {
-    console.log(3)
-  }
-  // props: any;
 
   render() {
     let refreshToken = undefined;
@@ -60,7 +46,7 @@ class LoginForm extends React.Component<LoginFormProps, any> {
           <span></span>
         </div>
         <Form onSubmit={this.handleOk}>
-          <Form.Item hasFeedback {...formItemLayout}>
+          <Form.Item hasFeedback >
             {getFieldDecorator('credential', {
               rules: [
                 {
@@ -68,7 +54,7 @@ class LoginForm extends React.Component<LoginFormProps, any> {
                   message: '用户名不能为空'
                 },
               ],
-            })(<Input size="large" onPressEnter={this.handleOk} placeholder="用户名" />)}
+            })(<Input size="large" placeholder="用户名" />)}
           </Form.Item>
           <Form.Item hasFeedback>
             {getFieldDecorator('password', {
@@ -78,7 +64,7 @@ class LoginForm extends React.Component<LoginFormProps, any> {
                   message: '密码不能为空'
                 },
               ],
-            })(<Input size="large" type="password" onPressEnter={this.handleOk} placeholder="密码" />)}
+            })(<Input size="large" type="password" placeholder="密码" />)}
           </Form.Item>
           <Form.Item>
             {getFieldDecorator('captcha', {
@@ -89,7 +75,7 @@ class LoginForm extends React.Component<LoginFormProps, any> {
                 },
               ],
             })(
-              <div>
+              <div className="img-token-wrap">
                 <Input size="large" type="text" onPressEnter={this.handleOk} placeholder="验证码" />
                 <img id="imgToken" src={`${baseURL}api/token?v=${refreshToken}`} onClick={this.handleRefresh} />
               </div>
