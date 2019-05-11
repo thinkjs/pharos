@@ -8,10 +8,13 @@ axios.defaults.timeout = 5000
 localStorage.getItem('token')
 // http请求拦截器
 axios.interceptors.request.use(config => {
+  // config.headers.Authorization = localStorage.getItem('token')
+  config.withCredentials = true
 
-  if (localStorage.getItem('token')) {
-    config.headers.Authorization = localStorage.getItem('token')
-  }
+  // if (localStorage.getItem('token')) {
+  //   config.headers.Authorization = localStorage.getItem('token')
+  //   config.withCredentials = true
+  // }
   // config.headers['x-forwarded-for'] = 'admin'
   // 防止缓存
   // if (config.method === 'post'&& config.headers['Content-Type']!=='multipart/form-data') {
@@ -40,15 +43,16 @@ const errAction = {
 
 // http响应拦截器
 axios.interceptors.response.use(data => {
-  if (!data || typeof data.data !== 'object') {
-    message.error('服务器响应格式错误')
-    return false
-  }
+  console.log(456, data)
+  // if (!data || typeof data.data !== 'object') {
+  //   message.error('服务器响应格式错误')
+  //   return false
+  // }
   const result = data.data
 
-  if (result.errno !== 0) {
+  if (result.errno && result.errno !== 0) {
     message.error(result.errmsg)
-    errAction[result.errno]()
+    // errAction[result.errno]()
     return false // 错误码统一返回false，在这里统一处理，页面不对其处理
   }
   return result

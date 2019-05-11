@@ -11,7 +11,7 @@ const AuthRoute = ({ component: Component, ...rest }) => (
   <Route
     {...rest}
     render={props =>
-      localStorage.getItem('token') ? (
+      localStorage.getItem('isLogin') ? (
         <Component {...props} />
       ) : (
           <Redirect
@@ -30,8 +30,8 @@ class App extends React.Component {
   render() {
     return (
       <Switch>
-        <AuthRoute exact path="/" component={Index} />
-        {/* <Route path="/" component={Index} /> */}
+        <Redirect exact from="/" to="/index" />
+        <AuthRoute path="/index" component={Index} />
         <Route path="/login" component={Login} />
         <Route path="/register" component={Register} />
         <Route component={NoMatch} />
