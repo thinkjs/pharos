@@ -32,14 +32,6 @@ global.ROLES = {
   global[roleName].is = status => statuses.indexOf(status) > -1;
 });
 
-think.beforeStartServer(async() => {
-  const install = think.service('install');
-  global.isInstalled = await install.checkInstalled();
-});
-
-think.messenger.on('install', install => {
-  global.isInstalled = install;
-});
 think.messenger.on('restart', () => {
   cluster.worker.kill();
 });
