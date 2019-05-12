@@ -7,7 +7,7 @@
 #
 # Host: 127.0.0.1 (MySQL 8.0.13)
 # Database: npharos
-# Generation Time: 2019-05-12 03:49:24 +0000
+# Generation Time: 2019-05-12 10:06:48 +0000
 # ************************************************************
 
 
@@ -50,6 +50,11 @@ DROP TABLE IF EXISTS `ph_error_monitor`;
 
 CREATE TABLE `ph_error_monitor` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `site_id` int(11) DEFAULT NULL,
+  `site_page_id` int(11) DEFAULT NULL,
+  `error` text,
+  `count` int(11) DEFAULT NULL,
+  `create_time` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
