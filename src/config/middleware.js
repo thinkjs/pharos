@@ -59,9 +59,6 @@ module.exports = [
   {
     handle: routerREST
   },
-  {
-    handle: routerREST
-  },
   'logic',
   {
     handle: 'controller',
