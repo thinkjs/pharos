@@ -32,7 +32,8 @@
     "think-svg-captcha": "^1.0.3",
     "think-view": "^1.0.10",
     "think-view-nunjucks": "^1.0.1",
-    "thinkjs": "^3.2.10"
+    "thinkjs": "^3.2.10",
+    "uuid": "^3.3.2"
   },
   "devDependencies": {
     "think-watcher": "^3.0.0",

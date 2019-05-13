@@ -152,3 +152,18 @@ CREATE TABLE `ph_user` (
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+# Dump of table ph_site
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `ph_site`;
+
+CREATE TABLE `ph_site` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `url` varchar(255) NOT NULL DEFAULT '',
+  `sid` varchar(255) NOT NULL,
+  `name` varchar(255) NOT NULL DEFAULT '',
+  `create_time` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

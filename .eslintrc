@@ -1,6 +1,7 @@
 {
   "extends": "think",
   "rules": {
-    "camelcase": "off"
+    "camelcase": "off",
+    "indent": ["warning", 2]
   }
 }
