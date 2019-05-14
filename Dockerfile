@@ -1,4 +1,4 @@
-FROM r.addops.soft.360.cn/library/nodejs-8-el7:latest
+FROM 12.2.0-alpine
 
 WORKDIR /pharos.net
 
