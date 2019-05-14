@@ -5,6 +5,7 @@ module.exports = class extends Base {
    * @apiGroup Site
    * @apiVersion  0.0.1
    *
+   * @apiParam  {String}  keywords  url 或 name
    * @apiParam  {String}  page  页数
    * @apiParam  {String}  pagesize  分页大小
    */
@@ -12,15 +13,6 @@ module.exports = class extends Base {
    * @api {GET} /site/:id 获取网站信息
    * @apiGroup  Site
    * @apiVersion  0.0.1
-   */
-   /**
-   * @api {GET} /site 查询网站信息
-   * @apiGroup  Site
-   * @apiVersion  0.0.1
-   *
-   * @apiParam  {String}  keywords  url 或 name
-   * @apiParam  {String}  page  页数
-   * @apiParam  {String}  pagesize  分页大小
    */
   getAction() {
     this.rules = {
