@@ -60,7 +60,8 @@ module.exports = class extends Base {
         data.user = [{ user_id: this.userInfo.id, status: global.ROLES.SITE_ADMIN }];
         data.sid = think.uuid();
         const insertId = await this.modelInstance.addSite(data);
-        return this.success(insertId);
+        const insertData = await this.modelInstance.where({sid: data.sid}).find();
+        return this.success(insertData);
     }
 
     async putAction() {
