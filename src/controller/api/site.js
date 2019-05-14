@@ -7,7 +7,7 @@ module.exports = class extends Base {
     }
 
     async getAction() {
-        const { page, pagesize } = this.get();
+        const { page, pagesize, keywords } = this.get();
         const isSuperAdmin = global.SUPER_ADMIN.is(this.userInfo.status);
 
         if (this.id) {
@@ -42,9 +42,25 @@ module.exports = class extends Base {
 
         let result;
         if (page) {
-            result = await this.modelInstance.page([page, pagesize]).countSelect();
+            if (keywords) {
+                result = await this.modelInstance.where({
+                    name: keywords, 
+                    url: keywords, 
+                    _logic: 'OR'
+                }).page([page, pagesize]).countSelect();
+            } else {
+                result = await this.modelInstance.page([page, pagesize]).countSelect();
+            }
         } else {
-            result = await this.modelInstance.select();
+            if (keywords) {
+                result = await this.modelInstance.where({
+                    name: ['like', `%${keywords}%`], 
+                    url: ['like', `%${keywords}%`],
+                    _logic: 'OR'
+                }).select()
+            } else {
+                result = await this.modelInstance.select();
+            }
         }
         return this.success(result);
     }
