@@ -7,9 +7,7 @@ RUN npm config set registry http://registry.npm.qiwoo.org && \
   npm config set package-lock false && npm install
 
 COPY . /pharos.net
-RUN rm -rf view && \
-  cp -r output/* ./ && \
-  rm -rf output
+RUN rm -rf view
 
 ENV DOCKER=true
 EXPOSE 9000

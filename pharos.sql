@@ -30,7 +30,7 @@ CREATE TABLE `ph_custom_monitor` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `site_id` int(11) NOT NULL,
   `metric_id` int(11) DEFAULT NULL,
-  `k1` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '',
+  `k1` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
   `k2` varchar(255) NOT NULL DEFAULT '',
   `k3` varchar(255) NOT NULL DEFAULT '',
   `k4` varchar(255) NOT NULL DEFAULT '',
@@ -39,7 +39,7 @@ CREATE TABLE `ph_custom_monitor` (
   `count` int(11) NOT NULL DEFAULT '0',
   `create_time` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 
 
@@ -56,7 +56,7 @@ CREATE TABLE `ph_error_monitor` (
   `count` int(11) DEFAULT NULL,
   `create_time` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 
 
@@ -68,12 +68,12 @@ DROP TABLE IF EXISTS `ph_metric`;
 CREATE TABLE `ph_metric` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `site_id` int(11) DEFAULT NULL,
-  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '',
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
   `display_name` varchar(255) NOT NULL DEFAULT '',
-  `description` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
-  `k1` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '',
-  `k1_display_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '',
-  `k2` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '',
+  `description` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+  `k1` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
+  `k1_display_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
+  `k2` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
   `k2_display_name` varchar(255) NOT NULL DEFAULT '',
   `k3` varchar(255) NOT NULL DEFAULT '',
   `k3_display_name` varchar(255) NOT NULL DEFAULT '',
@@ -83,7 +83,7 @@ CREATE TABLE `ph_metric` (
   `k5_display_name` varchar(255) NOT NULL DEFAULT '',
   `type` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 
 
@@ -98,7 +98,7 @@ CREATE TABLE `ph_options` (
   `value` text NOT NULL,
   `site_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 
 
@@ -111,7 +111,7 @@ CREATE TABLE `ph_perf_monitor` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `site_id` int(11) NOT NULL,
   `metric_id` int(11) DEFAULT NULL,
-  `k1` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '',
+  `k1` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
   `k2` varchar(255) NOT NULL DEFAULT '',
   `k3` varchar(255) NOT NULL DEFAULT '',
   `k4` varchar(255) NOT NULL DEFAULT '',
@@ -120,7 +120,7 @@ CREATE TABLE `ph_perf_monitor` (
   `count` int(11) NOT NULL DEFAULT '0',
   `create_time` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 
 
@@ -141,7 +141,7 @@ CREATE TABLE `ph_user` (
   `last_login_time` datetime NOT NULL,
   `last_login_ip` varchar(20) NOT NULL DEFAULT '',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 
 
