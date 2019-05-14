@@ -28,7 +28,18 @@ module.exports = class extends BaseRest {
       return this.fail('USER_EXIST');
     }
 
-    return this.success({id: insertId});
+    if (insertId.type === 'add') {
+      const userModel = this.model('user');
+      const userInfo = await userModel.where({
+        name: data.name,
+        email: data.email,
+        _logic: 'OR'
+      }).field('id,email,name,password,display_name,status').find();
+      delete userInfo.password;
+      await this.session('userInfo', userInfo);
+      return this.success(userInfo);
+    }
+
   }
 
   async putAction() {
