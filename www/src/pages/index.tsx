@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Link, Route, BrowserRouter as Router } from "react-router-dom";
+import { Switch, Link, Route, BrowserRouter as Router } from "react-router-dom";
 import { Menu, Layout } from "antd";
 import Manage from './manage';
 import Analyse from './analyse'
@@ -72,9 +72,11 @@ class Index extends React.Component<any, any> {
             </div>
           </Header>
           <Layout>
-            <Route path="/index" component={Manage} />
-            <Route path="/index/analyse" component={Analyse} />
-            <Route path="/index/list" component={ItemList} />
+            <Switch>
+              <Route path="/index" component={Manage} />
+              <Route path="/index/analyse" component={Analyse} />
+              <Route path="/index/list" component={ItemList} />
+            </Switch>
           </Layout>
         </Router>
       </Layout>

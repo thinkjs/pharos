@@ -17,7 +17,7 @@ class ItemList extends React.Component<LoginFormProps, any> {
       if (!err) {
         const result = await axios.post('/api/user', values)
         if (result) {
-          localStorage.setItem('token', result.data.token)
+          localStorage.setItem('isLogin', result.data.token)
           history.push('/index')
         }
       }
