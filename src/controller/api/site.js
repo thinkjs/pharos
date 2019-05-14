@@ -44,8 +44,8 @@ module.exports = class extends Base {
         if (page) {
             if (keywords) {
                 result = await this.modelInstance.where({
-                    name: keywords, 
-                    url: keywords, 
+                    name: ['like', `%${keywords}%`], 
+                    url: ['like', `%${keywords}%`],
                     _logic: 'OR'
                 }).page([page, pagesize]).countSelect();
             } else {
