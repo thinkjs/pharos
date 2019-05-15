@@ -9,8 +9,8 @@ import env from './env'
 
 const apiUrlMap = {
   // 'dev': 'http://api.pharos.cc:8360',
-  'dev': 'http://api.pharos.net',
-  'production': 'http://api.pharos.com',
+  'development': 'http://api.pharos.net/',
+  'production': 'http://api.pharos.com/',
 }
 
 export const baseURL = apiUrlMap[env]

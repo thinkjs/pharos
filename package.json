@@ -5,10 +5,7 @@
   "author": "lizheming <i@imnerd.org>",
   "scripts": {
     "start": "node development.js",
-<<<<<<< HEAD
-=======
     "production": "node production.js",
->>>>>>> a0b72c75a28c1b6d1387c3c5a0b4970abda17689
     "compile": "babel --no-babelrc src/ --presets think-node --out-dir app/",
     "doc:gen": "apidoc -i src/logic/api -o www/doc",
     "test": "THINK_UNIT_TEST=1 nyc ava test/ && nyc report --reporter=html",
