@@ -59,10 +59,11 @@ module.exports = {
   devServer: {
     contentBase: './dist', // Content base
     inline: true, // Enable watch and live reload
-    host: 'localhost',
-    port: 8080,
+    host: '127.0.0.1',
+    port: 20160,
     stats: 'errors-only',
     historyApiFallback: true,
+    disableHostCheck: true
   },
   module: {
     rules: [
