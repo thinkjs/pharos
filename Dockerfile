@@ -11,4 +11,4 @@ RUN rm -rf view
 
 ENV DOCKER=true
 EXPOSE 9000
-ENTRYPOINT [ "npm", "start" ]
+ENTRYPOINT [ "npm", "production" ]
