@@ -39,3 +39,4 @@ package-lock.json
 ./www/package-lock.json
 
 *.lock
+src/config/adapter.production.js
