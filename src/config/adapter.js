@@ -2,8 +2,8 @@ const fileCache = require('think-cache-file');
 const nunjucks = require('think-view-nunjucks');
 const fileSession = require('think-session-file');
 const mysql = require('think-model-mysql');
-const { Console, File, DateFile } = require('think-logger3');
 const path = require('path');
+const { DateFile } = require('think-logger3');
 const isDev = think.env === 'development';
 
 /**
@@ -17,7 +17,7 @@ exports.cache = {
   },
   file: {
     handle: fileCache,
-    cachePath: path.join(think.ROOT_PATH, 'runtime/cache'), // absoulte path is necessarily required
+    cachePath: path.join(think.ROOT_PATH, 'runtime/cache'), // absolute path is necessarily required
     pathDepth: 1,
     gcInterval: 24 * 60 * 60 * 1000 // gc interval
   }
@@ -82,28 +82,17 @@ exports.view = {
   }
 };
 
-/**
- * logger adapter config
- * @type {Object}
- */
 exports.logger = {
   type: isDev ? 'console' : 'dateFile',
-  console: {
-    handle: Console
-  },
-  file: {
-    handle: File,
-    backups: 10, // max chunk number
-    absolute: true,
-    maxLogSize: 50 * 1024, // 50M
-    filename: path.join(think.ROOT_PATH, 'logs/app.log')
-  },
   dateFile: {
     handle: DateFile,
-    level: 'ALL',
     absolute: true,
     pattern: '-yyyy-MM-dd',
     alwaysIncludePattern: true,
-    filename: path.join(think.ROOT_PATH, 'logs/app.log')
+    filename: path.join(think.ROOT_PATH, 'logs/xx.log'),
+    layout: {
+      type: 'pattern',
+      pattern: '%[[%d] [%z] [%p]%] - %m'
+    }
   }
 };
