@@ -86,12 +86,12 @@ module.exports = class extends Base {
         }
     
         const userInfo = await this.session('userInfo') || {};
-        // const role = await this.model('site_user')
-        //   .where({ site_id: this.id, user_id: userInfo.id })
-        //   .find();
-        // if (global.ADMIN.is(userInfo.status)) {
-        //   return this.fail('PERMISSION_DENIED');
-        // }
+        const role = await this.model('site_user')
+          .where({ site_id: this.id, user_id: userInfo.id })
+          .find();
+        if (global.ADMIN.is(userInfo.status) || think.isEmpty(role)) {
+          return this.fail('PERMISSION_DENIED');
+        }
     
         const { name, url } = this.post();
         if (!name || !url) {
@@ -110,14 +110,13 @@ module.exports = class extends Base {
         this.id = parseInt(this.id);
         const userInfo = await this.session('userInfo') || {};
         if (!global.ADMIN.is(userInfo.status)) {
-          // const role = await this.model('site_user').where({
-          //   user_id: userInfo.id,
-          //   site_id: this.id
-          // }).find();
-          // if (think.isEmpty(role)) {
-          //   return this.fail('PERMISSION_DENIED');
-          // }
-          return this.fail('PERMISSION_DENIED');
+          const role = await this.model('site_user').where({
+            user_id: userInfo.id,
+            site_id: this.id
+          }).find();
+          if (think.isEmpty(role)) {
+            return this.fail('PERMISSION_DENIED');
+          }
         }
     
         try {
