@@ -1,34 +1,38 @@
 {
   "compilerOptions": {
-    "baseUrl": ".",
-    "paths": {
-      "*": [
-        "types/*"
-      ]
-    },
-    "target": "es6",
-    "module": "es6",
-    "moduleResolution": "node",
-    "declaration": false,
-    "noImplicitAny": false,
-    "jsx": "react",
-    "sourceMap": true,
-    // "noLib": false,
-    "suppressImplicitAnyIndexErrors": true,
+    "outDir": "build/dist",
+    "module": "esnext",
+    "target": "es5",
     "lib": [
-      "es6",
+      "es7",
       "dom"
-    ]
+    ],
+    "sourceMap": true,
+    "allowJs": true,
+    "jsx": "react",
+    "moduleResolution": "node",
+    "forceConsistentCasingInFileNames": true,
+    "noImplicitReturns": true,
+    "noImplicitThis": true,
+    "noImplicitAny": false,
+    "strictNullChecks": true,
+    "suppressImplicitAnyIndexErrors": true,
+    "noUnusedLocals": true,
+    "allowSyntheticDefaultImports": true,
+    "experimentalDecorators": true,
+    "noImplicitUseStrict": true,
+    "alwaysStrict": false,
   },
-  "compileOnSave": false,
   "exclude": [
-    "node_modules",
-    "dist",
-    ".git"
+    "build",
+    "scripts",
+    "webpack",
+    "jest",
+    "bin",
+    "runtime",
+    "view",
   ],
-  "awesomeTypescriptLoaderOptions": {
-    "reportFiles": [
-      "src/**/*.{ts,tsx}"
-    ]
-  }
+  "types": [
+    "typePatches"
+  ]
 }

@@ -1,44 +1,33 @@
 import * as React from 'react';
 import { Form, Button, Input, Row } from 'antd';
 import { Link } from 'react-router-dom'
-import { FormComponentProps } from 'antd/lib/form';
-import axios from '../../components/axios';
-import { baseURL } from '../../config/domain'
-import history from '../../components/history'
+import { observer, inject } from 'mobx-react';
+import { baseURL } from '../../../config/domain'
 import './index.less'
-
-interface LoginFormProps extends FormComponentProps {
-  imgToken: any
-}
-
-class LoginForm extends React.Component<any, any> {
-
-  constructor(props) {
-    super(props);
-  }
+import { LoginFormProps } from '../proto/signin';
 
 
-  handleOk = (e) => {
+@inject('signinStore') @observer
+class LoginForm extends React.Component<LoginFormProps, any> {
+
+
+  handleOk = (e: any) => {
     e.preventDefault();
-    this.props.form.validateFields(async (err, values) => {
+    const { signinStore, form } = this.props
+    form.validateFields(async (err, values: string) => {
       if (!err) {
-        const result = await axios.post('/api/token', values)
-        if (result) {
-          localStorage.setItem('isLogin', result.data.name)
-          history.push('/index')
-        }
+        signinStore.submit(values)
       }
     });
 
   }
 
-  handleRefresh = async () => {
-    document.querySelector('#imgToken').setAttribute('src', `${baseURL}api/token?v=${Date.now()}`)
-  }
+
 
   render() {
     let refreshToken = undefined;
     const { getFieldDecorator } = this.props.form;
+    const { signinStore } = this.props
     return (
       <div className="form">
         <div className="logo">
@@ -77,7 +66,7 @@ class LoginForm extends React.Component<any, any> {
             })(
               <div className="img-token-wrap">
                 <Input size="large" type="text" onPressEnter={this.handleOk} placeholder="验证码" />
-                <img id="imgToken" src={`${baseURL}api/token?v=${refreshToken}`} onClick={this.handleRefresh} />
+                <img id="imgToken" src={`${baseURL}api/token?v=${refreshToken}`} onClick={signinStore.refreshToken} />
               </div>
             )}
           </Form.Item>
@@ -87,7 +76,7 @@ class LoginForm extends React.Component<any, any> {
           </Button>
             <p>
               <a href="/api/token/intranet">域账号登录</a><br />
-              <Link to="/register">没有账号？现在注册</Link>
+              <Link to="/signup">没有账号？现在注册</Link>
             </p>
           </Row>
         </Form>
