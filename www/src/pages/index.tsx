@@ -73,7 +73,7 @@ class Index extends React.Component<any, any> {
           </Header>
           <Layout>
             <Switch>
-              <Route path="/index" component={Manage} />
+              <Route path="/index" exact component={Manage} />
               <Route path="/index/analyse" component={Analyse} />
               <Route path="/index/list" component={ItemList} />
             </Switch>
