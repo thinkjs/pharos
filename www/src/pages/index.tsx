@@ -4,6 +4,7 @@ import { Menu, Layout } from "antd";
 import Manage from './manage';
 import Analyse from './analyse'
 import ItemList from './itemlist';
+import UserList from './UserList';
 import axios from '../components/axios'
 import history from '../components/history'
 import './index.less';
@@ -63,6 +64,9 @@ class Index extends React.Component<any, any> {
               <Menu.Item key="3">
                 <Link to="/index/list">项目列表</Link>
               </Menu.Item>
+              <Menu.Item key="4">
+                <Link to="/index/user">用户管理</Link>
+              </Menu.Item>
             </Menu>
             <div className="user-info-wrap">
               {userName ? <div>
@@ -76,6 +80,7 @@ class Index extends React.Component<any, any> {
               <Route path="/index" exact component={Manage} />
               <Route path="/index/analyse" component={Analyse} />
               <Route path="/index/list" component={ItemList} />
+              <Route path="/index/user" component={UserList} />
             </Switch>
           </Layout>
         </Router>

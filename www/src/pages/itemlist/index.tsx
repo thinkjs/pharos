@@ -7,64 +7,25 @@ import {
   Table,
   Divider,
   Popconfirm,
-  Modal,
-  Form
+  Modal
 }
   from "antd";
 const { Content } = Layout;
 
-const Search = Input.Search;
+const { Search } = Input;
 
-interface Props {
-  visible?: boolean,
-  keyValue?: any,
-  name?: string,
-  address?: string,
-  onCancle?: any,
-  onCancel?: any,
-  onCreate?: any,
-  form?: any
+interface InitState {
+  columns: any,
+  data: any,
+  visible: any,
+  name: any,
+  id: any,
+  addvisible: any,
+  url: any
 }
 
-class ModelForm extends React.Component<Props>{
-  constructor(props) {
-    super(props)
-  }
-  render() {
-    const { visible, onCancel, onCreate, form, name, address } = this.props;
-    const { getFieldDecorator } = form;
-    return (
-      <Modal
-        title="提示"
-        visible={visible}
-        onOk={onCreate}
-        onCancel={onCancel}
-      >
-        <Form onSubmit={() => { }} className="login-form">
-          <Form.Item label="名称">
-            {getFieldDecorator('name', {
-              initialValue: name,
-              rules: [{ required: true, message: 'Please input your username!' }],
-            })(
-              <Input />,
-            )}
-          </Form.Item>
-          <Form.Item label="地址">
-            {getFieldDecorator('address', {
-              initialValue: address,
-              rules: [{ required: true, message: 'Please input your Password!' }],
-            })(
-              <Input />,
-            )}
-          </Form.Item>
-        </Form>
-      </Modal>
-    )
-  }
-}
-const ExtendModel = Form.create()(ModelForm)
 
-export default class ItemList extends React.Component<Props, any> {
+export default class ItemList extends React.Component<null, InitState>{
   constructor(props) {
     super(props)
     this.state = {
@@ -76,30 +37,31 @@ export default class ItemList extends React.Component<Props, any> {
       },
       {
         title: '网站地址',
-        dataIndex: 'address',
-        key: 'address',
+        dataIndex: 'url',
+        key: 'url',
       },
       {
         title: '创建时间',
-        dataIndex: 'time',
-        key: 'time',
+        dataIndex: 'create_time',
+        key: 'create_time',
       },
       {
         title: '操作',
         key: 'action',
         render: (text) => {
-          const { key, name, address } = text;
+          const { id, name, url } = text;
+          console.log(text, 'text');
           return (
             <span>
               <span >获取代码</span>
               <Divider type="vertical" />
-              <span onClick={() => this.handleEdit(key, name, address)}>编辑</span>
+              <span onClick={() => this.handleEdit(id, name, url)}>编辑</span>
               <Divider type="vertical" />
               <Popconfirm
                 title="确认删除吗"
                 okText="Yes"
                 cancelText="No"
-                onConfirm={() => this.handleDeleteClick(key)}
+                onConfirm={() => this.handleDeleteClick(id)}
               >
                 删除
               </Popconfirm>
@@ -107,38 +69,26 @@ export default class ItemList extends React.Component<Props, any> {
           )
         },
       }],
-      data: [{
-        key: '11dfghjk',
-        name: 'John Brown',
-        time: 32,
-        address: 'New York No. 1 Lake Park'
-      },
-      {
-        key: '22456789',
-        name: 'Jim Green',
-        time: 42,
-        address: 'London No. 1 Lake Park'
-      },
-      {
-        key: '3322',
-        name: 'Joe Black',
-        time: 32,
-        address: 'Sidney No. 1 Lake Park',
-      }],
-      visible: false
+      data: [],
+      visible: false,
+      id: '',
+      name: '',
+      url: '',
+      addvisible: false
     }
   }
-  handleDeleteClick = (key: any) => {
+  handleDeleteClick = (id: any) => {
     let { data } = this.state;
     this.setState({
-      data: data.filter(item => item.key !== key)
+      data: data.filter(item => item.id !== id)
     })
+    let res = axios.delete(`api/site/${id}`)
   }
-  handleEdit = (key, name, address) => {
+  handleEdit = (id, name, url) => {
     this.setState({
-      key,
+      id,
       name,
-      address,
+      url,
       visible: true
     })
   }
@@ -150,16 +100,62 @@ export default class ItemList extends React.Component<Props, any> {
     this.getListdata(value)
   }
   getListdata = async (value: object) => {
-    const listData = await axios.get('/api/site', value)
-    console.log(listData)
+    const { data } = await axios.get('/api/site', { params: value })
+    this.setState({
+      data: data.data
+    })
   }
-  onCancle = () => {
+  handleCancel = () => {
     this.setState({
       visible: false
     })
   }
+  handleOk = async () => {
+    const { id, name } = this.state
+    const res = axios.put(`/api/site/${id}`, { name })
+  }
+  handleNameInput = (e) => {
+    this.setState({
+      name: e.currentTarget.value
+    })
+  }
+  handleAddressInput = e => {
+    this.setState({
+      url: e.currentTarget.value
+    })
+  }
+  handleAddCancel = () => {
+    this.setState({
+      addvisible: false
+    })
+  }
+  openAddModal = () => {
+    this.setState({
+      addvisible: true
+    })
+  }
+  handleAddOk = async () => {
+    const { name, url } = this.state
+    const res = await axios.post('/api/site', {
+      name,
+      url
+    })
+    this.setState({
+      addvisible: false,
+      data: [...this.state.data, { name, url }]
+    })
+    console.log(res)
+  }
+  handleSearch = (value) => {
+    let data = {
+      page: 1,
+      pagesize: 10,
+      keywords: value
+    }
+    this.getListdata(data)
+  }
   render() {
-    const { columns, data, key, name, address, visible } = this.state
+    const { columns, data, name, url, visible, addvisible } = this.state
     return (
       <Layout>
         <Content
@@ -169,37 +165,52 @@ export default class ItemList extends React.Component<Props, any> {
             <div>
               <Search
                 placeholder="请输入用户名"
-                onSearch={value => console.log(value)}
+                onSearch={value => this.handleSearch(value)}
                 style={{ width: 200 }}
               />
-              <Button type="primary" style={{ float: 'right' }}>新增</Button>
+              <Button type="primary" style={{ float: 'right' }} onClick={() => this.openAddModal()}>新增</Button>
             </div>
             <div style={{ marginTop: 30 }}>
               <Table
                 columns={columns}
                 dataSource={data}
                 bordered={true}
-                onRow={record => {
-                  return {
-                    onClick: event => { }, // 点击行
-                    onDoubleClick: event => { },
-                    onContextMenu: event => { },
-                    onMouseEnter: event => { }, // 鼠标移入行
-                    onMouseLeave: event => { },
-                  };
-                }}
               />
             </div>
           </div>
         </Content>
-        <ExtendModel
+        <Modal
+          title="修改信息"
           visible={visible}
-          keyValue={key}
-          name={name}
-          address={address}
-          onCancle={this.onCancle}
-        />
+          onOk={this.handleOk}
+          onCancel={this.handleCancel}>
+          <div style={{ marginBottom: 30 }}>
+            <span>名字</span>
+            <Input placeholder="请输入名字" value={name} onChange={(e) => this.handleNameInput(e)} />
+          </div>
+          <div>
+            <span>网址</span>
+            <Input placeholder="请输入名字" value={url} onChange={(e) => this.handleAddressInput(e)} />
+          </div>
+        </Modal>
+        <Modal
+          title="网站信息"
+          visible={addvisible}
+          onOk={this.handleAddOk}
+          onCancel={this.handleAddCancel}>
+          <div style={{ marginBottom: 30 }}>
+            <span>名字</span>
+            <Input placeholder="请输入名字" value={name} onChange={(e) => this.handleNameInput(e)} />
+          </div>
+          <div>
+            <span>网址</span>
+            <Input placeholder="请输入名字" value={url} onChange={(e) => this.handleAddressInput(e)} />
+          </div>
+        </Modal>
       </Layout>
     );
   }
 }
+
+
+
