@@ -2,11 +2,12 @@ import * as React from "react";
 import { Route, Redirect, Switch } from 'react-router-dom'
 import Signin from '../pages/Sign/Signin'
 import Signup from '../pages/Sign/Signup'
-import Dashboard from '../pages/Dashboard'
+import Perf from '../pages/Perf'
 import Monitor from '../pages/Monitor'
 import Alarm from '../pages/Alarm'
 import Project from '../pages/Project'
-import User from '../pages/User'
+import System from '../pages/System'
+import Site from '../pages/Site'
 import NoMatch from './NoMatch'
 
 const AuthRoute = ({ component: Component, ...rest }) => (
@@ -36,10 +37,6 @@ const routes = [{
   component: Signup,
   type: ''
 }, {
-  path: '/dashboard',
-  component: Dashboard,
-  type: 'auth'
-}, {
   path: '/monitor',
   component: Monitor,
   type: 'auth'
@@ -52,8 +49,16 @@ const routes = [{
   component: Project,
   type: 'auth'
 }, {
-  path: '/user',
-  component: User,
+  path: '/site',
+  component: Site,
+  type: 'auth'
+}, {
+  path: '/perf',
+  component: Perf,
+  type: 'auth'
+}, {
+  path: '/system',
+  component: System,
   type: 'auth'
 }]
 
@@ -64,14 +69,14 @@ class App extends React.Component {
       <Switch>
         {routes.map((route, index) => {
           if (route.type === 'auth') {
-            return (<AuthRoute key={index} exact path={route.path} component={route.component} />)
+            return (<AuthRoute key={index} path={route.path} component={route.component} />)
           } else {
             return (
-              <Route key={index} exact path={route.path} component={route.component} />
+              <Route key={index} path={route.path} component={route.component} />
             )
           }
         })}
-        <Redirect exact from="/" to="/dashboard" />
+        <Redirect exact from="/" to="/project" />
         <Route component={NoMatch} />
       </Switch>
     );

@@ -21,32 +21,32 @@ class PharosHeader extends React.Component {
   }
 
   render() {
+    console.log(79, this.props)
     const userName = localStorage.getItem('isLogin')
     return (
       <Header
         style={{ paddingLeft: 0 }}
       >
         <Menu
-          defaultSelectedKeys={["1"]}
-          defaultOpenKeys={["sub1"]}
+          // selectedKeys={[location.pathname]}
           mode="horizontal"
           theme="dark"
           style={{ marginLeft: 200 }}
         >
           <Menu.Item key="1">
-            <Link to="/dashboard">首页</Link>
-          </Menu.Item>
-          <Menu.Item key="2">
-            <Link to="/monitor">监控管理</Link>
-          </Menu.Item>
-          <Menu.Item key="3">
-            <Link to="/alarm">报警项目</Link>
-          </Menu.Item>
-          <Menu.Item key="4">
             <Link to="/project">项目列表</Link>
           </Menu.Item>
+          <Menu.Item key="2">
+            <Link to="/alarm">报警</Link>
+          </Menu.Item>
+          <Menu.Item key="3">
+            <Link to="/perf">性能</Link>
+          </Menu.Item>
+          <Menu.Item key="4">
+            <Link to="/site">项目设置</Link>
+          </Menu.Item>
           <Menu.Item key="5">
-            <Link to="/user">用户列表</Link>
+            <Link to="/system">系统设置</Link>
           </Menu.Item>
         </Menu>
         <div className="user-info-wrap">

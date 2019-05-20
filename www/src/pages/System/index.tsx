@@ -1,14 +1,14 @@
 import * as React from 'react';
 import Layout from '../../components/Layout'
 import { Route, Switch, Redirect } from 'react-router-dom'
-import AlarmList from './List';
+import Users from './Users';
 
 const Alarm = (props) => {
   return (
     <Layout {...props}>
       <Switch>
-        <Redirect exact from="/alarm" to="/alarm/list" />
-        <Route path="/alarm/list" component={AlarmList} />
+        <Redirect exact from="/system" to="/system/users" />
+        <Route path="/system/users" component={Users} />
       </Switch>
     </Layout>
   )
