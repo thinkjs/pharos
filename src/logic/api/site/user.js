@@ -24,11 +24,11 @@ module.exports = class extends Base {
   }
 
   /**
-   * @api {PUT} /site/:id/user/:user:id 修改网站成员角色
+   * @api {PUT} /site/:id/user/:user_id 修改网站成员角色
    * @apiGroup Site
    * @apiVersion 0.0.1
    * 
-   * @apiParams {Int=0,1} status 角色代号
+   * @apiParam {Int=0,1} status 角色代号
    */ 
   putAction() {
     this.rules = {
