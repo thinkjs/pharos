@@ -51,13 +51,13 @@ module.exports = {
   },
   entry: ['@babel/polyfill', './index.tsx'],
   output: {
-    path: path.join(basePath, 'dist'),
+    path: path.join(basePath, 'static'),
     filename: 'bundle.js',
     publicPath: '/',
   },
   devtool: 'source-map',
   devServer: {
-    contentBase: './dist', // Content base
+    contentBase: './static', // Content base
     inline: true, // Enable watch and live reload
     host: '127.0.0.1',
     port: 8080,

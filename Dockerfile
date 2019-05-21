@@ -8,6 +8,9 @@ RUN npm config set registry http://registry.npm.qiwoo.org && \
 
 COPY . /pharos.net
 
+RUN cd www && npm config set registry http://registry.npm.qiwoo.org && \
+  npm config set package-lock false && npm install && npm run build
+
 ENV DOCKER=true
 EXPOSE 9000
 ENTRYPOINT [ "sh", "docker-entrypoint.sh" ]
