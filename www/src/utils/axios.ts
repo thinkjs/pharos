@@ -67,6 +67,7 @@ axios.interceptors.response.use(
   (result: AxiosResponse<IResult<any, any>>) => {
     if (result.data.errno !== 0) {
       message.error(result.data.errmsg);
+      return Promise.reject(result.data.errmsg)
     }
     return Promise.resolve(result);
   },

@@ -1,5 +1,6 @@
 import { configure } from 'mobx';
 import SignStore from './pages/Sign/store';
+import ProjectStore from './pages/Project/store';
 import OptionStore from './options.store'
 
 configure({
@@ -9,10 +10,12 @@ configure({
 export class AppStore {
 
   signStore: SignStore;
+  projectStore: ProjectStore;
 
 
   constructor() {
     this.signStore = new SignStore();
+    this.projectStore = new ProjectStore();
   }
 
 }

@@ -16,7 +16,7 @@ class SigninStore {
       const result = await axios.post('/api/token', values)
       if (result) {
         localStorage.setItem('isLogin', result.data.name)
-        history.push('/dashboard')
+        history.push('/project')
       }
     } catch (e) {
       console.log('/api/token error')
