@@ -35,7 +35,6 @@ module.exports = class extends Base {
    * @apiParam  {String}  name  网站名称
    */
   postAction() {
-    this.allowMethods = 'post';
     const rules = {
       url: {
         required: true,
