@@ -42,7 +42,7 @@ exports.model = {
     host: '127.0.0.1',
     port: '',
     user: 'root',
-    password: 'linxdroot',
+    password: '123456',
     dateStrings: true
   }
 };

@@ -43,9 +43,6 @@ module.exports = class extends BaseRest {
   }
 
   async putAction() {
-    if (!this.id) {
-      return this.fail('MISS USER ID');
-    }
 
     let data = this.get();
     for (const i in data) {
@@ -60,10 +57,6 @@ module.exports = class extends BaseRest {
   }
 
   async deleteAction() {
-    if (!this.id) {
-      return this.fail('MISS USER ID');
-    }
-
     const data = this.post();
 
     data.id = this.id;

@@ -69,58 +69,30 @@ module.exports = class extends Base {
 
     async postAction() {
         const data = this.post();
+
+        data.user = [{ user_id: this.userInfo.id, status: global.ROLES.SITE_ADMIN }];
+        data.sid = think.uuid();
         // check site
         const site = await this.modelInstance.where({url: data.url}).find();
         if (!think.isEmpty(site)) {
             return this.fail('SITE_EXIST');
         }
 
-        data.user = [{ user_id: this.userInfo.id, status: global.ROLES.SITE_ADMIN }];
-        data.sid = think.uuid();
-        const insertId = await this.modelInstance.addSite(data);
+        await this.modelInstance.addSite(data);
         const insertData = await this.modelInstance.where({sid: data.sid}).find();
+
+        // 将该用户加入项目并设置为管理员
+        await this.model('site_user').add({site_id: insertData.id, user_id: this.userInfo.id, status: 1});
         return this.success(insertData);
     }
 
     async putAction() {
-        if (!this.id) {
-          return this.fail('SITE ID MISS');
-        }
-    
-        const userInfo = await this.session('userInfo') || {};
-        const role = await this.model('site_user')
-          .where({ site_id: this.id, user_id: userInfo.id })
-          .find();
-        if (global.ADMIN.is(userInfo.status) || think.isEmpty(role)) {
-          return this.fail('PERMISSION_DENIED');
-        }
-    
         const { name, url } = this.post();
-        if (!name || !url) {
-          return this.fail('Missing name or url');
-        }
-    
         await this.modelInstance.where({ id: this.id }).update({ name, url });
         return this.success();
     }
 
     async deleteAction() {
-        if (!this.id) {
-          return this.fail('SITE ID MISS');
-        }
-    
-        this.id = parseInt(this.id);
-        const userInfo = await this.session('userInfo') || {};
-        if (!global.ADMIN.is(userInfo.status)) {
-          const role = await this.model('site_user').where({
-            user_id: userInfo.id,
-            site_id: this.id
-          }).find();
-          if (think.isEmpty(role)) {
-            return this.fail('PERMISSION_DENIED');
-          }
-        }
-    
         try {
           const tables = ['options', 'site'];
           await Promise.all(
