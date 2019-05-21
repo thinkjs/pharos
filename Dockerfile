@@ -9,7 +9,7 @@ RUN npm config set registry http://registry.npm.qiwoo.org && \
 COPY . /pharos.net
 
 RUN cd www && npm config set registry http://registry.npm.qiwoo.org && \
-  npm config set package-lock false && npm install && npm run build
+  npm config set package-lock false && npm install && npm run build && chmod -r 777 static
 
 ENV DOCKER=true
 EXPOSE 9000
