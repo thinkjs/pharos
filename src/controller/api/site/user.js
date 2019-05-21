@@ -19,12 +19,13 @@ module.exports = class extends Base {
     }
 
     async postAction() {
-        const { ids, site_id, status } = this.post();
-        if (!ids) {
+        const { site_id } = this.get();
+        let { status } = this.post();
+        if (!this.id) {
             return this.fail('PARAMS_ERROR');
         }
 
-        const user_ids = ids.split(/\s*,\s*/);
+        const user_ids = this.id.split(/\s*,\s*/);
         const user = await this.modelInstance
             .where({id: ['IN', user_ids]})
             .select();
@@ -44,8 +45,8 @@ module.exports = class extends Base {
     }
 
     async putAction() {
-        const {site_id} = this.get();
-        const {status} = this.post();
+        const { site_id } = this.get();
+        const { status } = this.post();
         if (!this.id) {
           return this.fail('PARAMS_ERROR');
         }
@@ -71,7 +72,7 @@ module.exports = class extends Base {
 
     async deleteAction() {
         const { site_id } = this.get();
-        if (!this.id || !site_id) {
+        if (!this.id) {
             return this.fail('PARAMS_ERROR');
         }
 

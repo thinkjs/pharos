@@ -15,24 +15,26 @@ module.exports = class extends Base {
         }
 
         if (!isSuperAdmin) {
+          
             let siteIds = await this.model('site_user').where({
                 user_id: this.userInfo.id
             }).select();
-        if (think.isEmpty(siteIds)) {
-            siteIds = [null];
-        } else {
-            siteIds = siteIds.map(({ site_id }) => site_id);
-        }
 
-        if (this.id) {
-            if (!site_id.includes(this.id)) {
-                return this.fail('SITE PERMISSION DENY');
+            if (think.isEmpty(siteIds)) {
+                siteIds = [null];
+            } else {
+                siteIds = siteIds.map(({ site_id }) => site_id);
             }
-        }
 
-        this.modelInstance = this.modelInstance.where({
-            id: ['IN', siteIds]
-        });
+            if (this.id) {
+                if (!site_id.includes(this.id)) {
+                    return this.fail('SITE PERMISSION DENY');
+                }
+            }
+
+            this.modelInstance = this.modelInstance.where({
+                id: ['IN', siteIds]
+            });
         }
 
         if (this.id) {

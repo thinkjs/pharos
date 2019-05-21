@@ -82,6 +82,7 @@ CREATE TABLE `ph_metric` (
   `k5` varchar(255) NOT NULL DEFAULT '',
   `k5_display_name` varchar(255) NOT NULL DEFAULT '',
   `type` int(11) DEFAULT NULL,
+  `create_time` datetime DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -164,7 +165,7 @@ CREATE TABLE `ph_site` (
   `url` varchar(255) NOT NULL DEFAULT '',
   `sid` varchar(255) NOT NULL,
   `name` varchar(255) NOT NULL DEFAULT '',
-  `create_time` datetime DEFAULT NULL,
+  `create_time` datetime DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 

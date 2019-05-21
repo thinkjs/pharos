@@ -28,7 +28,7 @@ module.exports = class extends think.Controller {
     return filename.substr(last + 1, filename.length - last - 4);
   }
   getId() {
-    const id = this.get('id') || this.post('id');
+    const id = this.get('id');
     if (id && (think.isString(id) || think.isNumber(id))) {
       return id;
     }
