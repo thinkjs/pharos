@@ -9,7 +9,8 @@ import env from './env'
 
 const apiUrlMap = {
   // 'dev': 'http://api.pharos.cc:8360',
-  'development': 'http://api.pharos.net/',
+  // 'development': 'http://api.pharos.net/',
+  'development': 'http://10.202.233.216/',
   'production': 'http://api.pharos.com/',
 }
 
