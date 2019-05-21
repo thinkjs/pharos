@@ -10,6 +10,7 @@ import {
 } from "antd";
 
 import AddModifyModal from './add-modify-modal'
+import GetCodeModal from './get-code'
 
 const { Search } = Input;
 
@@ -39,10 +40,10 @@ class Project extends React.Component<any, any> {
         title: '操作',
         key: 'action',
         render: (text) => {
-          const { id, name, url } = text;
+          const { id, name, url, sid } = text;
           return (
             <span>
-              <span >获取代码</span>
+              <span onClick={() => { projectStore.setShowGetCodeModal(true, sid, url) }}>获取代码</span>
               <Divider type="vertical" />
               <span onClick={() => projectStore.handleEdit(id, name, url)}>编辑</span>
               <Divider type="vertical" />
@@ -90,6 +91,7 @@ class Project extends React.Component<any, any> {
           </div>
         </div>
         <AddModifyModal />
+        <GetCodeModal />
       </Layout>
     )
   }
