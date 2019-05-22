@@ -32,7 +32,7 @@ const plugins = [
 const clientConfig = Object.assign(webpackConfigFactory(options), {
   entry: ['@babel/polyfill', './src/index.tsx'],
   output: {
-    path: path.join(__dirname, 'static'),
+    path: path.join(__dirname, '../static'),
     filename: 'bundle.js',
     publicPath: '/',
   },
