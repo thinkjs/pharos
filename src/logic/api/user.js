@@ -101,9 +101,7 @@ module.exports = class extends Base {
     // Suer Admin
     // Modify info myself
     // Others have no permission
-    if (!this.id) {
-      return this.fail('MISS_ID');
-    } else if (!this.isSuperAdmin) {
+    if (!this.isSuperAdmin) {
       if (this.id !== this.userInfo.id) {
         return this.fail('PERMISSION_DENIED');
       } else {

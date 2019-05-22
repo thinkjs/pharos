@@ -34,7 +34,7 @@ module.exports = class extends Base {
    * @apiParam  {String}  url  网站地址
    * @apiParam  {String}  name  网站名称
    */
-  postAction() {
+  async postAction() {
     const rules = {
       url: {
         required: true,
@@ -68,18 +68,55 @@ module.exports = class extends Base {
    *
    * @apiParam  {String}  name  网站名称
    */
-  putAction() {
-    this.rules = {
+  async putAction() {
+    const rules = {
       name: {
         string: true,
-        length: {min: 4, max: 20}
+        length: {min: 4, max: 20},
+        required: true,
+      },
+      url: {
+        string: true,
+        required: true,
       }
     };
+    const flag  = this.validate(rules);
+    if(!flag) {
+      return this.fail(this.validateErrors);
+    }
+    if (!this.id) {
+      return this.fail('SITE ID MISS');
+    }
+    const isSuperAdmin = global.SUPER_ADMIN.is(this.userInfo.status);
+    if (!isSuperAdmin) {
+      const role = await this.model('site_user')
+        .where({ site_id: this.id, user_id: this.userInfo.id })
+        .find();
+      // 不是超级管理员 也不是项目管理员 无权限
+      if (think.isEmpty(role) || !global.ADMIN.is(role.status)) {
+        return this.fail('PERMISSION_DENIED');
+      }
+    }
   }
   /**
    * @api {DELETE} /site/:id  删除网站
    * @apiGroup Site
    * @apiVersion  0.0.1
    */
-  deleteAction() {}
+  async deleteAction() {
+    if (!this.id) {
+      return this.fail('SITE ID MISS');
+    }
+
+    const isSuperAdmin = global.SUPER_ADMIN.is(this.userInfo.status);
+    if (!isSuperAdmin) {
+      const role = await this.model('site_user').where({
+        user_id: this.userInfo.id,
+        site_id: this.id
+      }).find();
+      if (think.isEmpty(role) || !global.ADMIN.is(role.status)) {
+        return this.fail('PERMISSION_DENIED');
+      }
+    }
+  }
 };
