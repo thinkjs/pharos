@@ -101,6 +101,14 @@ module.exports = {
     new MiniCssExtractPlugin({
       filename: '[name].css',
       chunkFilename: '[id].css'
-    })
-  ]
+    }),
+    new webpack.ProvidePlugin({
+        React: 'react'
+      }),
+      new webpack.DefinePlugin({
+        'process.env.APP_ENV': JSON.stringify('development'),
+        // 'process.env.NODE_ENV': JSON.stringify('development'),
+        'CLIENT_RENDER': JSON.stringify('client_render')
+      }),
+  ],
 };

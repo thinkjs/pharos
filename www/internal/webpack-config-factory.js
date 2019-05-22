@@ -1,19 +1,12 @@
 const path = require('path');
 const webpack = require('webpack');
-const appRootDir = require('app-root-dir').get();
-const lessThemePlugin = require('./less-theme-plugin');
-
-function toApp(relativePath) {
-  return path.resolve(appRootDir, 'src/app', relativePath);
-}
+// const lessThemePlugin = require('./less-theme-plugin');
 
 module.exports = function ({
   isNode = false,
   env,
   NODE_ENV,
-  devtool
 }) {
-
   function cssLoaders(loader) {
     var use;
 
@@ -54,25 +47,15 @@ module.exports = function ({
 
   return {
     resolve: {
-      extensions: [".js"],
-      alias: {
-        common: toApp('common'),
-        user: toApp('user'),
-        system: toApp('system'),
-        admin: toApp('admin'),
-        order: toApp('order'),
-        experiment: toApp('experiment'),
-        login: toApp('login'),
-        teacher: toApp('teacher'),
-        exam: toApp('exam'),
-        vnc: toApp('vnc'),
-        image: path.resolve(appRootDir, 'public/image'),
-        vendor: path.resolve(appRootDir, 'public/vendor')
-      },
+      extensions: [".js", ".tsx", ".ts"],
       mainFields: ["browser", "main"]
     },
     module: {
       rules: [{
+          test: /\.(ts|tsx)$/,
+          exclude: /node_modules/,
+          loader: ['babel-loader', 'ts-loader']
+        }, {
           test: /\.css$/,
           use: cssLoaders(),
         },
@@ -80,11 +63,11 @@ module.exports = function ({
           test: /\.less$/i,
           use: cssLoaders([{
             loader: "less-loader",
-            options: {
-              plugins: [
-                new lessThemePlugin()
-              ]
-            }
+            // options: {
+            //   plugins: [
+            //     new lessThemePlugin()
+            //   ]
+            // }
           }])
         },
         {
@@ -96,14 +79,13 @@ module.exports = function ({
         }
       ]
     },
-    devtool,
     plugins: [
       new webpack.ProvidePlugin({
         React: 'react'
       }),
       new webpack.DefinePlugin({
         'process.env.APP_ENV': JSON.stringify(env),
-        'process.env.NODE_ENV': JSON.stringify(NODE_ENV),
+        // 'process.env.NODE_ENV': JSON.stringify(NODE_ENV),
         'CLIENT_RENDER': JSON.stringify('client_render')
       }),
     ].filter(i => i)

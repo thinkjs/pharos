@@ -19,12 +19,12 @@ function report(err, stats) {
 
 
   // 拷贝nginx
-  if (options.env !== 'production') {
-    require('directory-copy')({
-      src: __dirname + '/internal/nginx', dest: __dirname + '/public/nginx'
-    }, function (err) {
-      console.log(err || 'done!')
-    });
-  }
+  // if (options.env !== 'production') {
+  //   require('directory-copy')({
+  //     src: __dirname + '/internal/nginx', dest: __dirname + '/public/nginx'
+  //   }, function (err) {
+  //     console.log(err || 'done!')
+  //   });
+  // }
 }
   webpack(require('./webpack-config-app'), report);
