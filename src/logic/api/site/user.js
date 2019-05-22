@@ -1,9 +1,10 @@
 const Base = require('./base');
+const AppError = require('../../extend/errors');
 module.exports = class extends Base {
   async __before(...args) {
     await Base.prototype.__before.call(this, ...args);
     if (!this.isAdmin) {
-      return this.fail('PERMISSION_DENIED');
+      return this.fail(AppError.PERMISSION_DENIED);
     }
   }
   /**

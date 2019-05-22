@@ -1,4 +1,6 @@
 const Base = require('./base');
+const AppError = require('../../extend/errors');
+
 module.exports = class extends Base {
   /**
    * @api {GET} /site 获取网站列表
@@ -94,7 +96,7 @@ module.exports = class extends Base {
         .find();
       // 不是超级管理员 也不是项目管理员 无权限
       if (think.isEmpty(role) || !global.ADMIN.is(role.status)) {
-        return this.fail('PERMISSION_DENIED');
+        return this.fail(AppError.PERMISSION_DENIED);
       }
     }
   }
@@ -115,7 +117,7 @@ module.exports = class extends Base {
         site_id: this.id
       }).find();
       if (think.isEmpty(role) || !global.ADMIN.is(role.status)) {
-        return this.fail('PERMISSION_DENIED');
+        return this.fail(AppError.PERMISSION_DENIED);
       }
     }
   }

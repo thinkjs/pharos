@@ -1,4 +1,6 @@
 const Base = require('./base');
+const AppError = require('../../extend/errors');
+
 module.exports = class extends Base {
   async __before(...args) {
     if (this.isPost) {
@@ -25,7 +27,7 @@ module.exports = class extends Base {
     // default return first page
     // after pages should have super admin permission
     if (this.get('page') && !this.isSuperAdmin) {
-      return this.fail('PERMISSION_DENIED');
+      return this.fail(AppError.PERMISSION_DENIED);
     }
 
     this.rules = {
@@ -84,7 +86,7 @@ module.exports = class extends Base {
    */
   deleteAction() {
     if (!this.isSuperAdmin) {
-      return this.fail('PERMISSION_DENIED');
+      return this.fail(AppError.PERMISSION_DENIED);
     }
   }
 
@@ -103,7 +105,7 @@ module.exports = class extends Base {
     // Others have no permission
     if (!this.isSuperAdmin) {
       if (this.id !== this.userInfo.id) {
-        return this.fail('PERMISSION_DENIED');
+        return this.fail(AppError.PERMISSION_DENIED);
       } else {
         this.get('status', undefined);
       }
