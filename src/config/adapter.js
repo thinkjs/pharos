@@ -55,7 +55,7 @@ exports.session = {
   type: 'file',
   common: {
     cookie: {
-      name: 'thinkjs'
+      name: 'thinkjs',
       // keys: ['werwer', 'werwer'],
       // signed: true
     }
