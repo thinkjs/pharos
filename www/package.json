@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "webpack-dev-server --config=webpack/config-dev --env=development --inline --hot --progress",
-    "build:development": "node internal/build --env=developemnt",
+    "build:development": "node internal/build --env=development",
     "build:test": "node internal/build --env=test",
     "build:beta": "node internal/build --env=beta",
     "build:production": "node internal/build --env=production",

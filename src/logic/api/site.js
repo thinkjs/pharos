@@ -54,7 +54,7 @@ module.exports = class extends Base {
       name: {
         required: true,
         string: true,
-        length: {min: 4, max: 20}
+        length: {min: 1, max: 20}
       }
     };
 

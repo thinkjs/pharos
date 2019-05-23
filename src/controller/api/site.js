@@ -13,10 +13,11 @@ module.exports = class extends Base {
         if (this.id) {
             this.id = parseInt(this.id);
         }
+        let siteIds;
 
         if (!isSuperAdmin) {
           
-            let siteIds = await this.model('site_user').where({
+            siteIds = await this.model('site_user').where({
                 user_id: this.userInfo.id
             }).select();
 
@@ -45,20 +46,26 @@ module.exports = class extends Base {
         let result;
         if (page) {
             if (keywords) {
-                result = await this.modelInstance.where({
-                    name: ['like', `%${keywords}%`], 
-                    url: ['like', `%${keywords}%`],
-                    _logic: 'OR'
+                result = await this.model('site').where({
+                    id: ['IN', siteIds],
+                    _complex: {
+                        name: ['like', `%${keywords}%`], 
+                        url: ['like', `%${keywords}%`],
+                        _logic: 'OR'
+                    }
                 }).page([page, pagesize]).countSelect();
             } else {
                 result = await this.modelInstance.page([page, pagesize]).countSelect();
             }
         } else {
             if (keywords) {
-                result = await this.modelInstance.where({
-                    name: ['like', `%${keywords}%`], 
-                    url: ['like', `%${keywords}%`],
-                    _logic: 'OR'
+                result = await this.model('site').where({
+                    id: ['IN', siteIds],
+                    _complex: {
+                        name: ['like', `%${keywords}%`], 
+                        url: ['like', `%${keywords}%`],
+                        _logic: 'OR'
+                    }
                 }).select()
             } else {
                 result = await this.modelInstance.select();
