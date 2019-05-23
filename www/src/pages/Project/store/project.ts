@@ -1,7 +1,8 @@
 import { message } from 'antd';
-import { CurrentModel, ProjectList, ListCriteria } from './../proto/index';
+import { CurrentModel, ProjectList, ListCriteria } from '../proto/index';
 import { observable, action } from 'mobx';
 import axios from '../../../utils/axios';
+
 
 class ProjectStore {
   rootStore;
@@ -19,7 +20,7 @@ class ProjectStore {
     try {
       const { data } = await axios.get('/api/site', { params })
       if (data) {
-        this.list = this.setList(data.data.data)
+        this.setList(data.data.data)
       }
     } catch (e) {
       message.error('获取列表失败');

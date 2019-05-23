@@ -1,5 +1,5 @@
 import { configure } from 'mobx'
-import ProjectStore from './project.store'
+import ProjectStore from './project'
 configure({ enforceActions: 'never' })
 
 export class RootStore {

@@ -2,7 +2,7 @@ const path = require('path');
 const webpack = require('webpack');
 const appRootDir = require('app-root-dir').get();
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-var MiniCssExtractPlugin = require('mini-css-extract-plugin');
+// var MiniCssExtractPlugin = require('mini-css-extract-plugin');
 // const lessThemePlugin = require('./less-theme-plugin');
 
 var htmlEntries = [{
@@ -102,10 +102,10 @@ module.exports = {
     new webpack.ProvidePlugin({
       React: 'react'
     }),
-    new MiniCssExtractPlugin({
-      filename: '[name].css',
-      chunkFilename: '[id].css'
-    }),
+    // new MiniCssExtractPlugin({
+    //   filename: '[name].css',
+    //   chunkFilename: '[id].css'
+    // }),
     new webpack.DefinePlugin({
       'process.env.APP_ENV': JSON.stringify('development'),
     }),
