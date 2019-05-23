@@ -1,3 +1,4 @@
+const AppError = require('../../extend/errors');
 module.exports = class extends think.Logic {
   async __before() {
     if (!this.isCli && !this.isGet) {
@@ -10,7 +11,7 @@ module.exports = class extends think.Logic {
 
     const userInfo = await this.session('userInfo') || {};
     if (think.isEmpty(userInfo)) {
-      this.fail('USER_NOT_LOGIN');
+      this.fail(AppError.USER_NOT_LOGIN);
     }
     this.userInfo = userInfo;
   }
@@ -55,7 +56,7 @@ module.exports = class extends think.Logic {
       user_id: this.userInfo.id
     }).find();
     if (think.isEmpty(siteUser)) {
-      return this.fail('PERMISSION_DENIED');
+      return this.fail(AppError.PERMISSION_DENIED);
     }
 
     this.isAdmin = global.ADMIN.is(siteUser.status);

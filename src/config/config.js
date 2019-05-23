@@ -5,6 +5,6 @@ module.exports = {
     '"$request" $status $body_bytes_sent "$http_referer" "$http_user_agent"',
   logFile(date) {
     const datetime = think.datetime(date, 'YYYY-MM-DD-HH-mm');
-    return `/var/log/nginx/pharos/${datetime}-access.log`;
+    return `/usr/local/var/log/nginx/pharos/${datetime}-access.log`;
   }
 };
