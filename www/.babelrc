@@ -12,6 +12,7 @@
       "import",
       {
         "libraryName": "antd",
+        "libraryDirectory": "lib",
         "style": "css"
       }
     ],
@@ -20,6 +21,8 @@
       {
         "rootPathSuffix": "src"
       }
-    ]
+    ],
+    "@babel/plugin-syntax-dynamic-import",
+    "@babel/plugin-proposal-class-properties",
   ]
 }

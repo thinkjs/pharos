@@ -66,7 +66,7 @@ class PhraosIndex extends React.Component<any, any> {
   }
 
   logout = async () => {
-    const result = await axios.delete('/token');
+    const result = await axios.delete('/api/token');
     if (result) {
       localStorage.removeItem('isLogin');
       history.push('/signin')
