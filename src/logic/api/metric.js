@@ -50,10 +50,6 @@ module.exports = class extends Base {
             display_name: {
                 string: true,
                 required: true,
-            },
-            site_id: {
-                string: true,
-                required: true,
             }
         }
     }
