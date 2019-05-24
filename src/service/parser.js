@@ -160,7 +160,9 @@ module.exports = class {
         row.url = req[1];
         const urlInfo = url.parse(req[1]);
         row.pathname = urlInfo.pathname;
-        row.querystring = qs.parse(urlInfo.search.slice(1));
+        if (urlInfo.search) {
+          row.querystring = qs.parse(urlInfo.search.slice(1));
+        }
       }
 
       if (req[2]) {

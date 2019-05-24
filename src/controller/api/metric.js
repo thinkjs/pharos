@@ -100,7 +100,7 @@ module.exports = class extends Base {
             return this.fail('SITE NOT FOUND');
         }
 
-        const { id } = this.post();
+        const { id } = this.post() || this.get();
         const metric = await this.modelInstance.where({ id: id, site_id: this.id }).select();
         if (think.isEmpty(metric)) {
             return this.fail('未找到该监控项');
