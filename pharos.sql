@@ -37,7 +37,7 @@ CREATE TABLE `ph_custom_monitor` (
   `k5` varchar(255) NOT NULL DEFAULT '',
   `time` int(11) NOT NULL DEFAULT '0',
   `count` int(11) NOT NULL DEFAULT '0',
-  `create_time` datetime DEFAULT NULL,
+  `create_time` timestamp DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 

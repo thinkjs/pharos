@@ -8,19 +8,23 @@ module.exports = class extends Base {
 
   async __before() {
     const siteIds = await this.model('site')
-      .field('id,sid')
+      .field('id,sid,url')
       .where('1=1')
       .select();
     const metrics = await this.model('metric').where('1=1').select();
 
     const sites = {};
     this.metrics = {};
-    for (const { id, sid } of siteIds) {
-      sites[id] = sites[sid];
-      sites[sid] = sites[id];
+    for (const { id, sid, url } of siteIds) {
+      sites[id] = {
+        id,
+        sid,
+        url
+      };
     }
+    this.sites = sites;
     for (const metric of metrics) {
-      const sid = sites[metric.site_id];
+      const sid = sites[metric.site_id].sid;
       if (!think.isArray(this.metrics[sid])) {
         this.metrics[sid] = [];
       }
@@ -62,13 +66,22 @@ module.exports = class extends Base {
     }
 
     await modelInstance.updateMany(shouldUpdate);
-    await modelInstance.addMany(shouldAdd);
+    if (shouldAdd.length > 0) {
+      await modelInstance.addMany(shouldAdd);
+    }
 
     return this.success();
   }
 
-  parseLog({ querystring: qs }) {
+  parseLog({ querystring: qs, pathname, http_referer }) {
+
+    if(!pathname.includes('/pharos.gif')) {
+      return;
+    }
     const { site_id } = qs;
+    if(http_referer && !http_referer.includes(sites[site_id].url)) {
+      return;
+    }
 
     const metrics = this.metrics[site_id];
     if (!think.isArray(metrics)) {
@@ -85,18 +98,18 @@ module.exports = class extends Base {
 
       if (think.isEmpty(this.stats[k])) {
         this.stats[k] = {
-          id,
+          metric_id: id,
           site_id,
           k1: qs[k1],
           k2: qs[k2],
           k3: qs[k3],
           k4: qs[k4],
           k5: qs[k5],
-          time: qs[name],
-          count: 1
+          time: +qs[name],
+          count: 1,
         };
       } else {
-        this.stats[k].time += qs[name];
+        this.stats[k].time += +qs[name];
         this.stats[k].count += 1;
       }
     }
