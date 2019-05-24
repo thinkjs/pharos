@@ -4,15 +4,18 @@ import { observable, action, computed } from 'mobx';
 import axios from '../../../utils/axios';
 
 class MetricStore {
+  sit(arg0: number, sit: any) {
+    throw new Error("Method not implemented.");
+  }
   rootStore;
 
   constructor(rootStore) {
     this.rootStore = rootStore
-    
+
   }
 
   @computed get siteId() {
-    return this.rootStore.siteStore.currentId;
+    return localStorage.getItem('projectId')
   }
 
   @observable list = []
@@ -53,7 +56,7 @@ class MetricStore {
 
 
   @action addModifyMetric = async (values) => {
-    
+
     const result = await axios.post(`/api/metric/${this.siteId}`, values)
     if (result) {
       this.setShowAddModifyModal(false)

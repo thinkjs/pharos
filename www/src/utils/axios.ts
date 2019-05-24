@@ -28,7 +28,6 @@ axios.defaults.baseURL = baseURL
  * 异常处理程序
  */
 const errorHandler = error => {
-  console.log(88, error)
   if (error.errno === 401) {
     notification.error({
       message: "未登录或登录已过期，请重新登录。",
@@ -38,7 +37,7 @@ const errorHandler = error => {
   }
   if (typeof error.errmsg === 'object') {
     error.errmsg = JSON.stringify(error.errmsg)
-  } 
+  }
   notification.error({
     message: error.errmsg,
   });
@@ -57,7 +56,6 @@ axios.interceptors.request.use((config: AxiosRequestConfig) => {
 axios.interceptors.response.use(
   (result: AxiosResponse<IResult<any, any>>) => {
     if (result.data.errno !== 0) {
-      console.log(97, result)
       errorHandler(result.data)
       return Promise.reject(result.data.errmsg)
     }

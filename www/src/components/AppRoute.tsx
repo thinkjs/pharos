@@ -5,7 +5,7 @@ import Signup from '../pages/Sign/Signup'
 import Perf from '../pages/Perf'
 import Monitor from '../pages/Monitor'
 import Alarm from '../pages/Alarm'
-import Project from '../pages/Project'
+// import Project from '../pages/Project'
 import System from '../pages/System'
 import Site from '../pages/Site'
 import NoMatch from './NoMatch'
@@ -14,7 +14,7 @@ const AuthRoute = ({ component: Component, ...rest }) => (
   <Route
     {...rest}
     render={props =>
-      localStorage.getItem('isLogin') ? (
+      localStorage.getItem('pharosUser') ? (
         <Component {...props} />
       ) : (
           <Redirect
@@ -44,11 +44,13 @@ const routes = [{
   path: '/alarm',
   component: Alarm,
   type: 'auth'
-}, {
-  path: '/project',
-  component: Project,
-  type: 'auth'
-}, {
+},
+// {
+// path: '/project',
+// component: Project,
+// type: 'auth'
+// },
+{
   path: '/site',
   component: Site,
   type: 'auth'
@@ -76,7 +78,7 @@ class App extends React.Component {
             )
           }
         })}
-        <Redirect exact from="/" to="/project" />
+        <Redirect exact from="/" to="/alarm" />
         <Route component={NoMatch} />
       </Switch>
     );

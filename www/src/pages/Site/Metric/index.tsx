@@ -60,10 +60,10 @@ class Project extends React.Component<any, any> {
     }
   }
 
-  // componentDidMount() {
-  //   const { metricStore } = this.props
-  //   metricStore.getList()
-  // }
+  componentDidMount() {
+    const { metricStore } = this.props
+    metricStore.getList()
+  }
 
   render() {
     const { metricStore } = this.props
@@ -71,7 +71,7 @@ class Project extends React.Component<any, any> {
     return (
       <div style={{ margin: 20 }}>
         <div style={{ height: '40px', marginBottom: '10px' }}>
-          <Button type="primary" style={{   float: 'right' }} onClick={() => { setShowAddModifyModal(true); setCurrentModel(null) }}>添加监控项</Button>
+          <Button type="primary" style={{ float: 'right' }} onClick={() => { setShowAddModifyModal(true); setCurrentModel(null) }}>添加监控项</Button>
         </div>
         <div style={{ marginTop: 30 }}>
           <Table

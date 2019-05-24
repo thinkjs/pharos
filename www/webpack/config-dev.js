@@ -1,6 +1,5 @@
 const merge = require('webpack-merge');
 const commonConfig = require('./config.common');
-console.log(222, commonConfig)
 const webpack = require('webpack');
 
 const devConfig = merge(commonConfig, {

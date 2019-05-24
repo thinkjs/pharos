@@ -14,8 +14,8 @@ class SignupStore {
     try {
       const result = await axios.post('/api/user', values)
       if (result) {
-        localStorage.setItem('isLogin', result.data.data.name)
-        history.push('/project')
+        localStorage.setItem('pharosUser', JSON.stringify(result.data.data))
+        history.push('/alarm')
       }
     } catch (e) {
       console.log('/api/user error')
