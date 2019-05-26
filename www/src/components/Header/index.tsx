@@ -21,7 +21,6 @@ class PharosHeader extends React.Component {
   }
 
   render() {
-    console.log(79, this.props)
     const userName = localStorage.getItem('isLogin')
     return (
       <Header
@@ -47,6 +46,9 @@ class PharosHeader extends React.Component {
           </Menu.Item>
           <Menu.Item key="5">
             <Link to="/system">系统设置</Link>
+          </Menu.Item>
+          <Menu.Item key="5">
+            <Link to="/people">成员管理</Link>
           </Menu.Item>
         </Menu>
         <div className="user-info-wrap">
