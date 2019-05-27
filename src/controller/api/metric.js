@@ -17,17 +17,17 @@ module.exports = class extends Base {
             return this.fail('SITE NOT FOUND');
         }
 
-        const { page = 1, pagesize = 50, keywords, site_id } = this.get();
+        const { page = 1, pagesize = 50, keywords } = this.get();
 
         let result;
 
         if (keywords) {
             result = await this.modelInstance.where({
-                site_id, 
+                site_id: this.id, 
                 display_name: ['like', `%${keywords}%`]
             }).page([page, pagesize]).countSelect();
         } else {
-            result = await this.modelInstance.page([page, pagesize]).countSelect();
+            result = await this.modelInstance.where({site_id: this.id}).page([page, pagesize]).countSelect();
         }
 
         return this.success(result);
