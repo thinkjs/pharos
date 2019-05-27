@@ -9,6 +9,7 @@ import Alarm from '../pages/Alarm'
 import System from '../pages/System'
 import Site from '../pages/Site'
 import NoMatch from './NoMatch'
+import People from '../pages/People'
 
 const AuthRoute = ({ component: Component, ...rest }) => (
   <Route
@@ -61,6 +62,10 @@ const routes = [{
 }, {
   path: '/system',
   component: System,
+  type: 'auth'
+}, {
+  path: '/people',
+  component: People,
   type: 'auth'
 }]
 

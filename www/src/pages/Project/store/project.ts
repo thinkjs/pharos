@@ -46,7 +46,13 @@ class ProjectStore {
   @observable showAddModifyModal = false
   @action setShowAddModifyModal = (bool: boolean) => this.showAddModifyModal = bool;
 
-
+  @observable currentModalSid = ''
+  @observable currentModalUrl = ''
+  @observable showGetCodeModal = false
+  @action setShowGetCodeModal = (bool: boolean, sid: string, url: string) => {
+    this.showGetCodeModal = bool; this.currentModalSid = sid;
+    this.currentModalUrl = url
+  }
   @action handleSearch = (value) => {
     let data = {
       page: 1,

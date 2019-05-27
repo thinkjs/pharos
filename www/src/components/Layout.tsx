@@ -49,6 +49,10 @@ const data = [{
     name: '成员列表',
     url: '/users',
   }]
+}, {
+  name: '成员管理',
+  url: '/people',
+  sider: []
 }]
 
 class PhraosIndex extends React.Component<any, any> {
