@@ -28,11 +28,22 @@ class AddModifyModal extends React.Component<any, any> {
     e.preventDefault();
     const { metricStore, form } = this.props
     form.validateFields(async (err, values: string) => {
+      const factor = this.formatFactors(this.state.factorList)
+      values = Object.assign(values, factor)
       if (!err) {
         metricStore.addModifyMetric(values)
       }
     });
 
+  }
+
+  formatFactors = (list) => {
+    const factor = {}
+    list.forEach((item, index) => {
+      factor[`k${index + 1}`] = item['value']
+      factor[`k${index + 1}_display_name`] = item['name']
+    })
+    return factor
   }
 
   changeFactorKey(value, key, index) {
@@ -63,7 +74,7 @@ class AddModifyModal extends React.Component<any, any> {
   deleteFactor = (index) => {
     this.state.factorList.splice(index, 1)
     this.setState({
-      factorList:  this.state.factorList
+      factorList: this.state.factorList
     })
   }
 
@@ -111,13 +122,13 @@ class AddModifyModal extends React.Component<any, any> {
                   <div className="factor-content-item" key={index}>
                     <Col span={10}>
                       <Form.Item hasFeedback>
-                        <Input value={item.value} onChange={(e) => this.changeFactorKey(e.target.value, `k${index+1}`, index)} />
+                        <Input value={item.value} onChange={(e) => this.changeFactorKey(e.target.value, `k${index + 1}`, index)} />
                       </Form.Item>
                     </Col>
                     <Col span={10}>
-                    <Form.Item hasFeedback>
-                      <Input value={item.name} onChange={(e) => this.changeFactorKey(e.target.value, `k${index+1}_display_name`, index)}  />
-                    </Form.Item>
+                      <Form.Item hasFeedback>
+                        <Input value={item.name} onChange={(e) => this.changeFactorKey(e.target.value, `k${index + 1}_display_name`, index)} />
+                      </Form.Item>
                     </Col>
                     <Col span={2} >
                       {this.state.factorList.length - 1 == index ? <a className="btn-display-inline" style={{ color: '#53a932' }} onClick={() => { this.addFactor(index) }}>➕
