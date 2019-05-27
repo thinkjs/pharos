@@ -43,6 +43,7 @@ module.exports = class extends Base {
             return this.fail('SITE NOT FOUND');
         }
         const data = this.post();
+        data.site_id = this.id;
 
         if (!this.checkMetricAuth()) {
             return this.fail('PERMISSION_DENIED');
