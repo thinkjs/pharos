@@ -40,11 +40,9 @@ class SigninStore {
     const { data } = await axios.get('/api/site', { params })
     const result = data.data.data
     if (result.length === 0) {
-      localStorage.setItem('projectStatus', '0')
       history.push('/create')
     } else {
       this.setList(result)
-      localStorage.setItem('projectStatus', '1')
       localStorage.setItem('projectId', result[0].id)
       history.push('/alarm')
     }

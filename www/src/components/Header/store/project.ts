@@ -11,11 +11,6 @@ class ProjectStore {
     this.rootStore = rootStore
   }
 
-  // @observable 
-
-  // @observable projectStatus = '' // '0': 无任何项目  '1': 有项目
-  // @action setProjectStatus = (value) => this.projectStatus = value
-
   // 修改对象数据的一般方法，或者使用map
 
   @observable selectedProject = { id: '', name: '', url: '' }

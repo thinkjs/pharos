@@ -54,7 +54,6 @@ class PharosHeader extends React.Component<any, any> {
     if (result) {
       localStorage.removeItem('pharosUser');
       localStorage.removeItem('projectId');
-      localStorage.removeItem('projectStatus');
       history.push('/signin')
     }
   }
