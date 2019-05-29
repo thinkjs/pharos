@@ -86,6 +86,8 @@ module.exports = class extends Base {
             k5_display_name: data.k5_display_name,
             type: data.type
         });
+
+        await this.model('custom_monitor').where({metric_id: data.id}).delete();
         return this.success(result);
 
     }
@@ -111,6 +113,7 @@ module.exports = class extends Base {
             return this.fail('PERMISSION_DENIED');
         }
         const result = await this.modelInstance.where({ id }).delete();
+        await this.model('custom_monitor').where({metric_id: data.id}).delete();
         return this.success(result);
     }
 
