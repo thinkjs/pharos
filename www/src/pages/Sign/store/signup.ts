@@ -32,7 +32,7 @@ class SignupStore {
     const { data } = await axios.get('/api/site', { params })
     const result = data.data.data
     if (result.length === 0) {
-      history.push('/create')
+      history.push('/project/create')
     } else {
       this.setList(result)
       localStorage.setItem('projectId', result[0].id)

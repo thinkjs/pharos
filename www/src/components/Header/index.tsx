@@ -37,17 +37,26 @@ const data = [{
     url: '/users',
   }]
 }, {
-  name: '系统设置',
-  url: '/system',
-  sider: [{
-    name: '成员列表',
-    url: '/users',
-  }]
-}, {
   name: '成员管理',
   url: '/people',
   sider: []
 }]
+
+const pharosUser = localStorage.getItem('pharosUser')
+
+if (pharosUser) {
+  const status = JSON.parse(pharosUser)['status']
+  if (status == '1' || status == '0') {
+    data.push({
+      name: '系统设置',
+      url: '/system',
+      sider: [{
+        name: '成员列表',
+        url: '/users',
+      }]
+    })
+  }
+}
 
 @inject('projectStore') @observer
 class PharosHeader extends React.Component<any, any> {
