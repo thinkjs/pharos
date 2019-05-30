@@ -5,7 +5,6 @@ const webpack = require('webpack');
 const devConfig = merge(commonConfig, {
   mode: 'development',
   devServer: {
-    contentBase: './static', // Content base
     inline: true, // Enable watch and live reload
     host: '127.0.0.1',
     port: 8080,

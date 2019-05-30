@@ -117,7 +117,7 @@ class PharosHeader extends React.Component<any, any> {
                   )
                 })}
               </ul>
-              <div className="header-project-add">添加</div>
+              <div className="header-project-add"><Link to="/project/create">添加</Link></div>
             </div>}
         </div>
         <Menu

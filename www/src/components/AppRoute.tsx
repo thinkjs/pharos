@@ -5,7 +5,7 @@ import Signup from '../pages/Sign/Signup'
 import Perf from '../pages/Perf'
 import Monitor from '../pages/Monitor'
 import Alarm from '../pages/Alarm'
-// import Project from '../pages/Project'
+import Project from '../pages/Project'
 import System from '../pages/System'
 import Site from '../pages/Site'
 import NoMatch from './NoMatch'
@@ -46,11 +46,11 @@ const routes = [{
   component: Alarm,
   type: 'auth'
 },
-// {
-// path: '/project',
-// component: Project,
-// type: 'auth'
-// },
+{
+  path: '/project',
+  component: Project,
+  type: 'auth'
+},
 {
   path: '/site',
   component: Site,

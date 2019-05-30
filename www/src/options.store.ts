@@ -1,6 +1,6 @@
 import SigninStore from './pages/Sign/store/signin';
 import SignupStore from './pages/Sign/store/signup';
-import ProjectStore from './components/Header/store/project';
+import ProjectStore from './pages/Project/store/project';
 import SiteStore from './pages/Site/store/site';
 import MetricStore from './pages/Site/store/metric';
 

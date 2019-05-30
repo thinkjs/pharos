@@ -2,7 +2,7 @@ import { observable, action } from 'mobx';
 import { message } from 'antd';
 import axios from '../../../utils/axios';
 import { PeopleList } from '../proto/index';
-import { ProjectList } from '../../Project/proto';
+import { ProjectList } from '../../Project/temp/proto';
 
 class People {
   rootStore;
