@@ -1,4 +1,4 @@
-import { IResult } from '../models/http.model';
+import { IResult } from './proto/http.model';
 import axios, { AxiosRequestConfig, AxiosResponse, AxiosError } from 'axios';
 import { message, notification } from 'antd'
 import { baseURL } from '../config/domain'

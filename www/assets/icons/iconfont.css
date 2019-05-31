@@ -1,0 +1,33 @@
+@font-face {font-family: "iconfont";
+  src: url('iconfont.eot?t=1559275008735'); /* IE9 */
+  src: url('iconfont.eot?t=1559275008735#iefix') format('embedded-opentype'), /* IE6-IE8 */
+  url('data:application/x-font-woff2;charset=utf-8;base64,d09GMgABAAAAAANwAAsAAAAAB6QAAAMkAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHEIGVgCDMgqCLIIDATYCJAMUCwwABCAFhG0HXRukBsiuMTaG1k0EhI4xWC2wfeNMk+SUX1gcGw9PY7X3R1ZmzySpg0ezhieTdIlEpJIgNiqZZtkzef/Xv/r7FmJW9Fc3vMm8HeSdTFbdJ1rIFcTKrtWAgZLeemHnCUry+IhlWKMnMuTAMbUvSblE+Hj5n8vpjbIE5rezHNde3lEvwGgCZdlYmxKJSyT2luGtLsVDPkygWZRLudLeOw28FGRUII5UZgCvgldR9ERP6DQsLOKjqpfep1v4EH0//jkZXiQ1IxNvvW4zQ+PPhfezXGcP8VAieMuZoS8jYx8oxJtG6xHXJLrPVXO7u7kAND1JWqpd4vvk97P+n4xP7KHRGElZ5s+LDpw/Ai6gWOFnPCdI/EyUaJIlI4LMz1n8b8mtoA3JdRN4idDWyYK+29jkfKjpyYMzT+uQnX1ca95+yWrePfv0sgyGO5adnZNNdy6dMKOy592ppdkK3RujrNtT2L5lp6NXWxqx81hG1246eSIa18wOM+++tcrls4vvbr94T68zPrjZHresxCB4yleugoPJvETKQJwYi6B4SWC+z/cenDYNlLOnyoNgtkm+MFg1myDo6BPg/rmwP/n1eOFvu/CqhfcyXwwscoG3yBX5Swry5yRD2SVfAhg2Hf1QQfDjcOboAmv/o4CvEVfBM1RgOPevyri8388bWFI8AdHV4hRzrmOv5gdKk1vV8NOdU54vo5x9IXPoFQQT7F0LLmQ962ih7kM1cBo6es5Ds6dj+cA0wVWUPnYtAAgTDkEy5hNkE26jhfoMqjnfoGMiXKF5EKEbDmyG6tMi0CDRTIxTRDVxB2UG6RMXDiMbsxlEXhDRZ6BwqgFSlF9YTnSgA8USU5zjrFhKSqjgdtIOx6HNxokm+CiaZL5FSq26oIA2vSjfxO3g4zIBGUjIjDCaQqhMOAcqK0s+lc8PQ8wYGwPRQepyzoAEJ7V1oki+wgFoh9QxiPQozziNY4pJEkVQAmdHtIMZ2WiUI7TmfqOQiZTPMiGsqVaAy9Gh0vzt5fZ/3AQN2bRGihwlanSMPlPzDELwiTwz1zm8UtuY5hPHbEilL8oUKrNIAA==') format('woff2'),
+  url('iconfont.woff?t=1559275008735') format('woff'),
+  url('iconfont.ttf?t=1559275008735') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+ */
+  url('iconfont.svg?t=1559275008735#iconfont') format('svg'); /* iOS 4.1- */
+}
+
+.iconfont {
+  font-family: "iconfont" !important;
+  font-size: 16px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-ai-arrow-down:before {
+  content: "\e658";
+}
+
+.icon-arrow-up:before {
+  content: "\e61d";
+}
+
+.icon-arrow-left:before {
+  content: "\e622";
+}
+
+.icon-arrow-right:before {
+  content: "\e61f";
+}
+

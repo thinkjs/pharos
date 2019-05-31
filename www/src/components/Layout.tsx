@@ -1,9 +1,9 @@
 import * as React from "react";
 import { Layout, Menu } from 'antd';
 import { Link } from "react-router-dom";
-import axios from '../utils/axios'
 import history from '../utils/history'
 import Header from './Header'
+import axios from "../utils/axios";
 
 const { SubMenu } = Menu;
 const { Sider, Content } = Layout;

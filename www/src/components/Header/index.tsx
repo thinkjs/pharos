@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { Menu, Layout } from "antd";
 const { Header } = Layout;
 import { observer, inject } from 'mobx-react';
+import Icon from '../../components/Icon'
 import axios from '../../utils/axios'
 import history from '../../utils/history'
 import './index.less'
@@ -103,7 +104,7 @@ class PharosHeader extends React.Component<any, any> {
         <div className="header-project">
           <div className="header-project__title">
             <span className="header-project__title-content">{projectName}</span>
-            <span className="header-project__title-dropdown" onClick={() => setShowProjectList(true)}>下拉</span>
+            <span className="header-project__title-dropdown" onClick={() => setShowProjectList(true)}><Icon type="arrow-down" /></span>
           </div>
           {showProjectList &&
             <div className="header-project__select">
