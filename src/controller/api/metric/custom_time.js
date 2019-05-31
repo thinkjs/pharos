@@ -39,7 +39,7 @@ module.exports = class extends Base {
               }
             })
           })
-          return result;
+          return [result];
         });
         break;
       default:
