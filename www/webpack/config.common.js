@@ -2,11 +2,13 @@ const path = require('path');
 const webpack = require('webpack');
 const appRootDir = require('app-root-dir').get();
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-// var MiniCssExtractPlugin = require('mini-css-extract-plugin');
 // const lessThemePlugin = require('./less-theme-plugin');
+function toApp(relativePath) {
+  return path.resolve(appRootDir, 'src', relativePath);
+}
 
 var htmlEntries = [{
-  template: './src/index.html',
+  template: './webpack/html/index.html',
   filename: 'index.html',
 }].map(v => {
   return new HtmlWebpackPlugin({
@@ -65,7 +67,14 @@ module.exports = {
   },
   target: 'web',
   resolve: {
-    extensions: [".js", ".tsx", ".ts"],
+    extensions: [".tsx", ".ts", ".js",],
+    alias: {
+      "@components": toApp('components'),
+      "@config": toApp('config'),
+      "@utils": toApp('utils'),
+      "@pages": toApp('pages'),
+
+    },
     mainFields: ["browser", "main"]
   },
   module: {
@@ -102,10 +111,6 @@ module.exports = {
     new webpack.ProvidePlugin({
       React: 'react'
     }),
-    // new MiniCssExtractPlugin({
-    //   filename: '[name].css',
-    //   chunkFilename: '[id].css'
-    // }),
     new webpack.DefinePlugin({
       'process.env.APP_ENV': JSON.stringify('development'),
     }),

@@ -1,9 +1,10 @@
 import { configure } from 'mobx';
-import SignStore from './pages/Sign/store';
-import ProjectStore from './pages/Project/store';
-import SiteStore from './pages/Site/store';
+import SignStore from '@pages/Sign/store';
+import ProjectStore from '@pages/Project/store';
+import AlarmStore from '@pages/Alarm/store';
+import SiteStore from '@pages/Site/store';
 import OptionStore from './options.store';
-import PeopleStore from './pages/People/store'
+import PeopleStore from '@pages/People/store'
 
 configure({
   enforceActions: 'never'
@@ -14,6 +15,7 @@ export class AppStore {
   signStore: SignStore;
   projectStore: ProjectStore;
   siteStore: SiteStore;
+  alarmStore: AlarmStore;
   peopleStore: PeopleStore;
 
 
@@ -21,7 +23,7 @@ export class AppStore {
     this.signStore = new SignStore();
     this.projectStore = new ProjectStore();
     this.siteStore = new SiteStore();
-
+    this.alarmStore = new AlarmStore();
     this.peopleStore = new PeopleStore();
   }
 

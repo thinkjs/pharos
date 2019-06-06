@@ -8,8 +8,7 @@
     "build:development": "node internal/build --env=development",
     "build:test": "node internal/build --env=test",
     "build:beta": "node internal/build --env=beta",
-    "build:production": "node internal/build --env=production",
-    "lint": "eslint --ext .ts "
+    "build:production": "node internal/build --env=production"
   },
   "author": "",
   "license": "ISC",
@@ -56,11 +55,15 @@
     "antd": "3.16.6",
     "axios": "^0.18.0",
     "babel-plugin-import": "1.11.0",
+    "highcharts": "^7.1.2",
+    "highcharts-react-official": "^2.1.3",
     "mobx": "^5.9.4",
     "mobx-react": "^5.4.4",
+    "moment-timezone": "^0.5.25",
     "react": "16.8.6",
     "react-copy-to-clipboard": "^5.0.1",
     "react-dom": "16.8.6",
+    "react-highcharts": "^16.0.2",
     "react-router": "5.0.0",
     "react-router-dom": "5.0.0"
   }

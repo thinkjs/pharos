@@ -2,7 +2,7 @@
 import { message } from 'antd';
 import { observable, action, computed } from 'mobx';
 import { ProjectList, ListCriteria } from '../proto/index';
-import axios from '../../../utils/axios';
+import axios from '@utils/axios';
 
 class SiteStore {
   rootStore;

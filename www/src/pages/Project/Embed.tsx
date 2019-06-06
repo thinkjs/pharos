@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { Button } from 'antd'
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { message } from 'antd'
-import history from '../../utils/history'
+import history from '@utils/history'
 import './embed.less'
 
 

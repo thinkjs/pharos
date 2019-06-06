@@ -1,7 +1,7 @@
 import { message } from 'antd';
 import { CurrentModel } from '../proto/index';
 import { observable, action, computed } from 'mobx';
-import axios from '../../../utils/axios';
+import axios from '@utils/axios';
 
 class MetricStore {
   sit(arg0: number, sit: any) {

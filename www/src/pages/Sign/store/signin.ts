@@ -1,7 +1,7 @@
-import axios from '../../../utils/axios';
-import { baseURL } from '../../../config/domain'
+import axios from '@utils/axios';
+import { baseURL } from '@config/domain'
 import { observable, action } from 'mobx';
-import history from '../../../utils/history'
+import history from '@utils/history'
 class SigninStore {
   rootStore;
 

@@ -1,13 +1,13 @@
 import { configure } from 'mobx'
-import ProjectStore from './project'
+import AlarmStore from './alarm'
 configure({ enforceActions: 'never' })
 
 export class RootStore {
 
-  projectStore: ProjectStore;
+  alarmStore: AlarmStore;
 
   constructor() {
-    this.projectStore = new ProjectStore(this)
+    this.alarmStore = new AlarmStore(this)
   }
 }
 

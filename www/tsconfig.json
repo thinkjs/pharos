@@ -22,6 +22,21 @@
     "experimentalDecorators": true,
     "noImplicitUseStrict": true,
     "alwaysStrict": false,
+    "baseUrl": ".",
+    "paths": {
+      "@components/*": [
+        "./src/components/*"
+      ],
+      "@pages/*": [
+        "./src/pages/*"
+      ],
+      "@config/*": [
+        "./src/config/*"
+      ],
+      "@utils/*": [
+        "./src/utils/*"
+      ],
+    }
   },
   "exclude": [
     "build",
@@ -31,8 +46,9 @@
     "bin",
     "runtime",
     "view",
+    "node_modules"
   ],
   "types": [
     "typePatches"
-  ]
+  ],
 }

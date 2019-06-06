@@ -1,5 +1,5 @@
 import * as React from 'react';
-import Layout from '../../components/Layout'
+import Layout from '@components/Layout'
 import { Route, Switch, Redirect } from 'react-router-dom'
 import Metric from './Metric';
 class Site extends React.Component<any, any> {

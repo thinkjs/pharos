@@ -1,24 +1,59 @@
 .ant-layout-header {
   position: relative;
-  width: 100%;
-  height: 100%;
+  height: 46px;
+  background-color: #fff;
+  .user-info {
+    position: relative;
+  }
   .user-info-wrap {
     position: absolute;
-    right: 0;
+    right: 30px;
     top: 0;
     width: 200px;
     height: 100%;
-    color: #000;
     line-height: 46px;
+    text-align: center;
     .user-name {
-      margin-right: 20px;
-      vertical-align: middle
+      margin-right: 10px;
+      vertical-align: middle;
+    }
+    i {
+      display: inline-block;
+      vertical-align: middle;
+      font-size: 12px;
+      cursor: pointer;
+    }
+    .user-info-list {
+      border: 1px solid #ccc;
+      position: absolute;
+      left: 0;
+      top: 46px;
+      width: 100%;
+      z-index: 2;
+      background-color: #fff;
+      .user-info-item {
+        height: 30px;
+        line-height: 30px;
+      }
     }
     .logout {
       vertical-align: middle;
       cursor: pointer;
     }
+    .user-info-title {
+
+    }
   }
+}
+
+.header-project__select--wrap {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: transparent;
+  z-index: 2;
 }
 
 .header-project {
@@ -27,7 +62,7 @@
   top: 0;
   width: 200px;
   height: 100%;
- 
+  z-index: 3;
   &__title {
     padding-left: 30px;
     line-height: 46px;
@@ -43,7 +78,7 @@
     &-dropdown {
       display: inline-block;
       vertical-align: middle;
-      color: red;
+      color: #1890ff;
       margin-left: 10px;
       cursor: pointer;
     }
@@ -55,19 +90,18 @@
     width: 360px;
     z-index: 99;
     border: 1px solid #ddd;
-    background-color: #e6f7ff;
-    border-radius: 5px;
-    color: #000;
+    background-color: #fff;
+    box-shadow: 2px 2px 15px #555;
     .header-project-list {
       list-style: none;
-      height: 500px;
+      height: 420px;
       overflow-y: scroll;
       margin: 0;
       padding: 0;
       li {
         width: 100%;
-        height: 36px;
-        line-height: 36px;
+        height: 48px;
+        line-height: 48px;
         white-space: nowrap;
         font-size: 0;
         border-bottom: 1px solid #000;
@@ -96,6 +130,8 @@
             line-height: 16px;
             text-align: center;
             margin-left: 5px;
+            vertical-align: text-top;
+            display: inline-block;
           }
           .hpi-quota-perf-num {
             width: 16px;
@@ -105,17 +141,36 @@
             line-height: 16px;
             text-align: center;
             margin-left: 5px;
+            vertical-align: text-top;
+            display: inline-block;
           }
         }
+        &:hover {
+          color: #1890ff;
+          .hpi-quota-alarm-num {
+            border-color: #1890ff;
+          }
+          .hpi-quota-perf-num {
+            border-color: #1890ff;
+          }
+        }
+
       }
     }
     .header-project-add {
       width: 100%;
-      height: 36px;
-      line-height: 36px;
+      height: 48px;
+      line-height: 48px;
       text-align: center;
-      background-color: #000;
       color: #fff;
+      background-color: #ffc1079e;
+      cursor: pointer;
+      i {
+        font-size: 36px;
+      }
+      a {
+        color: #000;
+      }
     }
 
   }

@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Form, Button, Input, Row } from 'antd';
 import { Link } from 'react-router-dom'
 import { observer, inject } from 'mobx-react';
-import { baseURL } from '../../../config/domain'
+import { baseURL } from '@config/domain'
 import './index.less'
 import { LoginFormProps } from '../proto/signin';
 

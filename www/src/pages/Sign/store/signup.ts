@@ -1,6 +1,6 @@
 import { observable, action } from 'mobx';
-import axios from '../../../utils/axios';
-import history from '../../../utils/history'
+import axios from '@utils/axios';
+import history from '@utils/history'
 
 class SignupStore {
   rootStore;

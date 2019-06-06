@@ -1,8 +1,8 @@
 // import { message } from 'antd';
 import { ListCriteria } from '../proto/index';
 import { observable, action, computed, toJS } from 'mobx';
-import axios from '../../../utils/axios';
-import history from '../../../utils/history'
+import axios from '@utils/axios';
+import history from '@utils/history'
 
 class ProjectStore {
   rootStore;
@@ -60,6 +60,18 @@ class ProjectStore {
     localStorage.setItem('projectId', value.id)
     history.push('/alarm');
   }
+
+  @observable showUserInfo = false
+  @action setShowUserInfo = (bool) => this.showUserInfo = bool
+
+  // @action projectClick = (value) => {
+  //   this.setShowProjectList(false)
+  //   localStorage.setItem('projectId', value.id)
+  //   history.push('/alarm');
+  // }
+
+
+
 
 }
 

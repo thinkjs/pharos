@@ -2,7 +2,6 @@ import { observable, action } from 'mobx';
 import { message } from 'antd';
 import axios from '../../../utils/axios';
 import { PeopleList } from '../proto/index';
-import { ProjectList } from '../../Project/temp/proto';
 
 class People {
   rootStore;
@@ -11,7 +10,7 @@ class People {
   }
   @observable projectId = localStorage.getItem('projectId')
   @observable peopleList: PeopleList[] = []
-  @action setPeopleList = (list: ProjectList[]) => this.peopleList = list
+  @action setPeopleList = (list: []) => this.peopleList = list
 
   @observable sourceData: any = []
   @action setSourceData = val => this.sourceData = val

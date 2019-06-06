@@ -1,19 +1,14 @@
 import * as React from "react";
 import { Layout, Menu } from 'antd';
 import { Link } from "react-router-dom";
-import history from '../utils/history'
-import Header from './Header'
-import axios from "../utils/axios";
+import Header from '@components/Header'
+import './index.less'
 
 const { SubMenu } = Menu;
 const { Sider, Content } = Layout;
 
 
 const data = [{
-  name: '项目列表',
-  url: '/project',
-  sider: []
-}, {
   name: '报警',
   url: '/alarm',
   sider: [{
@@ -55,30 +50,18 @@ const data = [{
   sider: []
 }]
 
-class PhraosIndex extends React.Component<any, any> {
-
-  constructor(props) {
-    super(props);
-  }
-
-  logout = async () => {
-    const result = await axios.delete('/api/token');
-    if (result) {
-      localStorage.removeItem('pharosUser');
-      history.push('/signin')
-    }
-  }
+class PhraosLayout extends React.Component<any, any> {
 
   render() {
     const url = this.props.match.path
     const sideItem = data.find(item => item.url === url)
     if (!sideItem) return null
     return (
-      <Layout>
+      <>
         <Header {...this.props} />
-        <Layout>
+        <Layout className="pharos-layout">
           {sideItem.sider.length ?
-            <Sider width={200} style={{ background: '#fff' }}>
+            <Sider className="pharos-layout__sider">
               <Menu
                 mode="inline"
                 defaultSelectedKeys={['0']}
@@ -97,15 +80,13 @@ class PhraosIndex extends React.Component<any, any> {
                 )}
               </Menu>
             </Sider> : null}
-          <Layout >
-            <Content style={{ margin: '24px', padding: '24px', minHeight: 280, height: '100%', backgroundColor: '#fff' }}>
-              {this.props.children}
-            </Content>
-          </Layout>
+          <Content className="pharos-layout__content">
+            {this.props.children}
+          </Content>
         </Layout>
-      </Layout>
+      </>
     )
   }
 }
 
-export default PhraosIndex
+export default PhraosLayout

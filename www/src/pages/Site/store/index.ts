@@ -5,7 +5,7 @@ import { configure } from 'mobx'
 import { message } from 'antd';
 import { observable, action } from 'mobx';
 import { ProjectList, ListCriteria } from '../proto/index';
-import axios from '../../../utils/axios';
+import axios from '@utils/axios';
 
 configure({ enforceActions: 'never' })
 
