@@ -5,10 +5,10 @@
   "main": "index.js",
   "scripts": {
     "start": "webpack-dev-server --config=webpack/config-dev --env=development --inline --hot --progress",
-    "build:development": "node internal/build --env=development",
-    "build:test": "node internal/build --env=test",
-    "build:beta": "node internal/build --env=beta",
-    "build:production": "node internal/build --env=production"
+    "build:development": "node webpack/build --env=development",
+    "build:test": "node webpack/build --env=test",
+    "build:beta": "node webpack/build --env=beta",
+    "build:production": "node webpack/build --env=production"
   },
   "author": "",
   "license": "ISC",

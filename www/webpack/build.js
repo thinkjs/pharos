@@ -25,4 +25,4 @@ const webpackEntryMap = {
   'production': './config.production',
 
 }
-webpack(require(webpackEntryMap[option.env]), report);
+webpack(require(webpackEntryMap[options.env]), report);
