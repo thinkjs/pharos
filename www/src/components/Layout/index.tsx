@@ -24,11 +24,11 @@ const data = [{
   url: '/site',
   sider: [{
     name: '监控管理',
-    url: '/monitor',
+    url: '/metric',
     subMenu: [{
       name: '添加自定义监控项',
-      url: '/add'
-    }]
+      url: '/'
+    },]
   }, {
     name: '策略管理',
     url: '/strategy',
@@ -36,6 +36,7 @@ const data = [{
   }, {
     name: '成员列表',
     url: '/users',
+
   }]
 }, {
   name: '系统设置',
@@ -44,10 +45,6 @@ const data = [{
     name: '成员列表',
     url: '/users',
   }]
-}, {
-  name: '成员管理',
-  url: '/people',
-  sider: []
 }]
 
 class PhraosLayout extends React.Component<any, any> {

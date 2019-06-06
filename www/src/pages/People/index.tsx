@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { observer, inject } from 'mobx-react';
 import { Button, Modal, Select, Table, Popconfirm } from 'antd';
-import Layout from '../../components/Layout';
 
 
 const Option = Select.Option;
@@ -83,7 +82,7 @@ class People extends React.Component<any, any> {
       handleCancel
     } = peopleStore.PeopleStore
     return (
-      <Layout {...this.props}>
+      <div>
         <div>
           <Button type="primary" style={{ float: 'right' }} onClick={() => { setModal(true) }}>新增</Button>
         </div>
@@ -114,7 +113,7 @@ class People extends React.Component<any, any> {
             }
           </Select>
         </Modal>
-      </Layout>
+      </div>
     )
   }
 }
