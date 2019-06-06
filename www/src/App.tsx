@@ -10,7 +10,7 @@ import Project from '@pages/Project'
 import System from '@pages/System'
 import Site from '@pages/Site'
 import NoMatch from '@components/NoMatch'
-import People from '@pages/People'
+import '@components/style/index.less'
 
 const routes = [{
   path: '/signin',
@@ -40,9 +40,6 @@ const authRoutes = [{
 }, {
   path: '/system',
   component: System,
-}, {
-  path: '/people',
-  component: People,
 }]
 
 const App = () => (

@@ -24,10 +24,10 @@ const data = [{
   url: '/site',
   sider: [{
     name: '监控管理',
-    url: '/monitor',
+    url: '/metric',
     subMenu: [{
       name: '添加自定义监控项',
-      url: '/add'
+      url: '/'
     }]
   }, {
     name: '策略管理',

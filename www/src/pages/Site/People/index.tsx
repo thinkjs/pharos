@@ -33,7 +33,7 @@ class People extends React.Component<any, any> {
       render: (text) => {
         const { status, id } = text;
         const { peopleStore } = this.props
-        const { handleStatus } = peopleStore.PeopleStore
+        const { handleStatus } = peopleStore
         return (
           <Select defaultValue={status} onChange={value => handleStatus(value, id)}>
             <Option value={0}>管理员</Option>
@@ -46,7 +46,7 @@ class People extends React.Component<any, any> {
       key: 'action', render: (text) => {
         const { id } = text;
         const { peopleStore } = this.props
-        const { handleDelete } = peopleStore.PeopleStore
+        const { handleDelete } = peopleStore
         return (
           <span>
             <Popconfirm
@@ -64,7 +64,7 @@ class People extends React.Component<any, any> {
   }
   componentDidMount() {
     const { peopleStore } = this.props
-    const { getListData, getPeopleList } = peopleStore.PeopleStore
+    const { getListData, getPeopleList } = peopleStore
     getPeopleList()
     getListData()
   }
@@ -80,7 +80,7 @@ class People extends React.Component<any, any> {
       handleSelected,
       hanldeClickOk,
       handleCancel
-    } = peopleStore.PeopleStore
+    } = peopleStore
     return (
       <div>
         <div>

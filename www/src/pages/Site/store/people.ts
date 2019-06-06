@@ -1,6 +1,6 @@
 import { observable, action } from 'mobx';
 import { message } from 'antd';
-import axios from '../../../utils/axios';
+import axios from '@utils/axios';
 import { PeopleList } from '../proto/index';
 
 class People {

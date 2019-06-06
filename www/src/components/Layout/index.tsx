@@ -27,7 +27,7 @@ const data = [{
     url: '/metric',
     subMenu: [{
       name: '添加自定义监控项',
-      url: '/'
+      url: '/add'
     },]
   }, {
     name: '策略管理',
@@ -53,6 +53,13 @@ class PhraosLayout extends React.Component<any, any> {
     const url = this.props.match.path
     const sideItem = data.find(item => item.url === url)
     if (!sideItem) return null
+
+    const pathname = this.props.location.pathname.split('/')
+    const path = '/' + pathname[pathname.length - 1]
+
+    const openPath = '/' + pathname['2']
+
+
     return (
       <>
         <Header {...this.props} />
@@ -61,17 +68,17 @@ class PhraosLayout extends React.Component<any, any> {
             <Sider className="pharos-layout__sider">
               <Menu
                 mode="inline"
-                defaultSelectedKeys={['0']}
-                defaultOpenKeys={['sub0']}
+                defaultOpenKeys={[openPath]}
+                selectedKeys={[path]}
               >
-                {sideItem.sider.map((sd, index) => {
+                {sideItem.sider.map((sd) => {
                   if (sd.subMenu) {
-                    return <SubMenu key={`sub${index}`} title={sd.name}>
-                      {sd.subMenu.map((sm, i) => <Menu.Item key={i}><Link to={`${sideItem.url}${sd.url}${sm.url}`}>{sm.name}</Link></Menu.Item>)}
+                    return <SubMenu key={sd.url} title={sd.name}>
+                      {sd.subMenu.map((sm) => <Menu.Item key={sm.url}><Link to={`${sideItem.url}${sd.url}${sm.url}`}>{sm.name}</Link></Menu.Item>)}
                     </SubMenu>
                   }
                   return (
-                    <Menu.Item key={index}><Link to={`${sideItem.url}${sd.url}`}>{sd.name}</Link></Menu.Item>
+                    <Menu.Item key={sd.url}><Link to={`${sideItem.url}${sd.url}`}>{sd.name}</Link></Menu.Item>
                   )
                 }
                 )}
