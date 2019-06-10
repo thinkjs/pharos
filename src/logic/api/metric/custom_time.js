@@ -15,15 +15,16 @@ module.exports = class extends Base {
    * @apiSuccessExample {json} 成功返回
    * {
    *   errno: 0,
-   *   data: {
+   *   data: [{
    *       category: ["05-24 00:00", "05-24 00:05",],
    *       series: [
    *         {
    *           name: 'Chrome',
    *           data: [50, 20]
    *         }
-   *       ]
-   *   },
+   *       ],
+   *       metric_id: 11
+   *   }],
    *   errmsg: ''
    * }
    */
@@ -50,7 +51,7 @@ module.exports = class extends Base {
         default: think.datetime(Date.now() + ONE_DAY, 'YYYY-MM-DD')
       },
       type: {
-        in: ['mins']
+        in: ['mins', 'day']
       },
       metric: {
         required: true,
