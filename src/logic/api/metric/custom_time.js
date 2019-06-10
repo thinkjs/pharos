@@ -10,7 +10,7 @@ module.exports = class extends Base {
    * @apiParam  {String}  start_time  起始时间
    * @apiParam  {String}  end_time  终止时间
    * @apiParam  {String}  metric {k1,k2,k3,k4,k5}  类型
-   * @apiParam  {String}  type {min}  时间类型
+   * @apiParam  {String}  type {mins, day}  时间类型
    * 
    * @apiSuccessExample {json} 成功返回
    * {
