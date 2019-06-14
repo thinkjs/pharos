@@ -29,12 +29,7 @@ class AlarmStore {
   @action setCharts = (values) => this.charts = values
 
   @action getList = async () => {
-    const values = {
-      site_id: this.siteId,
-      metric_id: '4'
-    }
-    console.log(8, values)
-    const result = await axios.get(`/api/metric/custom_time?site_id=${this.siteId}`)
+    const result = await axios.get(`/api/metric/custom_time?site_id=${this.siteId}&metric_id=4`)
     console.log(7, result)
   }
 

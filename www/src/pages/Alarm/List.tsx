@@ -20,8 +20,8 @@ class AlarmList extends React.Component<Props, any> {
 
 
   componentDidMount() {
-    // const { alarmStore } = this.props
-    // alarmStore.getList()
+    const { alarmStore } = this.props
+    alarmStore.getList()
   }
 
   formatData(charts) {

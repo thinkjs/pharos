@@ -39,13 +39,14 @@
     "uuid": "^3.3.2"
   },
   "devDependencies": {
-    "think-watcher": "^3.0.0",
+    "ava": "^0.18.0",
     "eslint": "^4.2.0",
     "eslint-config-think": "^1.0.0",
-    "ava": "^0.18.0",
     "nyc": "^7.0.0",
+    "source-map-loader": "^0.2.4",
     "think-babel": "^1.1.0",
-    "think-inspect": "0.0.2"
+    "think-inspect": "0.0.2",
+    "think-watcher": "^3.0.0"
   },
   "repository": "",
   "license": "MIT",
