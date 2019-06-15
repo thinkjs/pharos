@@ -18,7 +18,7 @@ class SigninStore {
         await this.getList()
       }
     } catch (e) {
-      console.log('/api/token error')
+      this.refreshToken();
     }
   }
 

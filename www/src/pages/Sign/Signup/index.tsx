@@ -77,7 +77,7 @@ class ItemList extends React.Component<LoginFormProps, any> {
               注册
           </Button>
             <p>
-              <Link to="/login">已有账号？现在登录</Link>
+              <Link to="/signin">已有账号？现在登录</Link>
             </p>
           </Row>
         </Form>
