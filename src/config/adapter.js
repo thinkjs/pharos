@@ -36,13 +36,13 @@ exports.model = {
   },
   mysql: {
     handle: mysql,
-    database: 'monitor',
-    prefix: 'ph_',
-    encoding: 'utf8',
-    host: '127.0.0.1',
-    port: '',
-    user: 'root',
-    password: '123456',
+    database: process.env.PH_MYSQL_DATABASE || 'monitor',
+    prefix: process.env.PH_MYSQL_PREFIX || 'ph_',
+    encoding: process.env.PH_MYSQL_ENCODING || 'utf8mb4',
+    host: process.env.PH_MYSQL_HOST || '127.0.0.1',
+    port: process.env.PH_MYSQL_PORT || '',
+    user: process.env.PH_MYSQL_USER || 'root',
+    password: process.env.PH_MYSQL_PASSWORD || '123456',
     dateStrings: true
   }
 };
