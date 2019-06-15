@@ -1,7 +1,7 @@
 const moment = require('moment');
 const Base = require('./base.js');
 
-const TYPE_MAPS = { 0: 'custome_monitor', 1: 'perf_monitor', 2: 'error_monitor' };
+const TYPE_MAPS = { 0: 'custom_monitor', 1: 'perf_monitor', 2: 'error_monitor' };
 module.exports = class extends Base {
   constructor(...args) {
     super(...args);
