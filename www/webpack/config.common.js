@@ -81,7 +81,7 @@ module.exports = {
     rules: [{
       test: /\.(ts|tsx)$/,
       exclude: /node_modules/,
-      loader: ['ts-loader']
+      loader: ['babel-loader', 'ts-loader']
     }, {
       test: /\.css$/,
       use: cssLoaders(),
@@ -104,7 +104,7 @@ module.exports = {
         name: '[path][name].[ext]&limit=200000'
       }
     },
-    // { enforce: "pre", test: /\.js$/, loader: "source-map-loader" }
+      // { enforce: "pre", test: /\.js$/, loader: "source-map-loader" }
     ]
   },
   // When importing a module whose path matches one of the following, just
