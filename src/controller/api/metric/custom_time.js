@@ -18,6 +18,7 @@ module.exports = class extends Base {
     const where = { site_id, create_time: { '>=': start_time, '<': end_time } };
 
     const data = await this.modelInstance.where(where).select();
+    let factors = await this.getFactors(metric_id);
     let series;
     let categories;
     switch (type) {
@@ -79,6 +80,10 @@ module.exports = class extends Base {
           return this.avg({ time, count }, 0);
         }));
     }
-    return this.success({ categories, series });
+    return this.success({ categories, series, factors });
+  }
+
+  async getDashBoardList() {
+    // 
   }
 };
