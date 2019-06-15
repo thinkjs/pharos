@@ -40,7 +40,7 @@ module.exports = class extends Base {
     const { logFile, logFormat } = this.config();
     const now = moment();
     for (let i = 1; i <= 5; i++) {
-      const file = logFile(now.subtract(i, 'miniutes'));
+      const file = logFile(now.subtract(i, 'minutes'));
       const parser = this.service('parser', logFormat);
       await parser.read(file, this.parseLog.bind(this));
     }
@@ -111,7 +111,7 @@ module.exports = class extends Base {
       ].join('/');
 
       if (!this.stats[type]) {
-        this.states[type] = {};
+        this.stats[type] = {};
       }
 
       if (think.isEmpty(this.stats[type][k])) {
