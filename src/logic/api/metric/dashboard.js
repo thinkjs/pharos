@@ -8,7 +8,7 @@ module.exports = class extends Base {
    * @apiParam  {Int}     site_id 网站ID
    * @apiParam  {String}  start_time  起始时间
    * @apiParam  {String}  end_time  终止时间
-   * @apiParam  {String}  metric {k1,k2,k3,k4,k5}  类型
+   * @apiParam  {String}  [metric] {k1,k2,k3,k4,k5}  类型
    * @apiParam  {String}  type {mins, day}  时间类型
    * 
    * @apiSuccessExample {json} 成功返回
@@ -27,7 +27,8 @@ module.exports = class extends Base {
    *           "name": "chrome",
    *           "display_name": "谷歌"
    *       }],
-   *       metric_id: 11
+   *       metric_id: 11,
+   *       metric_name: '浏览器'
    *   }],
    *   errmsg: ''
    * }

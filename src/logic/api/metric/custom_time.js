@@ -28,7 +28,8 @@ module.exports = class extends Base {
    *           "name": "chrome",
    *           "display_name": "谷歌"
    *       }],
-   *       metric_id: 11
+   *       metric_id: 11,
+   *       metric_name: '浏览器'
    *   }],
    *   errmsg: ''
    * }

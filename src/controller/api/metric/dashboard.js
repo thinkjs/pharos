@@ -17,19 +17,21 @@ module.exports = class extends Base {
     } = this.get();
     const data = await this.model('metric').where({site_id}).select();
     const metric_ids = data.map(item => item.id).join(',');
+    const metric_names = data.map(item => item.name);
     const metric_ids_ary = metric_ids.split(',');
-    const result = await Promise.all(metric_ids_ary.map(async metric_id => this.getCustomData(
+    const result = await Promise.all(metric_ids_ary.map(async (metric_id, i) => this.getCustomData(
       site_id,
       metric_id,
       start_time,
       end_time,
       type,
-      metric
+      metric,
+      metric_names[i]
     )));
     return this.success(result);
   }
 
-  async getCustomData(site_id, metric_id, start_time, end_time, type, metric) {
+  async getCustomData(site_id, metric_id, start_time, end_time, type, metric, metric_name) {
     const where = { site_id, metric_id, create_time: { '>=': start_time, '<': end_time } };
 
     const data = await this.modelInstance.where(where).select();
@@ -95,6 +97,6 @@ module.exports = class extends Base {
           return this.avg({ time, count }, 0);
         }));
     }
-    return { categories, series, factors, metric_id };
+    return { categories, series, factors, metric_id, metric_name };
   }
 };
