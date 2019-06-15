@@ -88,6 +88,12 @@ module.exports = class extends Base {
         await this.modelInstance.addSite(data);
         const insertData = await this.modelInstance.where({sid: data.sid}).find();
 
+        // 将默认监控项添加到metric表
+        Promise.all(global.DefaultMetrics.forEach(item => {
+            item.site_id = insertData.id;
+            this.model('metric').add(item);
+        }));
+        
         // 将该用户加入项目并设置为管理员
         await this.model('site_user').add({site_id: insertData.id, user_id: this.userInfo.id, status: 1});
         return this.success(insertData);

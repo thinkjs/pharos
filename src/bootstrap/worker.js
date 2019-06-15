@@ -15,6 +15,69 @@ global.section = [
   [5000, '5-6s'],
   [6000, '6-7s']
 ];
+const PERFS = [
+  {
+    name: 'loadPage',
+    display_name: '页面加载时间',
+    description: '页面加载完成的时间',
+    type: 1
+  },
+  {
+    name: 'domReady',
+    display_name: 'DOM 解析时间',
+    description: '解析 DOM 树结构的时间',
+    type: 1
+  },
+  {
+    name: 'redirect',
+    display_name: '重定向时间',
+    description: '重定向的时间',
+    type: 1
+  },
+  {
+    name: 'lookupDomain',
+    display_name: 'DNS 查询时间',
+    description: 'DNS 查询时间',
+    type: 1
+  },
+  {
+    name: 'ttfb',
+    display_name: '服务端返回时间',
+    description: '读取页面第一个字节的时间',
+    type: 1
+  },
+  {
+    name: 'request',
+    display_name: '内容加载完成时间',
+    description: '内容加载完成的时间',
+    type: 1
+  },
+  {
+    name: 'loadEvent',
+    display_name: 'onload 时间',
+    description: '执行 onload 回调函数的时间',
+    type: 1
+  },
+  {
+    name: 'connect',
+    display_name: 'TCP建立时间',
+    description: 'TCP 建立连接完成握手的时间',
+    type: 1
+  },
+  {
+  	name: 'jserror',
+  	display_name: 'JS报错',
+  	description: 'JS报错监控',
+  	type: 2,
+  	k1: 'errmsg',
+  	k1_display_name: '错误信息'
+  }
+];
+
+
+global.DefaultMetrics = [
+    ...PERFS
+];  
 
 global.ROLES = {
   SUPER_ADMIN: 1,
