@@ -63,6 +63,25 @@ class Base extends BaseRest {
     return result;
   }
 
+  // 获取监控项的监控因子
+  async getFactors(metric_id) {
+    const metric = await this.model('metric')
+          .where({id: metric_id})
+          .field('k1, k1_display_name, k2, k2_display_name, k3, k3_display_name, k4, k4_display_name, k5, k5_display_name').select();
+    const result = [];
+    const types = Object.keys(metric[0]).filter(type => !type.includes('display_name'));
+    types.map(type => {
+      if (metric[0][type]) {
+        result.push({
+          type,
+          name: metric[0][type],
+          display_name: metric[0][`${type}_display_name`]
+        });
+      }
+    });
+    return result;
+  }
+
   async getCustoms(site_id, metric_id, metric = 'k1') {
     const result = {};
     const customs = await this.model('metric').where({site_id, id: metric_id, }).select();
