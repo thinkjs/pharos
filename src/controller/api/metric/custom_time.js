@@ -15,7 +15,7 @@ module.exports = class extends Base {
       metric_id,
       metric = 'k1',
     } = this.get();
-    const where = { site_id, create_time: { '>=': start_time, '<': end_time } };
+    const where = { site_id, metric_id, create_time: { '>=': start_time, '<': end_time } };
 
     const data = await this.modelInstance.where(where).select();
     let factors = await this.getFactors(metric_id);
@@ -80,7 +80,7 @@ module.exports = class extends Base {
           return this.avg({ time, count }, 0);
         }));
     }
-    return this.success({ categories, series, factors });
+    return this.success({ categories, series, factors, metric_id });
   }
 
   async getDashBoardList() {
