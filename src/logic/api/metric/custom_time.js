@@ -23,6 +23,11 @@ module.exports = class extends Base {
    *           data: [50, 20]
    *         }
    *       ],
+   *       factors: [{
+   *           "type": "k1",
+   *           "name": "chrome",
+   *           "display_name": "谷歌"
+   *       }],
    *       metric_id: 11
    *   }],
    *   errmsg: ''
