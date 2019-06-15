@@ -56,8 +56,9 @@ module.exports = class extends Base {
       const modelInstance = this.model(TYPE_MAPS[type]);
       const shouldAdd = [];
       const shouldUpdate = [];
+      const nowText = now.format('YYYY-MM-DD HH:mm:ss');
       const result = await modelInstance.where({
-        create_time: now.format('YYYY-MM-DD HH:mm:ss')
+        create_time: nowText
       }).select();
 
       const records = {};
@@ -68,7 +69,10 @@ module.exports = class extends Base {
 
       for (const k in this.stats[type]) {
         if (!records[k]) {
-          shouldAdd.push(this.stats[type][k]);
+          shouldAdd.push({
+            ...this.stats[type][k],
+            create_time: nowText
+          });
           continue;
         }
 
