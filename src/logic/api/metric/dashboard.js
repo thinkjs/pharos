@@ -1,7 +1,7 @@
 const Base = require('./base');
 module.exports = class extends Base {
   /**
-   * @api {GET} /metric/custom_time 获取Dashboard的监控数据
+   * @api {GET} /metric/dashboard 获取Dashboard的监控数据
    * @apiGroup Metric
    * @apiVersion  0.0.1
    *
