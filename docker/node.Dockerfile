@@ -13,4 +13,4 @@ RUN cd www && npm config set registry http://registry.npm.qiwoo.org && \
 
 ENV DOCKER=true
 EXPOSE 8360
-ENTRYPOINT [ "sh", "docker-entrypoint.sh" ]
+ENTRYPOINT [ "node", "production.js" ]
