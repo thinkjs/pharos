@@ -1,5 +1,7 @@
 const moment = require('moment');
 const Base = require('./base.js');
+
+const TYPE_MAPS = { 0: 'custome_monitor', 1: 'perf_monitor', 2: 'error_monitor' };
 module.exports = class extends Base {
   constructor(...args) {
     super(...args);
@@ -33,6 +35,8 @@ module.exports = class extends Base {
   }
 
   async logstashAction() {
+    think.logger.info('logstash ready');
+
     const { logFile, logFormat } = this.config();
     const now = moment();
     for (let i = 1; i <= 5; i++) {
@@ -41,45 +45,55 @@ module.exports = class extends Base {
       await parser.read(file, this.parseLog.bind(this));
     }
 
-    const shouldAdd = [];
-    const shouldUpdate = [];
-    const modelInstance = this.model('custom_monitor');
+    for (const type in this.stats) {
+      think.logger.info(`type=${type} update data length ${this.stats[type].length}`);
 
-    const result = await modelInstance.where({
-      create_time: now.format('YYYY-MM-DD HH:mm:ss')
-    }).select();
-    const records = {};
-    for (const { id, site_id, k1, k2, k3, k4, k5, time, count } of result) {
-      const k = [id, site_id, k1, k2, k3, k4, k5].filter(v => v).join('/');
-      records[k] = { id, time, count };
-    }
-
-    for (const k in this.stats) {
-      if (!records[k]) {
-        shouldAdd.push(this.stats[k]);
+      if (!TYPE_MAPS[type]) {
+        think.logger.warn(`type value ${type} is not valid.`);
         continue;
       }
 
-      records[k].time += this.stats[k].time;
-      records[k].count += this.stats[k].count;
-      shouldUpdate.push(records[k]);
-    }
+      const modelInstance = this.model(TYPE_MAPS[type]);
+      const shouldAdd = [];
+      const shouldUpdate = [];
+      const result = await modelInstance.where({
+        create_time: now.format('YYYY-MM-DD HH:mm:ss')
+      }).select();
 
-    await modelInstance.updateMany(shouldUpdate);
-    if (shouldAdd.length > 0) {
-      await modelInstance.addMany(shouldAdd);
-    }
+      const records = {};
+      for (const { id, site_id, k1, k2, k3, k4, k5, time, count } of result) {
+        const k = [id, site_id, k1, k2, k3, k4, k5].filter(v => v).join('/');
+        records[k] = { id, time, count };
+      }
 
+      for (const k in this.stats[type]) {
+        if (!records[k]) {
+          shouldAdd.push(this.stats[type][k]);
+          continue;
+        }
+
+        records[k].time += this.stats[type][k].time;
+        records[k].count += this.stats[type][k].count;
+        shouldUpdate.push(records[k]);
+      }
+
+      const ret = await modelInstance.updateMany(shouldUpdate);
+      think.logger.info(`updateMany result ${ret}`);
+
+      if (shouldAdd.length > 0) {
+        const ret = await modelInstance.addMany(shouldAdd);
+        think.logger.info(`addMany result ${ret}`);
+      }
+    }
     return this.success();
   }
 
   parseLog({ querystring: qs, pathname, http_referer }) {
-
-    if(!pathname.includes('/pharos.gif')) {
+    if (!pathname.includes('/pharos.gif')) {
       return;
     }
     const { site_id } = qs;
-    if(http_referer && !http_referer.includes(sites[site_id].url)) {
+    if (http_referer && !http_referer.includes(sites[site_id].url)) {
       return;
     }
 
@@ -88,7 +102,7 @@ module.exports = class extends Base {
       return;
     }
 
-    for (const { id, site_id, name, k1, k2, k3, k4, k5 } of metrics) {
+    for (const { id, site_id, name, k1, k2, k3, k4, k5, type } of metrics) {
       const dimensions = [k1, k2, k3, k4, k5].filter(v => v);
       const k = [
         site_id,
@@ -96,8 +110,12 @@ module.exports = class extends Base {
         dimensions.map(dimension => qs[dimension])
       ].join('/');
 
-      if (think.isEmpty(this.stats[k])) {
-        this.stats[k] = {
+      if (!this.stats[type]) {
+        this.states[type] = {};
+      }
+
+      if (think.isEmpty(this.stats[type][k])) {
+        this.stats[type][k] = {
           metric_id: id,
           site_id,
           k1: qs[k1],
@@ -109,8 +127,8 @@ module.exports = class extends Base {
           count: 1,
         };
       } else {
-        this.stats[k].time += +qs[name];
-        this.stats[k].count += 1;
+        this.stats[type][k].time += +qs[name];
+        this.stats[type][k].count += 1;
       }
     }
 
