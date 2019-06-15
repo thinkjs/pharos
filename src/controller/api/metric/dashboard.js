@@ -12,9 +12,11 @@ module.exports = class extends Base {
       start_time,
       end_time,
       type,
-      metric_ids,
+      // metric_ids,
       metric = 'k1',
     } = this.get();
+    const data = await this.model('metric').where({site_id}).select();
+    const metric_ids = data.map(item => item.id).join(',');
     const metric_ids_ary = metric_ids.split(',');
     const result = await Promise.all(metric_ids_ary.map(async metric_id => this.getCustomData(
       site_id,
