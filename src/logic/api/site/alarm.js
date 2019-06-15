@@ -11,8 +11,20 @@ module.exports = class extends Base {
    * @api {GET} /site/:id/alarm 获取网站已有报警列表
    * @apiGroup Site
    * @apiVersion  0.0.1
+   * 
+   * @apiParam  {String}  [page]  页数
+   * @apiParam  {String}  [pagesize]  分页大小
    */
-  getAction() {
+  async getAction() {
+    const { site_id } = this.get();
+
+    if (!site_id) {
+        return this.fail('SITE ID MISS');
+    }
+    const sites = await this.model('site').where({id: site_id}).select();
+    if (think.isEmpty(sites)) {
+        return this.fail('SITE NOT FOUND');
+    }
     this.rules = {
       page: {
         int: true,
@@ -28,16 +40,35 @@ module.exports = class extends Base {
    * @api {POST} /site/:id/alarm 为网站添加报警
    * @apiGroup Site
    * @apiVersion 0.0.1
+   * 
+   * @apiParam  {Int}  metric_id  监控项ID
+   * @apiParam  {String}  name  报警名称
+   * @apiParam  {JSON}  conditions  报警规则
    */
-  postAction() {
+  async postAction() {
+    const { site_id } = this.get();
+    const { metric_id } = this.post();
+    if (!site_id) {
+      return this.fail('SITE ID MISS');
+    }
+    const sites = await this.model('site').where({id: site_id}).select();
+    if (think.isEmpty(sites)) {
+      return this.fail('SITE NOT FOUND');
+    }
+
+    const metrics = await this.model('metric').where({id: metric_id}).select();
+    if (think.isEmpty(metrics)) {
+      return this.fail('METRIC NOT FOUND');
+    }
+
     this.rules = {
       name: {
-        require: true,
+        required: true,
         string: true
       },
       metric_id: {
         int: true,
-        require: true
+        required: true
       },
       conditions: {
         json: true
@@ -49,10 +80,34 @@ module.exports = class extends Base {
    * @api {PUT} /site/:id/alarm/:alarm_id 修改网站报警
    * @apiGroup Site
    * @apiVersion 0.0.1
+   * 
+   * @apiParam  {Int}  [metric_id]  监控项ID
+   * @apiParam  {String}  [name]  报警名称
+   * @apiParam  {JSON}  [conditions]  报警规则
    */
-  putAction() {
+  async putAction() {
     if (!this.id) {
       return this.fail();
+    }
+
+    const { site_id } = this.get();
+    const { metric_id } = this.post();
+    if (!site_id) {
+      return this.fail('SITE ID MISS');
+    }
+    const sites = await this.model('site').where({id: site_id}).select();
+    if (think.isEmpty(sites)) {
+      return this.fail('SITE NOT FOUND');
+    }
+
+    const metrics = await this.model('metric').where({id: metric_id}).select();
+    if (think.isEmpty(metrics)) {
+      return this.fail('METRIC NOT FOUND');
+    }
+
+    const alarms = await this.model('site_alarm').where({id: this.id}).select();
+    if (think.isEmpty(alarms)) {
+      return this.fail('ALARM NOT FOUND');
     }
 
     this.rules = {
@@ -73,9 +128,13 @@ module.exports = class extends Base {
    * @apiGroup Site
    * @apiVersion 0.0.1
    */
-  deleteAction() {
+  async deleteAction() {
     if (!this.id) {
       return this.fail();
+    }
+    const alarms = await this.model('site_alarm').where({id: this.id}).select();
+    if (think.isEmpty(alarms)) {
+      return this.fail('ALARM NOT FOUND');
     }
   }
 };

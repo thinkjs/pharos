@@ -18,17 +18,17 @@ module.exports = class extends Base {
     const metric_ids_ary = metric_ids.split(',');
     const result = await Promise.all(metric_ids_ary.map(async metric_id => this.getCustomData(
       site_id,
+      metric_id,
       start_time,
       end_time,
       type,
-      metric_id,
       metric
     )));
     return this.success(result);
   }
 
-  async getCustomData(site_id, start_time, end_time, type, metric_id, metric) {
-    const where = { site_id, create_time: { '>=': start_time, '<': end_time } };
+  async getCustomData(site_id, metric_id, start_time, end_time, type, metric) {
+    const where = { site_id, metric_id, create_time: { '>=': start_time, '<': end_time } };
 
     const data = await this.modelInstance.where(where).select();
     let factors = await this.getFactors(metric_id);
@@ -93,6 +93,6 @@ module.exports = class extends Base {
           return this.avg({ time, count }, 0);
         }));
     }
-    return { categories, series, factors };
+    return { categories, series, factors, metric_id };
   }
 };

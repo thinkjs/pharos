@@ -1,7 +1,7 @@
 const Base = require('./base');
 module.exports = class extends Base {
   /**
-   * @api {GET} /metric/custom_time 获取某段时间自定义监控的数据
+   * @api {GET} /metric/dishb 获取某段时间自定义监控的数据
    * @apiGroup Metric
    * @apiVersion  0.0.1
    *
@@ -23,6 +23,11 @@ module.exports = class extends Base {
    *           data: [50, 20]
    *         }
    *       ],
+   *       factors: [{
+   *           "type": "k1",
+   *           "name": "chrome",
+   *           "display_name": "谷歌"
+   *       }],
    *       metric_id: 11
    *   }],
    *   errmsg: ''
