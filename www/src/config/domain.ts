@@ -1,7 +1,7 @@
 import env from './env'
 const apiUrlMap = {
-  'development': 'http://127.0.0.1:8360/',
-  'test': '/',
+  'development': 'http://api.pharos.net/',
+  'test': 'http://api.pharos.net/',
   'production': 'http://api.pharos.com/',
 }
 

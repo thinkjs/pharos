@@ -1,9 +1,9 @@
 const BaseRest = require('../../rest.js');
 module.exports = class extends BaseRest {
   async getAction() {
-    const {res, req} = this.ctx;
+    const { res, req } = this.ctx;
     const user = await think.config('login.intranet')(req, res);
-    const {userMail, userName, displayName} = user;
+    const { userMail, userName, displayName } = user;
 
     const userModel = this.model('user');
     let userInfo = await userModel.where({
@@ -20,7 +20,7 @@ module.exports = class extends BaseRest {
           email: userMail,
           display_name: displayName,
           // 内网注册直接生成随机密码
-          paddword: think.uuid(),
+          password: think.uuid(),
           status: 0
         }, this.ctx.ip);
 
