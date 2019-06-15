@@ -1,6 +1,6 @@
 import { IResult } from './proto/http.model';
 import axios, { AxiosRequestConfig, AxiosResponse, AxiosError } from 'axios';
-import { message, notification } from 'antd'
+import { message } from 'antd'
 import { baseURL } from '@config/domain'
 import history from '@utils/history'
 
@@ -29,18 +29,14 @@ axios.defaults.baseURL = baseURL
  */
 const errorHandler = error => {
   if (error.errno === 401) {
-    notification.error({
-      message: "未登录或登录已过期，请重新登录。",
-    });
+    message.error("未登录或登录已过期，请重新登录。");
     history.push("/signin");
     return;
   }
   if (typeof error.errmsg === 'object') {
     error.errmsg = JSON.stringify(error.errmsg)
   }
-  notification.error({
-    message: error.errmsg,
-  });
+  message.error(error.errmsg);
 };
 
 
