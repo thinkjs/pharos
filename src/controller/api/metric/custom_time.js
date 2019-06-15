@@ -1,11 +1,8 @@
 const Base = require('./base');
 
-module.exports = class extends Base {
-  constructor(...args) {
-    super(...args);
-    this.modelInstance = this.model('custom_monitor');
-  }
+const TYPE_MAPS = { 0: 'custom_monitor', 1: 'perf_monitor', 2: 'error_monitor' };
 
+module.exports = class extends Base {
   async getAction() {
     const {
       site_id,
@@ -13,8 +10,15 @@ module.exports = class extends Base {
       end_time,
       type,
       metric_id,
-      metric = 'k1',
+      metric,
     } = this.get();
+
+    const metricItem = await this.model('metric').where({ id: metric_id }).find();
+    if (!TYPE_MAPS[metricItem.type]) {
+      return this.fail('metric type not valid');
+    }
+
+    this.modelInstance = this.model(TYPE_MAPS[metricItem.type]);
     const where = { site_id, metric_id, create_time: { '>=': start_time, '<': end_time } };
 
     const data = await this.modelInstance.where(where).select();
@@ -26,22 +30,22 @@ module.exports = class extends Base {
         categories = this.generateCates(start_time, end_time, type);
         series = await this.groupWithCustom(site_id, metric_id, metric, data, customData => {
           const map = new Map();
-          for(let i = 0; i < customData.data.length; i++) {
-              const create_time = customData.data[i].create_time.split(' ')[0];
-              if (map.has(create_time)) {
-                  map.set(create_time, (+map.get(create_time)) + (+customData.data[i][metric]));
-              } else {
-                  map.set(create_time, (+customData.data[i][metric]));
-              }
+          for (let i = 0; i < customData.data.length; i++) {
+            const create_time = customData.data[i].create_time.split(' ')[0];
+            if (map.has(create_time)) {
+              map.set(create_time, (+map.get(create_time)) + (+customData.data[i][metric]));
+            } else {
+              map.set(create_time, (+customData.data[i][metric]));
+            }
           }
-          const addedData = map;          
+          const addedData = map;
           const result = {
             data: []
           };
           result.name = customData.name;
           result.data = new Array(categories.length).fill(null);
           categories.map((cat, index) => {
-            for(let item of addedData.entries()) {
+            for (let item of addedData.entries()) {
               if (item[0].includes(cat)) {
                 result.data[index] = item[1];
               }
