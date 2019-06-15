@@ -39,7 +39,7 @@ module.exports = class extends Base {
         int: true,
         require: true
       },
-      condition: {
+      conditions: {
         json: true
       }
     }
@@ -62,7 +62,7 @@ module.exports = class extends Base {
       metric_id: {
         int: true
       },
-      condition: {
+      conditions: {
         json: true
       }
     };

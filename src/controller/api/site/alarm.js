@@ -19,7 +19,7 @@ module.exports = class extends Base {
             id: 3,
             name: '报错监控'
           },
-          condition: {
+          conditions: {
             count: 10,
             expression: '>',
             limit: 0.3
