@@ -54,7 +54,7 @@ CREATE TABLE `ph_error_monitor` (
   `site_page_id` int(11) DEFAULT NULL,
   `error` text COLLATE utf8mb4_unicode_ci,
   `count` int(11) DEFAULT NULL,
-  `create_time` datetime DEFAULT NULL,
+  `create_time` datetime DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -119,7 +119,7 @@ CREATE TABLE `ph_perf_monitor` (
   `k5` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
   `time` int(11) NOT NULL DEFAULT '0',
   `count` int(11) NOT NULL DEFAULT '0',
-  `create_time` datetime DEFAULT NULL,
+  `create_time` datetime DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -148,10 +148,11 @@ DROP TABLE IF EXISTS `ph_site_alarm`;
 
 CREATE TABLE `ph_site_alarm` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `site_id` int(11) DEFAULT NULL,
   `name` varchar(255) DEFAULT NULL,
   `metric_id` int(11) DEFAULT NULL,
   `conditions` text CHARACTER SET utf8mb4 COLLATE utf8mb4_bin,
-  `create_time` datetime DEFAULT NULL,
+  `create_time` datetime DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
