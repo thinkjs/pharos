@@ -12,9 +12,22 @@ module.exports = class extends Base {
       start_time,
       end_time,
       type,
-      metric_id,
+      metric_ids,
       metric = 'k1',
     } = this.get();
+    const metric_ids_ary = metric_ids.split(',');
+    const result = await Promise.all(metric_ids_ary.map(async metric_id => this.getCustomData(
+      site_id,
+      start_time,
+      end_time,
+      type,
+      metric_id,
+      metric
+    )));
+    return this.success(result);
+  }
+
+  async getCustomData(site_id, start_time, end_time, type, metric_id, metric) {
     const where = { site_id, create_time: { '>=': start_time, '<': end_time } };
 
     const data = await this.modelInstance.where(where).select();
@@ -80,10 +93,6 @@ module.exports = class extends Base {
           return this.avg({ time, count }, 0);
         }));
     }
-    return this.success({ categories, series, factors });
-  }
-
-  async getDashBoardList() {
-    // 
+    return { categories, series, factors };
   }
 };
