@@ -6,7 +6,6 @@ module.exports = class extends Base {
    * @apiVersion  0.0.1
    *
    * @apiParam  {Int}     site_id 网站ID
-   * @apiParam  {Int}  metric_ids 监控项ID，以逗号隔开
    * @apiParam  {String}  start_time  起始时间
    * @apiParam  {String}  end_time  终止时间
    * @apiParam  {String}  metric {k1,k2,k3,k4,k5}  类型
@@ -45,10 +44,10 @@ module.exports = class extends Base {
         required: true,
         int: true
       },
-      metric_ids: {
-        required: true,
-        string: true
-      },
+      // metric_ids: {
+      //   required: true,
+      //   string: true
+      // },
       start_time: {
         default: think.datetime(Date.now() - INTERVAL, 'YYYY-MM-DD')
       },
