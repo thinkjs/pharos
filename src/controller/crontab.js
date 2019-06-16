@@ -89,7 +89,88 @@ module.exports = class extends Base {
         think.logger.info(`addMany result ${ret}`);
       }
     }
-    return this.success();
+
+    return this.action('crontab', 'alarm');
+  }
+
+  async alarmAction() {
+    //获取所有的项目当前5分钟的监控数据
+    //获取上一个5分钟的监控数据用来算增长速率
+    const now = moment();
+    const metricsDataPromise = [];
+    for (var modelName in TYPE_MAPS) {
+      metricsDataPromise.push(this.model(modelName).where({
+        create_time: ['in', [
+          now.format('YYYY-MM-DD HH:mm:ss'),
+          // now.subtract(5, 'minutes').format('YYYY-MM-DD HH:mm:ss')
+        ]]
+      }).select());
+    }
+    const metricsData = (await Promise.all(metricsDataPromise)).flat();
+    const metrics = {};
+    for (let i = 0; i < metricsData.length; i++) {
+      const { metric_id, create_time } = metricsData[i];
+      if (think.isEmpty(metrics[metric_id])) {
+        metrics[metric_id] = {};
+      }
+
+      metrics[metric_id][create_time] = metricsData[i];
+    }
+
+    //获取所有的报警策略
+    const strategyData = await this.model('site_alarm').where('1=1').select();
+    if (!strategyData.length) {
+      return this.success();
+    }
+
+    const strategies = {};
+    for (let i = 0; i < strategyData.length; i++) {
+      const { metric_id } = strategyData[i];
+      if (!think.isArray(strategies[metric_id])) {
+        strategies[metric_id] = [];
+      }
+
+      strategies[metric_id].push(strategyData[i]);
+    }
+
+    //判断是否存在报警
+    //检查报警是否已经存在（同类型的报警是否还在报警状态中）
+    //如果已存在则对报警次数加1
+    //不存在则新增一条
+    const alarms = {};
+    const alarmModel = this.model('alarm');
+    for (const metric_id in strategies) {
+      for (let i = 0; i < strategy[metric_id].length; i++) {
+        const strategy = strategies[metric_id][i];
+        const { limit, count, express } = strategy.condition;
+        const nowValue = this.avg(metrics[metric_id][now.format('YYYY-MM-DD HH:mm:ss')], 0)
+
+        const test = eval(`${nowValue} ${express} ${limit}`);
+        if (!test) {
+          continue;
+        }
+        alarms[strategy.id] = strategy;
+
+        const ret = await alarmModel.where({ alarm_id, status: 0 }).find();
+        if (think.isEmpty(ret)) {
+          await alarmModel.add({
+            site_id: alarm[alarm_id].site_id,
+            metric_id: alarm[alarm_id].metric_id,
+            alarm_id,
+            status: 0,
+            create_time: moment().format('YYYY-MM-DD HH:mm:ss')
+          })
+        } else {
+          await alarmModel.update({ id: ret.id, times: ret.times + 1 });
+        }
+      }
+    }
+
+    //最后对所有没有处理的还在报警状态中的报警置成已解决
+    await alarmModel.where({
+      alarm_id: ['NOT IN', Object.keys(alarms)],
+      status: 0
+    }).update({ status: 1 });
   }
 
   parseLog({ querystring: qs, pathname, http_referer }) {
