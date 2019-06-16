@@ -106,3 +106,14 @@ CREATE TABLE `ph_site_alarm` (
   `create_time` datetime DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE `ph_alarm` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `site_id` int(11) DEFAULT NULL COMMENT '对应的项目',
+  `metric_id` int(11) DEFAULT NULL COMMENT '对应的监控项',
+  `alarm_id` int(11) DEFAULT NULL COMMENT '对应的报警策略',
+  `status` int(11) DEFAULT '0' COMMENT '0 未恢复 1 恢复',
+  `times` int(11) DEFAULT '0' COMMENT '持续次数',
+  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
