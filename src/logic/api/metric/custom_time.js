@@ -51,10 +51,10 @@ module.exports = class extends Base {
         int: true
       },
       start_time: {
-        default: think.datetime(Date.now() - INTERVAL, 'YYYY-MM-DD HH:mm')
+        default: think.datetime(Date.now() - INTERVAL, 'YYYY-MM-DD')
       },
       end_time: {
-        default: think.datetime(Date.now(), 'YYYY-MM-DD HH:mm')
+        default: think.datetime(Date.now(), 'YYYY-MM-DD')
       },
       type: {
         in: ['mins', 'day'],
@@ -63,7 +63,7 @@ module.exports = class extends Base {
       metric: {
         required: true,
         default: 'k1',
-        in: ['k1','k2','k3','k4','k5']
+        in: ['k1', 'k2', 'k3', 'k4', 'k5']
       }
     };
   }
