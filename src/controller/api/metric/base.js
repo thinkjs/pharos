@@ -82,33 +82,14 @@ class Base extends BaseRest {
     return result;
   }
 
-  async getCustoms(site_id, metric_id, metric = 'k1') {
-    const result = {};
-    const customs = await this.model('metric').where({site_id, id: metric_id, }).select();
-    if (think.isEmpty(customs)) {
-      return result;
-    }
-    result.length = customs.length;
-    for (let i = 0; i < customs.length; i++) {
-      result.name = customs[i][`${metric}_display_name`];
-    }
-      
-      // const { id, name, display_name, description, k1, k1_display_name, k2, k2_display_name, k3,
-      //   k3_display_name, k4, k4_display_name, k5, k5_display_name, type } = customs[i];
-      // result[id] = name;
-      // result[name] = id;
-    return result;
-  }
 
-  async groupWithCustom(site_id, metric_id, metric, data, cb) {
+  async groupWithCustom(site_id, metric_id, data, cb) {
     if (think.isEmpty(data)) {
       return [];
     }
     
-    const customs = await this.getCustoms(site_id, metric_id, metric);
     const result = {
-      data: [],
-      name: customs.name
+      data: []
     };
     for (let i = 0; i < data.length; i++) {
       result.data.push(data[i]);
