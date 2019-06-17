@@ -10,7 +10,7 @@ module.exports = class extends Base {
       end_time,
       type,
       metric_id,
-      metric,
+      metrics = '',
     } = this.get();
 
     const metricItem = await this.model('metric').where({ id: metric_id }).find();
@@ -19,74 +19,36 @@ module.exports = class extends Base {
     }
 
     this.modelInstance = this.model(TYPE_MAPS[metricItem.type]);
-    const where = { site_id, metric_id, create_time: { '>=': start_time, '<': end_time } };
+    const where = { site_id, metric_id, create_time: { '>=': start_time, '<': end_time}  };
+    
+    let metrics_ary = [];
+    let key = 'k1';
+    if (metrics !== '') {
+      metrics_ary = metrics.split(',');
+      key = `k${metrics_ary.length + 1}`;
+      for (let i = 0; i < metrics_ary.length; i++) {
+        where[`k${i + 1}`] = metrics_ary[i];
+      }
+    }
+    
 
     const data = await this.modelInstance.where(where).select();
-    let factors = await this.getFactors(metric_id);
-    let series;
+    const currFactors = data.map(item => item[key]);
+    const factors = Array.from(new Set(currFactors));
+
+    let series = [];
     let categories;
     switch (type) {
       case 'day':
-      // categories = this.generateCates(start_time, end_time, type);
-      // series = await this.groupWithCustom(site_id, metric_id, metric, data, customData => {
-      //   const map = new Map();
-      //   for (let i = 0; i < customData.data.length; i++) {
-      //     const create_time = customData.data[i].create_time.split(' ')[0];
-      //     if (map.has(create_time)) {
-      //       map.set(create_time, (+map.get(create_time)) + (+customData.data[i][metric]));
-      //     } else {
-      //       map.set(create_time, (+customData.data[i][metric]));
-      //     }
-      //   }
-      //   const addedData = map;
-      //   const result = {
-      //     data: []
-      //   };
-      //   result.name = customData.name;
-      //   result.data = new Array(categories.length).fill(null);
-      //   categories.map((cat, index) => {
-      //     for (let item of addedData.entries()) {
-      //       if (item[0].includes(cat)) {
-      //         result.data[index] = item[1];
-      //       }
-      //     }
-      //   })
-      //   return [result];
-      // });
-      // break;
-      // case 'hour':
       case 'mins':
         categories = this.generateCates(start_time, end_time, type);
-        series = await this.groupWithCustom(site_id, metric_id, metric, data, ({ data, name }) => {
-          const result = {};
-          for (let i = 0; i < data.length; i++) {
-            const date = think.datetime(
-              new Date(data[i].create_time),
-              Base.BETWEEN[type].format
-            );
-            if (!result[date]) {
-              result[date] = { time: 0, count: 0 };
-            }
-            result[date].time += data[i].time;
-            result[date].count += data[i].count;
-          }
-
-          const output = [];
-          for (let i = 0; i < categories.length; i++) {
-            const cat = categories[i];
-            if (think.isEmpty(result[cat])) {
-              output.push(null);
-              continue;
-            }
-
-            output.push(this.avg(result[cat], 0));
-          }
-
-          return {
-            name,
-            data: output
-          };
-        });
+        series = await Promise.all(factors.map(async factor => {
+          const factorWhere = Object.assign({}, where, {[`k${metrics_ary.length + 1}`]: factor});
+          const dataByFactor = await this.modelInstance.where(factorWhere).select();
+          const seriesData = await this.getSeriesData(site_id, metric_id, dataByFactor, categories, type, factors);
+          seriesData.name = factor;
+          return seriesData;
+        }));
         break;
       default:
         return this.success(await this.groupWithCustom(site_id, data, perfData => {
@@ -99,7 +61,39 @@ module.exports = class extends Base {
           return this.avg({ time, count }, 0);
         }));
     }
-    return this.success({ categories, series, factors, metric_id });
+    return this.success({ categories, series });
+  }
+
+  getSeriesData(site_id, metric_id, data, categories, type) {
+    return this.groupWithCustom(site_id, metric_id, data, ({ data }) => {
+      const result = {};
+      for (let i = 0; i < data.length; i++) {
+        const date = think.datetime(
+          new Date(data[i].create_time),
+          Base.BETWEEN[type].format
+        );
+        if (!result[date]) {
+          result[date] = { time: 0, count: 0 };
+        }
+        result[date].time += data[i].time;
+        result[date].count += data[i].count;
+      }
+
+      const output = [];
+      for (let i = 0; i < categories.length; i++) {
+        const cat = categories[i];
+        if (think.isEmpty(result[cat])) {
+          output.push(null);
+          continue;
+        }
+
+        output.push(this.avg(result[cat], 0));
+      }
+
+      return {
+        data: output
+      };
+    });
   }
 
   async getDashBoardList() {
