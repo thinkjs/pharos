@@ -14,6 +14,25 @@ class AlarmStore {
     return localStorage.getItem('projectId')
   }
 
+  initData = () => {
+    return {
+      start_time: '',
+      end_time: '',
+      metric: ['k1'],
+      type: ['mins']
+    }
+  }
+
+  @observable criteria = this.initData();
+
+  @action setCriteria = (data) => {
+    if (data) {
+      this.criteria = Object.assign({}, this.criteria, data)
+    } else {
+      this.criteria = this.initData()
+    }
+  }
+
   @observable status = 1
 
   @observable charts = {
@@ -28,10 +47,67 @@ class AlarmStore {
   }
   @action setCharts = (values) => this.charts = values
 
-  @action getList = async () => {
-    const result = await axios.get(`/api/metric/custom_time?site_id=${this.siteId}&metric_id=4`)
-    console.log(7, result)
+
+  @observable list = []
+  @action setList = (list) => this.list = list
+
+
+  @observable options = []
+  @action setOptions = (data) => this.options = data
+  @observable factor = []
+  @action setFactor = (val) => this.factor = val
+
+  @observable selectMetricId = ''
+  @action setSelectMetric = (val) => this.selectMetricId = val
+
+  @observable metricList = []
+  @action setMetricList = (list) => this.metricList = list
+
+  @action getMetricList = async () => {
+    const result = await axios.get(`/api/metric/${this.siteId}`)
+    const data = result.data.data.data
+    let list = []
+    for (let i = 0; i < data.length; i++) {
+      const item: any = [{
+        value: data[i].id,
+        label: data[i].display_name,
+        children: []
+      }]
+      list = list.concat(item)
+    }
+
+    this.setOptions(list)
+
+    // this.setSelectMetric(data.length ? data[0].id : 1)
+    // this.setMetricList(data)
+    // this.getList()
   }
+
+  @action changeMetric = async (val) => {
+    this.setSelectMetric(val)
+    this.getList()
+  }
+
+  formatCriteria = () => {
+    let query = ''
+    Object.keys(this.criteria).map(key => {
+      if (this.criteria[key]) {
+        query += `&${key}=${this.criteria[key]}`
+      }
+    })
+    return query
+  }
+
+  @action getList = async () => {
+    const params = this.formatCriteria()
+    const query = `?site_id=${this.siteId}&metric_id=${this.selectMetricId}${params}`
+
+    const result = await axios.get(`/api/metric/custom_time${query}`)
+    console.log(7, result)
+    // this.setList(result.data)
+  }
+
+
 
 
 }

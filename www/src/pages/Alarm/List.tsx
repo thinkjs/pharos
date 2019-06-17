@@ -1,27 +1,27 @@
 import * as React from 'react';
-import { Layout } from 'antd'
+import { Layout, Cascader } from 'antd'
 import { observer, inject } from 'mobx-react';
 import * as Highcharts from "highcharts";
 import HighchartsReact from 'highcharts-react-official'
 
 const { Content } = Layout;
-
+// const Option = Select.Option;
 interface Props {
   props: HighchartsReact.Props;
   alarmStore: any
 }
 
-interface HighchartsOption extends Highcharts.Options {
-  legend?: any;
-}
+// interface HighchartsOption extends Highcharts.Options {
+//   legend?: any;
+// }
 
 @inject('alarmStore') @observer
 class AlarmList extends React.Component<Props, any> {
 
 
   componentDidMount() {
-    // const { alarmStore } = this.props
-    // alarmStore.getList()
+    const { alarmStore } = this.props
+    alarmStore.getMetricList()
   }
 
   formatData(charts) {
@@ -47,17 +47,41 @@ class AlarmList extends React.Component<Props, any> {
     }
   }
 
+  onChange(data) {
+    console.log(data)
+  }
+
   render() {
     const { alarmStore } = this.props
-    const { charts } = alarmStore
-    const options: HighchartsOption = this.formatData(charts)
+    const { options } = alarmStore
+
+    // const options = [{
+    //   value: 'jkx1',
+    //   label: '浏览器监测',
+    //   children: [{
+    //     value: 'chrome',
+    //     label: 'chrome',
+
+    //   }, {
+    //     value: 'firefox',
+    //     label: 'firefox'
+    //   }]
+    // }]
 
     return (
       <Content>
+        <div className="dashboard-select">
+          <Cascader
+            defaultValue={['jkx1']}
+            options={options}
+            onChange={this.onChange}
+            changeOnSelect
+          />
+        </div>
         <div>
           <HighchartsReact
             highcharts={Highcharts}
-            options={options}
+            // options={options}
             {...this.props}
           />
         </div>
