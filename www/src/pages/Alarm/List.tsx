@@ -3,6 +3,7 @@ import { Layout, Cascader } from 'antd'
 import { observer, inject } from 'mobx-react';
 import * as Highcharts from "highcharts";
 import HighchartsReact from 'highcharts-react-official'
+import './style.less'
 
 const { Content } = Layout;
 // const Option = Select.Option;
@@ -53,7 +54,7 @@ class AlarmList extends React.Component<Props, any> {
 
   render() {
     const { alarmStore } = this.props
-    const { options } = alarmStore
+    const { options, changeFactor } = alarmStore
 
     // const options = [{
     //   value: 'jkx1',
@@ -74,7 +75,7 @@ class AlarmList extends React.Component<Props, any> {
           <Cascader
             defaultValue={['jkx1']}
             options={options}
-            onChange={this.onChange}
+            onChange={changeFactor}
             changeOnSelect
           />
         </div>

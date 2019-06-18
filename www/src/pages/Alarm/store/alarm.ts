@@ -57,8 +57,8 @@ class AlarmStore {
   @observable factor = []
   @action setFactor = (val) => this.factor = val
 
-  @observable selectMetricId = ''
-  @action setSelectMetric = (val) => this.selectMetricId = val
+  @observable metricId = ''
+  @action setMetricId = (val) => this.metricId = val
 
   @observable metricList = []
   @action setMetricList = (list) => this.metricList = list
@@ -66,7 +66,9 @@ class AlarmStore {
   @action getMetricList = async () => {
     const result = await axios.get(`/api/metric/${this.siteId}`)
     const data = result.data.data.data
-    let list = []
+    this.setFactor([data[0].id])
+    this.setMetricId(data[0].id)
+    let list: any = []
     for (let i = 0; i < data.length; i++) {
       const item: any = [{
         value: data[i].id,
@@ -78,13 +80,13 @@ class AlarmStore {
 
     this.setOptions(list)
 
-    // this.setSelectMetric(data.length ? data[0].id : 1)
+    // this.setMetricId(data.length ? data[0].id : 1)
     // this.setMetricList(data)
     // this.getList()
   }
 
   @action changeMetric = async (val) => {
-    this.setSelectMetric(val)
+    this.setMetricId(val)
     this.getList()
   }
 
@@ -100,14 +102,29 @@ class AlarmStore {
 
   @action getList = async () => {
     const params = this.formatCriteria()
-    const query = `?site_id=${this.siteId}&metric_id=${this.selectMetricId}${params}`
+    const query = `?site_id=${this.siteId}&metric_id=${this.metricId}${params}`
 
     const result = await axios.get(`/api/metric/custom_time${query}`)
     console.log(7, result)
     // this.setList(result.data)
   }
 
+  formatFactor = () => {
+    return this.factor.slice(1).join(',')
+  }
 
+  @action changeFactor = async (id) => {
+    this.setMetricId(id)
+    const params = this.formatFactor()
+    const query = `?site_id=${this.siteId}&metric_id=${this.metricId}${params}`
+
+    const result = await axios.get(`/api/metric/factors${query}`)
+
+    console.log(5, result)
+
+
+
+  }
 
 
 }
