@@ -4,7 +4,7 @@ const TYPE_MAPS = { 0: 'custom_monitor', 1: 'perf_monitor', 2: 'error_monitor' }
 
 module.exports = class extends Base {
   async getAction() {
-    const {
+    let {
       site_id,
       start_time,
       end_time,
@@ -19,7 +19,9 @@ module.exports = class extends Base {
     }
 
     this.modelInstance = this.model(TYPE_MAPS[metricItem.type]);
-    const where = { site_id, metric_id, create_time: { '>=': start_time, '<': end_time}  };
+    let endTime = new Date(end_time);
+    endTime = think.datetime(endTime.setDate(endTime.getDate() + 1), 'YYYY-MM-DD');
+    const where = { site_id, metric_id, create_time: { '>=': start_time, '<': endTime}  };
     
     let metrics_ary = [];
     let key = 'k1';
@@ -31,10 +33,8 @@ module.exports = class extends Base {
       }
     }
     
-
-    const data = await this.modelInstance.where(where).select();
-    const currFactors = data.map(item => item[key]);
-    const factors = Array.from(new Set(currFactors));
+    const data = await this.modelInstance.where(where).distinct(key).select();
+    const factors = data.map(item => item[key])
 
     let series = [];
     let categories;

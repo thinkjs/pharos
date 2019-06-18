@@ -109,7 +109,7 @@ class Base extends BaseRest {
     const endTime = new Date(think.datetime(new Date(end_time), transform)).getTime();
 
     const times = [];
-    for (let time = startTime; time < endTime; time += delta) {
+    for (let time = startTime; time <= endTime; time += delta) {
       times.push(think.datetime(new Date(time), format));
     }
     return times;
