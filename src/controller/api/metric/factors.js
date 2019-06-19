@@ -22,9 +22,9 @@ module.exports = class extends Base {
           where[`k${i + 1}`] = metrics_ary[i];
         }
       }
-      const data = await this.modelInstance.where(where).select();
-      const currFactors = data.map(item => item[key]);
-      const result = Array.from(new Set(currFactors));
+      
+      const data = await this.modelInstance.where(where).distinct(key).select();
+      const result = data.map(item => item[key]);
 
       return this.success(result);
     }
