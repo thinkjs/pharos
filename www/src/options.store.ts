@@ -5,6 +5,7 @@ import SiteStore from '@pages/Site/store/site';
 import MetricStore from '@pages/Site/store/metric';
 import PeopleStore from '@pages/Site/store/people';
 import AlarmStore from '@pages/Alarm/store/alarm';
+import StrategyStore from '@pages/Site/store/strategy';
 
 
 
@@ -16,6 +17,7 @@ class OptionsStore {
   siteStore: SiteStore;
   alarmStore: AlarmStore;
   peopleStore: PeopleStore;
+  strategyStore: StrategyStore;
 
 
   constructor() {
@@ -23,9 +25,10 @@ class OptionsStore {
     this.signupStore = new SignupStore(this);
     this.projectStore = new ProjectStore(this);
     this.metricStore = new MetricStore(this);
-    this.siteStore = new SiteStore(this)
-    this.alarmStore = new AlarmStore(this)
+    this.siteStore = new SiteStore(this);
+    this.alarmStore = new AlarmStore(this);
     this.peopleStore = new PeopleStore(this);
+    this.strategyStore = new StrategyStore(this);
   }
 }
 

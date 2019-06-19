@@ -30,7 +30,6 @@ class AlarmStore {
 
   @action getList = async () => {
     const result = await axios.get(`/api/metric/custom_time?site_id=${this.siteId}&metric_id=4`)
-    console.log(7, result)
   }
 
 
