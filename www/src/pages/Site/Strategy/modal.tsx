@@ -1,9 +1,10 @@
 import * as React from 'react';
 import { observer, inject } from 'mobx-react';
 import { Input, Modal, Form, Select, InputNumber } from "antd";
+import './model.less'
 
 const { Option } = Select;
-const relate = ['=>', '=', '<=' ]
+const relate = ['=>', '=', '<=']
 
 @inject('metricStore', 'strategyStore') @observer
 class StartegyModal extends React.Component<any, any> {
@@ -11,37 +12,37 @@ class StartegyModal extends React.Component<any, any> {
     const { metricStore } = this.props
     metricStore.getList()
   }
-  
+
   handleOk = (e: any) => {
     e.preventDefault();
-    const {  form } = this.props
+    const { form } = this.props
     form.validateFields(async (err, values: any) => {
-      if(!err) {
-        const { strategyStore, metricStore  } = this.props
-        const { list } = metricStore 
+      if (!err) {
+        const { strategyStore, metricStore } = this.props
+        const { list } = metricStore
         const { defaultVal, changeItem, addItem } = strategyStore
-        if(defaultVal.create_time) {
+        if (defaultVal.create_time) {
           //antd的默认值问题
           if (typeof values.metric_id === 'string') {
-             list.forEach(item => {
-               if (item.display_name === values.metric_id) {
-                 values.metric_id = item.id
-               }
-             })
+            list.forEach(item => {
+              if (item.display_name === values.metric_id) {
+                values.metric_id = item.id
+              }
+            })
           }
           changeItem(values)
-        }else {
+        } else {
           addItem(values)
-        }       
-      }else {
+        }
+      } else {
         console.log(err)
       }
     });
 
   }
   initDisplayName = (id) => {
-    const { metricStore} = this.props
-    const { list } = metricStore 
+    const { metricStore } = this.props
+    const { list } = metricStore
     let ret = ''
     list.forEach(item => {
       if (item.id === id) {
@@ -52,8 +53,8 @@ class StartegyModal extends React.Component<any, any> {
   }
   render() {
     const { getFieldDecorator } = this.props.form;
-    const { metricStore, strategyStore} = this.props
-    const { list } = metricStore 
+    const { metricStore, strategyStore } = this.props
+    const { list } = metricStore
     const { modalStatus, hideModal, defaultVal } = strategyStore
     return (
       <Modal
@@ -61,6 +62,7 @@ class StartegyModal extends React.Component<any, any> {
         visible={modalStatus}
         onCancel={hideModal}
         onOk={this.handleOk}
+        className="strategy--modal"
       >
         <Form layout="inline">
           <div>
@@ -73,7 +75,7 @@ class StartegyModal extends React.Component<any, any> {
                   },
                 ],
                 initialValue: defaultVal.name
-              })(<Input placeholder="策略名称" style={{width: 300}} />)}
+              })(<Input placeholder="策略名称" style={{ width: 300 }} />)}
             </Form.Item>
           </div>
           <div>
@@ -85,7 +87,7 @@ class StartegyModal extends React.Component<any, any> {
                     message: '监控项不能为空'
                   }
                 ], initialValue: this.initDisplayName(defaultVal.metric_id)
-              })(<Select  style={{ width: '300px' }} placeholder="请选择" onChange={() => { }}>
+              })(<Select style={{ width: '300px' }} placeholder="请选择" onChange={() => { }}>
                 {
                   list.map(opt => <Option key={opt.id}>{opt.display_name} </Option>)
                 }
@@ -102,12 +104,13 @@ class StartegyModal extends React.Component<any, any> {
                   },
                 ],
                 initialValue: parseInt(defaultVal.count)
-              })(<div>
-                  监控数值连续
-                <InputNumber min={1} max={60} onChange={() => { }} defaultValue={parseInt(defaultVal.count)}/>
-                  次
-                
-              </div>)}
+              })(
+                <div>
+                  <span>监控数值连续</span>
+                  <InputNumber min={1} max={60} onChange={() => { }} defaultValue={parseInt(defaultVal.count)} />
+                  <span>次</span>
+                </div>
+              )}
             </Form.Item>
           </div>
           <div>

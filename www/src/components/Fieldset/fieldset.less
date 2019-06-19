@@ -1,0 +1,85 @@
+.fieldset--pc {
+  margin-top: 15px;
+  padding: 15px;
+  border: 1px solid #e4e4e4;
+  background: #fff;
+  .form-control-static {
+    padding-top: 4px;
+    padding-bottom: 4px;
+    min-height: 24px;
+  }
+  .radio-inline {
+    padding-left: 8px;
+  }
+
+  .form-group {
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+}
+
+.fieldset__row{
+  line-height: 25px;
+  margin-bottom: 20px;
+}
+.fieldset__row__label{
+  float: left;
+  width: 70px;
+  margin-right: 15px;
+  margin-bottom: 0;
+}
+.fieldset__row__content{
+  overflow: hidden;
+  >div{
+    display: inline-block;
+    margin: 0px 10px 0px 0;
+    >label, >input, >div{
+      margin: 0 5px 0 0;
+      padding: 0;
+    }
+    >label {
+      &:first-child {
+        margin-right: 10px;
+      }
+    }
+    input {
+      height: 25px;
+    }
+  }
+  .react-datetimepicker {
+    display: inline-block;
+    vertical-align: middle;
+    width: 150px;
+
+    input,
+    input:focus {
+      height: 25px;
+      line-height: 25px;
+    }
+  }
+  .ssd-type-select {
+    .select-single{
+      width: 130px !important;
+    }
+  }
+}
+
+.fieldset__form {
+  .fieldset__inner {
+    >.form-group {
+      margin: 0 0 10px 0;
+      >label:first-child {
+        margin-right: 10px;
+      }
+      >div {
+        display: inline-block;
+        vertical-align: middle;
+      }
+    }
+    >button {
+      width: 70px;
+    }
+  }
+}
+

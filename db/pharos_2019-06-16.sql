@@ -165,7 +165,6 @@ DROP TABLE IF EXISTS `ph_site_alarm`;
 
 CREATE TABLE `ph_site_alarm` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `site_id` int(11) unsigned DEFAULT NULL,
   `name` varchar(255) DEFAULT '',
   `metric_id` int(11) DEFAULT NULL,
   `conditions` text,

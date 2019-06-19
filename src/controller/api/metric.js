@@ -84,7 +84,7 @@ module.exports = class extends Base {
             k4_display_name: data.k4_display_name,
             k5: data.k5,
             k5_display_name: data.k5_display_name,
-            type: data.type
+            type: 0  // 自定义监控
         });
 
         await this.model('custom_monitor').where({metric_id: data.id}).delete();
