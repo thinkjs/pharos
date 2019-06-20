@@ -162,7 +162,6 @@ class AlarmList extends React.Component<Props, any> {
             </Fieldset.Row>
             <Fieldset.Row label="时间：">
               <RangePicker
-                mode="time"
                 defaultValue={[moment(criteria.start_time, 'YYYY-MM-DD HH:mm:ss'), moment(criteria.end_time, 'YYYY-MM-DD HH:mm:ss')]}
                 onChange={this.dataChange}
                 format="YYYY-MM-DD HH:mm:ss"

@@ -1,14 +1,8 @@
-// import { message } from 'antd';
 import { observable, action, computed } from 'mobx';
 import axios from '@utils/axios';
-// import history from '@utils/history'
 
 class AlarmStore {
-  rootStore;
 
-  constructor(rootStore) {
-    this.rootStore = rootStore
-  }
 
   @computed get siteId() {
     return localStorage.getItem('projectId')
@@ -33,7 +27,6 @@ class AlarmStore {
     }
   }
 
-  @observable status = 1
 
   @observable charts = {
     categories: [],

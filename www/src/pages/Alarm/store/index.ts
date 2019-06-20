@@ -1,15 +1,11 @@
-import { configure } from 'mobx'
 import AlarmStore from './alarm'
-configure({ enforceActions: 'never' })
+// import CriteriaStore from './criteria'
+// import ChartStore from './chart'
 
-export class RootStore {
 
-  alarmStore: AlarmStore;
-
-  constructor() {
-    this.alarmStore = new AlarmStore(this)
-  }
+export const alarmRootStore = {
+  alarmStore: new AlarmStore(),
+  // criteriaStore: new CriteriaStore(),
+  // chartStore: new ChartStore(),
 }
 
-
-export default RootStore

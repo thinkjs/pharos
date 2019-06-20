@@ -1,17 +1,19 @@
 import * as React from 'react';
-import Layout from '@components/Layout'
 import { Route, Switch, Redirect } from 'react-router-dom'
+import HOC from '@components/HOC'
+import { alarmRootStore } from './store'
 import AlarmList from './List';
+import './store/chart'
 
-const Alarm = (props) => {
+const Alarm = () => {
   return (
-    <Layout {...props}>
-      <Switch>
-        <Redirect exact from="/alarm" to="/alarm/list" />
-        <Route path="/alarm/list" component={AlarmList} />
-      </Switch>
-    </Layout>
+    <Switch>
+      <Redirect exact from="/alarm" to="/alarm/list" />
+      <Route path="/alarm/list" component={AlarmList} />
+    </Switch>
   )
 }
 
-export default Alarm
+console.log(87, alarmRootStore)
+export default HOC(Alarm, alarmRootStore)
+

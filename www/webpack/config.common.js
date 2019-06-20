@@ -73,7 +73,7 @@ module.exports = {
       "@config": toApp('config'),
       "@utils": toApp('utils'),
       "@pages": toApp('pages'),
-
+      "@store": toApp('store'),
     },
     mainFields: ["browser", "main"]
   },

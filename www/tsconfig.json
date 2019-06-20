@@ -36,6 +36,9 @@
       "@utils/*": [
         "./src/utils/*"
       ],
+      "@store/*": [
+        "./src/utils/*"
+      ],
     }
   },
   "exclude": [
