@@ -105,8 +105,8 @@ class Base extends BaseRest {
   generateCates(start_time, end_time, type = 'day', format) {
     const { delta, transform } = BETWEEN[type] || BETWEEN['day'];
     format = format || BETWEEN[type].format;
-    const startTime = new Date(think.datetime(new Date(start_time), transform)).getTime();
-    const endTime = new Date(think.datetime(new Date(end_time), transform)).getTime();
+    const startTime = new Date(think.datetime(new Date(start_time).setHours(0, 0, 0), transform)).getTime();
+    const endTime = new Date(think.datetime(new Date(end_time).setHours(0, 0, 0), transform)).getTime();
 
     const times = [];
     for (let time = startTime; time <= endTime; time += delta) {

@@ -2,7 +2,8 @@ import * as React from 'react';
 import Layout from '@components/Layout'
 import { Route, Switch, Redirect } from 'react-router-dom'
 import Metric from './Metric';
-import People from './People'
+import People from './People';
+import Strategy from './Strategy';
 
 
 
@@ -16,6 +17,7 @@ class Site extends React.Component<any, any> {
           <Redirect exact from="/site/metric" to="/site/metric/add" />
           <Route path="/site/metric/add" component={Metric} />
           <Route path="/site/users" component={People} />
+          <Route path="/site/strategy" component={Strategy} />
         </Switch>
       </Layout>
     )

@@ -31,3 +31,14 @@ export interface ListQuest {
   page: string;
   pagesize: string;
 }
+
+export interface ListStrate {
+  page: string,
+  pagesize: string
+}
+
+export interface AddStrateItem {
+  metric_id: string,
+  name: string,
+  conditions: string
+}
