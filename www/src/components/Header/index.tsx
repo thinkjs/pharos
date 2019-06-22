@@ -9,34 +9,14 @@ import history from '@utils/history'
 import './index.less'
 
 const data = [{
-  name: '报警',
-  url: '/alarm',
-  sider: [{
-    name: '报警列表',
-    url: '/list',
-  }]
+  name: '监控',
+  url: '/monitor',
 }, {
-  name: '性能',
-  url: '/perf',
-  sider: []
+  name: '报警',
+  url: '/alarm'
 }, {
   name: '项目设置',
-  url: '/site',
-  sider: [{
-    name: '监控管理',
-    url: '/metric',
-    subMenu: [{
-      name: '添加自定义监控项',
-      url: '/'
-    }]
-  }, {
-    name: '策略管理',
-    url: '/strategy',
-    sider: []
-  }, {
-    name: '成员列表',
-    url: '/users',
-  }]
+  url: '/site'
 }]
 
 const pharosUser = localStorage.getItem('pharosUser')
@@ -47,13 +27,11 @@ if (pharosUser) {
     data.push({
       name: '系统设置',
       url: '/system',
-      sider: [{
-        name: '成员列表',
-        url: '/users',
-      }]
     })
   }
 }
+
+
 
 @inject('projectStore') @observer
 class PharosHeader extends React.Component<any, any> {

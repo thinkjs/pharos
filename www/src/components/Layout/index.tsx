@@ -9,16 +9,32 @@ const { Sider, Content } = Layout;
 
 
 const data = [{
+  name: '监控',
+  url: '/monitor',
+  sider: [{
+    name: '报错',
+    url: '/error',
+    subMenu: [{
+      name: '图表',
+      url: '/picture'
+    }, {
+      name: '列表',
+      url: '/list'
+    }]
+  }, {
+    name: '自定义监控图表',
+    url: '/custom'
+  }, {
+    name: '性能图表',
+    url: '/perf'
+  }]
+}, {
   name: '报警',
   url: '/alarm',
   sider: [{
     name: '报警列表',
     url: '/list',
   }]
-}, {
-  name: '性能',
-  url: '/perf',
-  sider: []
 }, {
   name: '项目设置',
   url: '/site',
@@ -27,8 +43,8 @@ const data = [{
     url: '/metric',
     subMenu: [{
       name: '添加自定义监控项',
-      url: '/add'
-    },]
+      url: '/'
+    }]
   }, {
     name: '策略管理',
     url: '/strategy',
@@ -36,16 +52,17 @@ const data = [{
   }, {
     name: '成员列表',
     url: '/users',
-
   }]
 }, {
   name: '系统设置',
   url: '/system',
   sider: [{
-    name: '成员列表',
-    url: '/users',
+    name: '用户列表',
+    url: '/users'
   }]
 }]
+
+
 
 class PhraosLayout extends React.Component<any, any> {
 

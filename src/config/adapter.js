@@ -42,7 +42,7 @@ exports.model = {
     host: process.env.PH_MYSQL_HOST || '127.0.0.1',
     port: process.env.PH_MYSQL_PORT || '',
     user: process.env.PH_MYSQL_USER || 'root',
-    password: process.env.PH_MYSQL_PASSWORD || '123456',
+    password: process.env.PH_MYSQL_PASSWORD || 'linxdroot',
     dateStrings: true
   }
 };

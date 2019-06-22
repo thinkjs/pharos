@@ -1,5 +1,5 @@
-import { alarmRootStore } from '@pages/Alarm/store'
+// import { alarmRootStore } from '@pages/Alarm/store'
 
-export const appRootStore = {
-  alarmRootStore
-}
+// export const appRootStore = {
+//   alarmRootStore
+// }

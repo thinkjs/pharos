@@ -4,7 +4,7 @@ import ProjectStore from '@pages/Project/store/project';
 import SiteStore from '@pages/Site/store/site';
 import MetricStore from '@pages/Site/store/metric';
 import PeopleStore from '@pages/Site/store/people';
-// import AlarmStore from '@pages/Alarm/store/alarm';
+// import AlarmListStore from '@pages/Alarm/store/alarmList';
 import StrategyStore from '@pages/Site/store/strategy';
 
 
@@ -15,7 +15,7 @@ class OptionsStore {
   projectStore: ProjectStore;
   metricStore: MetricStore;
   siteStore: SiteStore;
-  // alarmStore: AlarmStore;
+  // alarmListStore: AlarmListStore;
   peopleStore: PeopleStore;
   strategyStore: StrategyStore;
 
@@ -26,7 +26,7 @@ class OptionsStore {
     this.projectStore = new ProjectStore(this);
     this.metricStore = new MetricStore(this);
     this.siteStore = new SiteStore(this);
-    // this.alarmStore = new AlarmStore(this);
+    // this.alarmListStore = new AlarmListStore(this);
     this.peopleStore = new PeopleStore(this);
     this.strategyStore = new StrategyStore(this);
   }
