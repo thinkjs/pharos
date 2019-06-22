@@ -86,7 +86,7 @@ class PharosHeader extends React.Component<any, any> {
                     return (
                       <li key={item.id} className="header-project-item" onClick={() => projectClick(item)}>
                         <span className="hpi-name">{item.name}</span>
-                        <span className="hpi-quota">
+                        {/* <span className="hpi-quota">
                           <span className="hpi-quota-alarm">
                             报警
                         <span className="hpi-quota-alarm-num">2</span>
@@ -95,7 +95,7 @@ class PharosHeader extends React.Component<any, any> {
                             性能
                         <span className="hpi-quota-perf-num">2</span>
                           </span>
-                        </span>
+                        </span> */}
                       </li>
                     )
                   })}

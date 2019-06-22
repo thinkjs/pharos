@@ -58,7 +58,7 @@ class ProjectStore {
   @action projectClick = (value) => {
     this.setShowProjectList(false)
     localStorage.setItem('projectId', value.id)
-    history.push('/alarm');
+    history.push('/monitor');
   }
 
   @observable showUserInfo = false
@@ -67,7 +67,7 @@ class ProjectStore {
   // @action projectClick = (value) => {
   //   this.setShowProjectList(false)
   //   localStorage.setItem('projectId', value.id)
-  //   history.push('/alarm');
+  //   history.push('/monitor');
   // }
 
 
