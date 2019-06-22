@@ -11,7 +11,9 @@ module.exports = class extends Base {
         metric_id,
       } = this.get();
 
-      const end_time = think.datetime(new Date(), 'YYYY-MM-DD HH:mm');
+      const min = new Date().getMinutes();
+      let selectMin = min >= 5 ? 5 : 0;
+      const end_time = think.datetime(new Date().setMinutes(selectMin), 'YYYY-MM-DD HH:mm');
       const start_time = think.datetime(new Date().setMinutes(new Date().getMinutes() - 5), 'YYYY-MM-DD HH:mm');
       
       const data = await this.modelInstance.where({
