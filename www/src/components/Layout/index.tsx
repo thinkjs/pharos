@@ -34,6 +34,9 @@ const data = [{
   sider: [{
     name: '报警列表',
     url: '/list',
+  }, {
+    name: '报警历史',
+    url: '/history',
   }]
 }, {
   name: '项目设置',

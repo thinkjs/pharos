@@ -10,7 +10,7 @@ module.exports = class extends Base {
 
   async __before() {
     const siteIds = await this.model('site')
-      .field('id,sid,url,users')
+      .field('id,sid,url')
       .where('1=1')
       .select();
     const metrics = await this.model('metric').where('1=1').select();
@@ -26,7 +26,12 @@ module.exports = class extends Base {
     }
     this.sites = sites;
     for (const metric of metrics) {
-      const sid = sites[metric.site_id].sid;
+      const site = sites[metric.site_id];
+      if (!site) {
+        continue;
+      }
+
+      const { sid } = site;
       if (!think.isArray(this.metrics[sid])) {
         this.metrics[sid] = [];
       }
@@ -98,8 +103,8 @@ module.exports = class extends Base {
     //获取上一个5分钟的监控数据用来算增长速率
     const now = moment();
     const metricsDataPromise = [];
-    for (var modelName in TYPE_MAPS) {
-      metricsDataPromise.push(this.model(modelName).where({
+    for (var k in TYPE_MAPS) {
+      metricsDataPromise.push(this.model(TYPE_MAPS[k]).where({
         create_time: ['in', [
           now.format('YYYY-MM-DD HH:mm:ss'),
           // now.subtract(5, 'minutes').format('YYYY-MM-DD HH:mm:ss')
@@ -140,9 +145,18 @@ module.exports = class extends Base {
     const alarms = {};
     const alarmModel = this.model('alarm');
     for (const metric_id in strategies) {
-      for (let i = 0; i < strategy[metric_id].length; i++) {
+      for (let i = 0; i < strategies[metric_id].length; i++) {
         const strategy = strategies[metric_id][i];
-        const { limit, count, express } = strategy.condition;
+        if (!strategy) {
+          continue;
+        }
+        if (think.isString(strategy.conditions)) {
+          strategy.conditions = JSON.parse(strategy.conditions);
+        }
+        const { limit, count, express } = strategy.conditions;
+        if (!metrics[metric_id]) {
+          continue;
+        }
         const nowValue = this.avg(metrics[metric_id][now.format('YYYY-MM-DD HH:mm:ss')], 0)
 
         const test = eval(`${nowValue} ${express} ${limit}`);
@@ -177,10 +191,13 @@ module.exports = class extends Base {
     }
 
     //最后对所有没有处理的还在报警状态中的报警置成已解决
-    await alarmModel.where({
-      alarm_id: ['NOT IN', Object.keys(alarms)],
-      status: 0
-    }).update({ status: 1 });
+    const alarm_ids = Object.keys(alarms);
+    const where = { status: 0 };
+    if (alarm_ids.length) {
+      where.alarm_id = ['NOT_IN', alarm_ids];
+    };
+
+    await alarmModel.where(where).update({ status: 1 });
   }
 
   parseLog({ querystring: qs, pathname, http_referer }) {

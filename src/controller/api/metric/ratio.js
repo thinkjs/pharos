@@ -22,53 +22,40 @@ module.exports = class extends Base {
         today_end_time: think.datetime(new Date().setDate(new Date().getDate() + 1), 'YYYY-MM-DD'),
         yesterday_start_time: think.datetime(new Date().setDate(new Date().getDate() - 1), 'YYYY-MM-DD'),
         yesterday_end_time: think.datetime(new Date(), 'YYYY-MM-DD'),
-        this_week_start_time: think.datetime(new Date().setDate(new Date().getDate() - 6), 'YYYY-MM-DD'),
-        this_week_end_time: think.datetime(new Date(), 'YYYY-MM-DD'),
-        last_week_start_time: think.datetime(new Date().setDate(new Date().getDate() - 13), 'YYYY-MM-DD'),
-        last_week_end_time: think.datetime(new Date().setDate(new Date().getDate() - 7), 'YYYY-MM-DD'),
+        last_week_start_time: think.datetime(new Date().setDate(new Date().getDate() - 7), 'YYYY-MM-DD'),
+        last_week_end_time: think.datetime(new Date().setDate(new Date().getDate() - 6), 'YYYY-MM-DD'),
     }
 
+    const today = await this.getRatioData(site_id, metric_id, time.today_start_time, time.today_end_time);
+    const yesterday = await this.getRatioData(site_id, metric_id, time.yesterday_start_time, time.yesterday_end_time);
+    const last_week = await  this.getRatioData(site_id, metric_id, time.last_week_start_time, time.last_week_end_time);
+
+    const series = [today.series, yesterday.series, last_week.series];
+    const categories = today.categories;
+
     return this.success({
-        today: await this.getRatioData(site_id, metric_id, time.today_start_time, time.today_end_time, 'mins'),
-        yesterday: await this.getRatioData(site_id, metric_id, time.yesterday_start_time, time.yesterday_end_time, 'mins'),
-        this_week: await  this.getRatioData(site_id, metric_id, time.this_week_start_time, time.this_week_end_time, 'day'),
-        last_week: await  this.getRatioData(site_id, metric_id, time.last_week_start_time, time.last_week_end_time, 'day'),
+      series,
+      categories,
     });
 
   }
 
-  async getRatioData(site_id, metric_id, start_time, end_time, type) {
-    let endTime = new Date(end_time);
-    endTime = think.datetime(endTime.setDate(endTime.getDate() + 1), 'YYYY-MM-DD');
-    const where = { site_id, metric_id, create_time: { '>=': start_time, '<': endTime}  };
-    
+  async getRatioData(site_id, metric_id, start_time, end_time, type = 'mins') {
+    const where = { site_id, metric_id, create_time: { '>=': start_time, '<': end_time}  };
+
     const data = await this.modelInstance.where(where).select();
 
     let series = [];
-    let categories;
-    switch (type) {
-      case 'day':
-      case 'mins':
-        categories = this.generateCates(start_time, end_time, type);
-        const ratioData = {
-            data: await this.getSeriesData(site_id, metric_id, data, categories, type),
-            name: this.metric_name,
-        }
-        series = [ratioData];
-        break;
-      default:
-        return this.success(await this.groupWithCustom(site_id, data, perfData => {
-          let time = 0;
-          let count = 0;
-          for (let i = 0; i < perfData.length; i++) {
-            time += perfData[i].time;
-            count += perfData[i].count;
-          }
-          return this.avg({ time, count }, 0);
-        }));
+    const categories = this.generateCates(start_time, end_time, type);
+    const ratioData = {
+      data: await this.getSeriesData(site_id, metric_id, data, categories, type),
+      name: start_time,
     }
-    return { categories, series };
-  }
+    
+    series = ratioData;
+      const ratioCat = categories.map(item => item.split(' ')[1]);
+      return { categories: ratioCat, series };
+    }
 
   getSeriesData(site_id, metric_id, data, categories, type) {
     return this.groupWithCustom(site_id, metric_id, data, ({ data }) => {
