@@ -1,7 +1,7 @@
 const Base = require('./base');
 module.exports = class extends Base {
   /**
-   * @api {GET} /metric/error 获取监控因子
+   * @api {GET} /metric/error 获取错误列表
    * @apiGroup Metric
    * @apiVersion  0.0.1
    *
@@ -22,7 +22,13 @@ module.exports = class extends Base {
    */
 
 
-  getAction() {
+  async getAction() {
+    const { metric_id } = this.get();
+    const metrics = await this.model('metric').where({id: metric_id}).select();
+    if (think.isEmpty(metrics)) {
+      return this.fail('METRIC NOT FOUND');
+    }
+
     this.rules = {
       site_id: {
         required: true,

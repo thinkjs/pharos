@@ -10,12 +10,8 @@ module.exports = class extends Base {
         site_id,
         metric_id,
       } = this.get();
-
-      const where = {site_id, metric_id};
-
-      const key = 'k1';
       
-      const data = await this.modelInstance.query('SELECT `k1` as "errmsg", SUM(count) as count FROM `ph_error_monitor` WHERE (`site_id` = "16") GROUP BY `k1`');
+      const data = await this.modelInstance.query('SELECT `k1` as "errmsg", SUM(count) as count FROM `ph_error_monitor` WHERE (`site_id` = ' + site_id + ' AND `metric_id` = ' + metric_id + ') GROUP BY `k1`');
 
       return this.success(data);
     }
