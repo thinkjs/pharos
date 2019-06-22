@@ -10,7 +10,7 @@ module.exports = class extends Base {
 
   async __before() {
     const siteIds = await this.model('site')
-      .field('id,sid,url')
+      .field('id,sid,url,users')
       .where('1=1')
       .select();
     const metrics = await this.model('metric').where('1=1').select();
@@ -152,17 +152,27 @@ module.exports = class extends Base {
         alarms[strategy.id] = strategy;
 
         const ret = await alarmModel.where({ alarm_id, status: 0 }).find();
+        const times = think.isEmpty(ret) ? 1 : ret.times + 1;
         if (think.isEmpty(ret)) {
           await alarmModel.add({
             site_id: alarm[alarm_id].site_id,
             metric_id: alarm[alarm_id].metric_id,
             alarm_id,
             status: 0,
+            times,
             create_time: moment().format('YYYY-MM-DD HH:mm:ss')
           })
         } else {
-          await alarmModel.update({ id: ret.id, times: ret.times + 1 });
+          await alarmModel.update({ id: ret.id, times });
         }
+
+        if (think.isNumber(count) && times < count) {
+          continue;
+        }
+
+        const text = `连续 ${count} 次 ${metric_name} ${express} ${limit}`;
+        const users = this.sites[alarm[alarm_id].site_id].users;
+        await this.config('alarm')(users, text);
       }
     }
 

@@ -8,9 +8,10 @@ module.exports = class extends Base {
       site_id,
       start_time,
       end_time,
-      type,
+      date_type,
       metric_id,
       metrics = '',
+      type
     } = this.get();
 
     const metricItem = await this.model('metric').where({ id: metric_id }).find();
@@ -38,14 +39,14 @@ module.exports = class extends Base {
 
     let series = [];
     let categories;
-    switch (type) {
+    switch (date_type) {
       case 'day':
       case 'mins':
-        categories = this.generateCates(start_time, end_time, type);
+        categories = this.generateCates(start_time, end_time, date_type);
         series = await Promise.all(factors.map(async factor => {
           const factorWhere = Object.assign({}, where, {[`k${metrics_ary.length + 1}`]: factor});
           const dataByFactor = await this.modelInstance.where(factorWhere).select();
-          const seriesData = await this.getSeriesData(site_id, metric_id, dataByFactor, categories, type, factors);
+          const seriesData = await this.getSeriesData(site_id, metric_id, dataByFactor, categories, date_type, factors);
           seriesData.name = factor;
           return seriesData;
         }));
@@ -64,13 +65,13 @@ module.exports = class extends Base {
     return this.success({ categories, series });
   }
 
-  getSeriesData(site_id, metric_id, data, categories, type) {
+  getSeriesData(site_id, metric_id, data, categories, date_type) {
     return this.groupWithCustom(site_id, metric_id, data, ({ data }) => {
       const result = {};
       for (let i = 0; i < data.length; i++) {
         const date = think.datetime(
           new Date(data[i].create_time),
-          Base.BETWEEN[type].format
+          Base.BETWEEN[date_type].format
         );
         if (!result[date]) {
           result[date] = { time: 0, count: 0 };

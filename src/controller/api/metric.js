@@ -12,6 +12,8 @@ module.exports = class extends Base {
             return this.fail('SITE ID MISS');
         }
 
+        const { type } = this.get();
+
         const sites = await this.model('site').where({id: this.id}).select();
         if (think.isEmpty(sites)) {
             return this.fail('SITE NOT FOUND');
@@ -24,10 +26,11 @@ module.exports = class extends Base {
         if (keywords) {
             result = await this.modelInstance.where({
                 site_id: this.id, 
+                type,
                 display_name: ['like', `%${keywords}%`]
             }).page([page, pagesize]).countSelect();
         } else {
-            result = await this.modelInstance.where({site_id: this.id}).page([page, pagesize]).countSelect();
+            result = await this.modelInstance.where({site_id: this.id, type}).page([page, pagesize]).countSelect();
         }
 
         return this.success(result);

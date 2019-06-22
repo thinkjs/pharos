@@ -20,6 +20,7 @@
     "mobx": "^5.9.4",
     "mobx-react": "^5.4.4",
     "moment": "^2.23.0",
+    "nodemailer": "^2.7.2",
     "phpass": "^0.1.1",
     "request": "^2.88.0",
     "request-promise-native": "^1.0.5",

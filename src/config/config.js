@@ -1,3 +1,5 @@
+const nodemailer = require('nodemailer');
+
 // default config
 module.exports = {
   workers: 1,
@@ -6,5 +8,14 @@ module.exports = {
   logFile(date) {
     const datetime = think.datetime(date, 'YYYY-MM-DD-HH-mm');
     return `/usr/local/var/log/nginx/pharos/${datetime}-access.log`;
+  },
+  alarm(users, text) {
+    const emails = users.map(user => user.email);
+    const transporter = nodemailer.createTransport();
+    return transporter.sendMail({
+      from: 'no-reply@pharos.baomitu.com',
+      to: emails,
+      subject: text
+    });
   }
 };
