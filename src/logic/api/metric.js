@@ -8,6 +8,7 @@ module.exports = class extends Base {
    * @apiParam  {String}  keywords  display_name
    * @apiParam  {String}  page  页数
    * @apiParam  {String}  pagesize  分页大小
+   * @apiParam  {String}  [type] {0 ,1, 2} 默认：0, 监控类型 0: 自定义监控, 1: 性能监控, 2: 报错监控  * 
    */
     getAction() {
         this.rules = {
@@ -17,6 +18,10 @@ module.exports = class extends Base {
             pagesize: {
                 int: true,
                 default: 10
+            },
+            type: {
+                int: true,
+                default: 0,
             }
         }
     }
