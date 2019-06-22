@@ -11,10 +11,14 @@ module.exports = class extends Base {
         metric_id,
       } = this.get();
 
-      const create_time = think.datetime(new Date(), 'YYYY-mm-dd HH:mm');
-      const end_time = think.datetime(new Date(), 'YYYY-mm-dd HH:mm');
+      const end_time = think.datetime(new Date(), 'YYYY-MM-DD HH:mm');
+      const start_time = think.datetime(new Date().setMinutes(new Date().getMinutes() - 5), 'YYYY-MM-DD HH:mm');
       
-      const data = await this.modelInstance.query('SELECT `k1` as "errmsg", SUM(count) as count FROM `ph_error_monitor` WHERE (`site_id` = ' + site_id + ' AND `metric_id` = ' + metric_id + ' AND `create_time` >= ' + create_time + 'AND `end_time` < ' + end_time + ') GROUP BY `k1`');
+      const data = await this.modelInstance.where({
+        site_id,
+        metric_id,
+        create_time: { '>=': start_time, '<': end_time}
+      }).field(['k1 as errmsg', 'SUM(count) as count']).group('k1').select();
 
       return this.success(data);
     }
