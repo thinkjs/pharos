@@ -3,7 +3,8 @@ import Layout from '@components/Layout'
 import { Route, Switch, Redirect } from 'react-router-dom'
 import Users from './Users';
 
-const Alarm = (props) => {
+const System = (props) => {
+  
   return (
     <Layout {...props}>
       <Switch>
@@ -14,4 +15,4 @@ const Alarm = (props) => {
   )
 }
 
-export default Alarm
+export default System

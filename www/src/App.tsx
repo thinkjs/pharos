@@ -3,7 +3,6 @@ import { Route, Redirect, Switch } from 'react-router-dom'
 import { AuthRoute } from '@components/Auth'
 import Signin from '@pages/Sign/Signin'
 import Signup from '@pages/Sign/Signup'
-import Perf from '@pages/Perf'
 import Monitor from '@pages/Monitor'
 import Alarm from '@pages/Alarm'
 import Project from '@pages/Project'
@@ -34,9 +33,6 @@ const authRoutes = [{
 {
   path: '/site',
   component: Site,
-}, {
-  path: '/perf',
-  component: Perf,
 }, {
   path: '/system',
   component: System,

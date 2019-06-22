@@ -1,7 +1,6 @@
 import { configure } from 'mobx';
 import SignStore from '@pages/Sign/store';
 import ProjectStore from '@pages/Project/store';
-// import AlarmStore from '@pages/Alarm/store';
 import SiteStore from '@pages/Site/store';
 
 
@@ -17,7 +16,6 @@ export class AppStore {
   signStore: SignStore;
   projectStore: ProjectStore;
   siteStore: SiteStore;
-  // alarmStore: AlarmStore;
 
 
 
@@ -26,9 +24,6 @@ export class AppStore {
     this.signStore = new SignStore();
     this.projectStore = new ProjectStore();
     this.siteStore = new SiteStore();
-    // this.alarmStore = new AlarmStore();
-
-
   }
 
 }

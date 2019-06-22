@@ -39,7 +39,7 @@ CREATE TABLE `ph_alarm` (
 
 
 
-# Dump of table ph_custom_monitor
+# Dump of table ph_custom_monitoINSERT INTO `monitor`.`ph_custom_monitor`(`id`, `site_id`, `metric_id`, `k1`, `k2`, `k3`, `k4`, `k5`, `time`, `count`, `create_time`) VALUES (14, 3, 9, '50', '20', '', '', '50', 5000, 5, '2019-05-24 08:05:00');r
 # ------------------------------------------------------------
 
 DROP TABLE IF EXISTS `ph_custom_monitor`;
@@ -69,13 +69,16 @@ DROP TABLE IF EXISTS `ph_error_monitor`;
 CREATE TABLE `ph_error_monitor` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `site_id` int(11) DEFAULT NULL,
-  `site_page_id` int(11) DEFAULT NULL,
-  `error` text COLLATE utf8mb4_unicode_ci,
-  `count` int(11) DEFAULT NULL,
-  `create_time` datetime DEFAULT NULL,
+  `metric_id` int(11) DEFAULT NULL,
+  `k1` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
+  `k2` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
+  `k3` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
+  `k4` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
+  `k5` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
+  `count` int(11) NOT NULL DEFAULT '0',
+  `create_time` datetime DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=COMPRESSED KEY_BLOCK_SIZE=8;
-
 
 
 # Dump of table ph_metric
@@ -136,7 +139,7 @@ CREATE TABLE `ph_perf_monitor` (
   `k5` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
   `time` int(11) NOT NULL DEFAULT '0',
   `count` int(11) NOT NULL DEFAULT '0',
-  `create_time` datetime DEFAULT NULL,
+  `create_time` datetime DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=COMPRESSED KEY_BLOCK_SIZE=8;
 
