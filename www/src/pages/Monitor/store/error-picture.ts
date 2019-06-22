@@ -1,7 +1,7 @@
 import { observable, action, computed } from 'mobx';
 import axios from '@utils/axios';
 
-class AlarmStore {
+class ErrorPictureStore {
 
 
   @computed get siteId() {
@@ -73,6 +73,17 @@ class AlarmStore {
     this.setCharts(result.data.data)
   }
 
+  @observable.ref sameRingRatio = {
+    series: [],
+    categories: []
+  }
+  @action setSameRingRatio = (data) => this.sameRingRatio = data
+  @action getSameRingRatio = async () => {
+    const result = await axios.get(`/api/metric/ratio?site_id=${this.siteId}&metric_id=${this.metricId}`);
+    
+    this.setSameRingRatio(result.data.data)
+  }
+
 }
 
-export default AlarmStore
+export default new ErrorPictureStore()

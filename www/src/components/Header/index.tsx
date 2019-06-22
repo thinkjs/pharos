@@ -107,7 +107,7 @@ class PharosHeader extends React.Component<any, any> {
         <Menu
           mode="horizontal"
           theme="light"
-          style={{ marginLeft: 230 }}
+          style={{ paddingLeft: 230 }}
           selectedKeys={[this.props.match.path]}
         >
           {data.map(item => <Menu.Item key={item.url}><Link to={item.url}>{item.name}</Link></Menu.Item>)}

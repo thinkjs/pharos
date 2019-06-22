@@ -76,7 +76,6 @@ class PhraosLayout extends React.Component<any, any> {
 
     const openPath = '/' + pathname['2']
 
-
     return (
       <>
         <Header {...this.props} />
