@@ -1,7 +1,7 @@
 const Base = require('./base');
 module.exports = class extends Base {
   /**
-   * @api {GET} /metric/custom_time 获取某段时间自定义监控的数据
+   * @api {GET} /metric/ratio 获取同环比数据
    * @apiGroup Metric
    * @apiVersion  0.0.1
    *
