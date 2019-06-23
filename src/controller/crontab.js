@@ -215,11 +215,15 @@ module.exports = class extends Base {
     }
 
     for (const { id, site_id, name, k1, k2, k3, k4, k5, type } of metrics) {
+      if (type !== 2 && !qs[name]) {
+        continue;
+      }
+
       const dimensions = [k1, k2, k3, k4, k5].filter(v => v);
       const k = [
         site_id,
         id,
-        dimensions.map(dimension => qs[dimension])
+        ...dimensions.map(dimension => qs[dimension])
       ].join('/');
 
       if (!this.stats[type]) {
@@ -243,7 +247,6 @@ module.exports = class extends Base {
         this.stats[type][k].count += 1;
       }
     }
-
     return true;
   }
 
