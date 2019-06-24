@@ -44,7 +44,7 @@ class SigninStore {
     } else {
       this.setList(result)
       localStorage.setItem('projectId', result[0].id)
-      history.push('/monitor')
+      window.location.href = '/monitor';
     }
   }
 

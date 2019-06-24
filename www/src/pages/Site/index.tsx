@@ -4,6 +4,7 @@ import { Route, Switch, Redirect } from 'react-router-dom'
 import Metric from './Metric';
 import People from './People';
 import Strategy from './Strategy';
+import Config from './Config'
 
 
 
@@ -18,6 +19,7 @@ class Site extends React.Component<any, any> {
           <Route path="/site/metric/add" component={Metric} />
           <Route path="/site/users" component={People} />
           <Route path="/site/strategy" component={Strategy} />
+          <Route path="/site/config" component={Config} />
         </Switch>
       </Layout>
     )

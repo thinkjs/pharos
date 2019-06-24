@@ -58,7 +58,7 @@ class ProjectStore {
   @action projectClick = (value) => {
     this.setShowProjectList(false)
     localStorage.setItem('projectId', value.id)
-    history.push('/monitor');
+    window.location.href = '/monitor';
   }
 
   @observable showUserInfo = false
@@ -70,7 +70,15 @@ class ProjectStore {
   //   history.push('/monitor');
   // }
 
+  @action deleteProject = async () => {
+    await axios.delete(`/api/site/${this.siteId}`)
+    window.location.href = '/monitor'
+    localStorage.removeItem('projectId')
 
+  }
+
+  @observable showDeleteModal = false
+  @action setShowDeleteModal = (bool) => this.showDeleteModal = bool
 
 
 }

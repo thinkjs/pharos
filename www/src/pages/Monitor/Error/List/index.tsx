@@ -9,20 +9,17 @@ const { Option } = Select;
 
 @inject('errorListStore') @observer
 class List extends React.Component<any, any> {
-  constructor(props) {
-    super(props)
-    this.state = {
-      columns: [{
-        title: '报错信息',
-        dataIndex: 'errmsg',
-        key: 'errmsg',
-      },
-      {
-        title: '报错次数',
-        dataIndex: 'count',
-        key: 'count',
-      }]
-    }
+  state = {
+    columns: [{
+      title: '报错信息',
+      dataIndex: 'errmsg',
+      key: 'errmsg',
+    },
+    {
+      title: '报错次数',
+      dataIndex: 'count',
+      key: 'count',
+    }]
   }
 
   componentDidMount = async () => {
@@ -33,8 +30,7 @@ class List extends React.Component<any, any> {
   render() {
     const { errorListStore } = this.props
     const { metricList, currentMetricId, list } = errorListStore
-    console.log(79, currentMetricId)
-    console.log(88, metricList)
+
     if (!metricList.length) return null
     return (
       <div className="error-list-wrap">
@@ -47,7 +43,7 @@ class List extends React.Component<any, any> {
           columns={this.state.columns}
           dataSource={list}
           bordered={true}
-          rowKey="id"
+          rowKey="errmsg"
         />
       </div>
     )

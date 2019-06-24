@@ -25,11 +25,11 @@ class ErrorListStore {
 
 
   @observable list = []
-  @action setList = (list) => this.list = []
+  @action setList = (list) => this.list = list
 
   @action getList = async () => {
     const result = await axios.get(`/api/metric/error?site_id=${this.siteId}&metric_id=${this.currentMetricId}`)
-    this.setList(result.data.data.data)
+    this.setList(result.data.data)
   }
 }
 
