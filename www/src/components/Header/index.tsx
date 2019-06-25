@@ -23,7 +23,7 @@ const pharosUser = localStorage.getItem('pharosUser')
 
 if (pharosUser) {
   const status = JSON.parse(pharosUser)['status']
-  if (status == '1' || status == '0') {
+  if (status == '1') {
     data.push({
       name: '系统设置',
       url: '/system',
