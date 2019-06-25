@@ -1,6 +1,7 @@
 import * as React from 'react'
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { message, Modal } from 'antd'
+import { Button } from 'antd'
 import { observer, inject } from 'mobx-react';
 
 import './style.less'
@@ -33,11 +34,11 @@ class Config extends React.Component<any, any> {
           </div>
           <pre>{text}</pre>
         </div>
-        {/* <div className="group-item">
+        <div className="group-item">
           <div className="group-item-label">删除项目：
             <Button type="default" onClick={() => setShowDeleteModal(true)}>删除项目</Button>
           </div>
-        </div> */}
+        </div>
         <Modal
           title="删除项目"
           visible={showDeleteModal}
