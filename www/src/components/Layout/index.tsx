@@ -2,6 +2,8 @@ import * as React from "react";
 import { Layout, Menu } from 'antd';
 import { Link } from "react-router-dom";
 import Header from '@components/Header'
+import { observer, inject } from 'mobx-react';
+
 import './index.less'
 
 const { SubMenu } = Menu;
@@ -55,6 +57,9 @@ const data = [{
   }, {
     name: '成员列表',
     url: '/users',
+  }, {
+    name: '项目信息',
+    url: '/config'
   }]
 }, {
   name: '系统设置',
@@ -66,8 +71,30 @@ const data = [{
 }]
 
 
-
+@inject('projectStore') @observer
 class PhraosLayout extends React.Component<any, any> {
+
+  // componentDidMount() {
+  //   const { projectStore } = this.props
+  //   const { siteId, projectList } = projectStore
+  //   console.log(67, projectList)
+  //   if (!siteId) {
+  //     // if (projectList.length) {
+  //     //   localStorage.setItem('projectId', projectList[0].id)
+  //     // } else {
+  //     //   window.location.href = '/monitor'
+  //     // }
+  //   }
+  // }
+  componenntWillMount() {
+    const projectId = localStorage.getItem('projectId')
+    const { projectStore } = this.props
+    const { projectList } = projectStore
+    projectStore.getList()
+    if (projectList.length && !projectId) {
+      localStorage.setItem('projectId', projectList[0].id)
+    }
+  }
 
   render() {
     const url = this.props.match.path
@@ -78,7 +105,6 @@ class PhraosLayout extends React.Component<any, any> {
     const path = '/' + pathname[pathname.length - 1]
 
     const openPath = '/' + pathname['2']
-
 
     return (
       <>

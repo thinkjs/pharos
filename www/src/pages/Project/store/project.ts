@@ -58,7 +58,7 @@ class ProjectStore {
   @action projectClick = (value) => {
     this.setShowProjectList(false)
     localStorage.setItem('projectId', value.id)
-    history.push('/alarm');
+    window.location.href = '/monitor';
   }
 
   @observable showUserInfo = false
@@ -67,10 +67,18 @@ class ProjectStore {
   // @action projectClick = (value) => {
   //   this.setShowProjectList(false)
   //   localStorage.setItem('projectId', value.id)
-  //   history.push('/alarm');
+  //   history.push('/monitor');
   // }
 
+  @action deleteProject = async () => {
+    await axios.delete(`/api/site/${this.siteId}`)
+    window.location.href = '/monitor'
+    localStorage.removeItem('projectId')
 
+  }
+
+  @observable showDeleteModal = false
+  @action setShowDeleteModal = (bool) => this.showDeleteModal = bool
 
 
 }

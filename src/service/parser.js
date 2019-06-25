@@ -5,6 +5,7 @@ const fs = require('fs');
 const url = require('url');
 const path = require('path');
 const qs = require('querystring');
+const readline = require('readline');
 const { spawn } = require('child_process');
 
 module.exports = class {
@@ -94,9 +95,10 @@ module.exports = class {
    * @param {Function} callback (optional) - called at the end
    */
   async stream(stream, iterator, callback) {
+    const rl = readline.createInterface({ input: stream });
     try {
       // eslint-disable-next-line
-      for await (const row of stream) {
+      for await (const row of rl) {
         this.parseLine(row, iterator);
       }
     } catch (e) {

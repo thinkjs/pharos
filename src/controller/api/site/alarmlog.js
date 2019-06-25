@@ -13,10 +13,17 @@ module.exports = class extends Base {
     const { prefix } = modelConfig[modelConfig.type];
 
     const logs = await this.modelInstance.join({
+      table: 'site_alarm',
+      join: 'left',
+      on: ['alarm_id', 'id']
+    })
+    .join({
       table: 'metric',
       join: 'left',
-      on: ['metric_id', 'id'],
-    }).where({ [`${prefix}alarm.site_id`]: site_id }).page(page, pagesize).countSelect();
+      on: ['metric_id', 'id']
+    })
+    .where({ [`${prefix}alarm.site_id`]: site_id })
+    .page(page, pagesize).countSelect();
 
     return this.success(logs);
   }

@@ -1,13 +1,13 @@
 import * as React from 'react'
 import Layout from '@components/Layout'
 import { Provider } from 'mobx-react'
-// import { appRootStore } from '@store/index'
+import { appRootStore } from '@store/index'
 
 const HOC = (Component, store) => {
   return class Wrap extends React.Component {
     render() {
       return (
-        <Provider {...store}  >
+        <Provider {...store} appRootStore={appRootStore}  >
           <Layout {...this.props}>
             <Component {...this.props} />
           </Layout>

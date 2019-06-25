@@ -36,7 +36,7 @@ class SignupStore {
     } else {
       this.setList(result)
       localStorage.setItem('projectId', result[0].id)
-      history.push('/alarm')
+      window.location.href = '/monitor';
     }
   }
 

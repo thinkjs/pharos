@@ -86,7 +86,7 @@ class PharosHeader extends React.Component<any, any> {
                     return (
                       <li key={item.id} className="header-project-item" onClick={() => projectClick(item)}>
                         <span className="hpi-name">{item.name}</span>
-                        <span className="hpi-quota">
+                        {/* <span className="hpi-quota">
                           <span className="hpi-quota-alarm">
                             报警
                         <span className="hpi-quota-alarm-num">2</span>
@@ -95,7 +95,7 @@ class PharosHeader extends React.Component<any, any> {
                             性能
                         <span className="hpi-quota-perf-num">2</span>
                           </span>
-                        </span>
+                        </span> */}
                       </li>
                     )
                   })}
@@ -107,7 +107,7 @@ class PharosHeader extends React.Component<any, any> {
         <Menu
           mode="horizontal"
           theme="light"
-          style={{ marginLeft: 230 }}
+          style={{ paddingLeft: 230 }}
           selectedKeys={[this.props.match.path]}
         >
           {data.map(item => <Menu.Item key={item.url}><Link to={item.url}>{item.name}</Link></Menu.Item>)}

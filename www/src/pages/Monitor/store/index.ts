@@ -1,6 +1,12 @@
-// import AlarmStore from './alarm'
+import CustomStore from './custom'
+import ErrorListStore from './error-list'
+import ErrorPictureStore from './error-picture'
+import PerfStore from './perf'
 
-export const alarmRootStore = {
-  // alarmStore: AlarmStore,
+export const monitorRootStore = {
+  customStore: CustomStore,
+  errorListStore: ErrorListStore,
+  errorPictureStore: ErrorPictureStore,
+  PerfStore: PerfStore,
 }
 

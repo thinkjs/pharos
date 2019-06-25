@@ -11,10 +11,13 @@ module.exports = class extends Base {
         metric_id,
       } = this.get();
 
-      const min = new Date().getMinutes();
-      let selectMin = min >= 5 ? 5 : 0;
+      const min1 = new Date().getMinutes().toString().charAt(0);
+      const min2 = new Date().getMinutes().toString().charAt(1);
+
+      const selectMin2 = min2 >= 5 ? 5 : 0;
+      let selectMin = min1 + selectMin2.toString();
       const end_time = think.datetime(new Date().setMinutes(selectMin), 'YYYY-MM-DD HH:mm');
-      const start_time = think.datetime(new Date().setMinutes(new Date().getMinutes() - 5), 'YYYY-MM-DD HH:mm');
+      const start_time = think.datetime(new Date().setMinutes(selectMin2 - 5), 'YYYY-MM-DD HH:mm');
       
       const data = await this.modelInstance.where({
         site_id,

@@ -7,9 +7,7 @@ const Option = Select.Option;
 
 @inject('peopleStore') @observer
 class People extends React.Component<any, any> {
-  constructor(props) {
-    super(props)
-  }
+
   state = {
     columns: [{
       title: '用户名',

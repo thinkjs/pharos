@@ -1,8 +1,7 @@
 import * as React from 'react';
 import { Route, Switch, Redirect } from 'react-router-dom'
 import HOC from '@components/HOC'
-import { alarmRootStore } from './store'
-
+import { monitorRootStore } from './store'
 import ErrorPicture from './Error/Picture'
 import ErrorList from './Error/List'
 import Custom from './Custom'
@@ -23,5 +22,5 @@ const Monitor = () => {
 
 
 
-export default HOC(Monitor, alarmRootStore)
+export default HOC(Monitor, monitorRootStore)
 
