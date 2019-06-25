@@ -42,3 +42,4 @@ package-lock.json
 src/config/adapter.production.js
 www/static/**
 cmd.sh
+cmd.online.sh
