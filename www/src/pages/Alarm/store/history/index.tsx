@@ -13,8 +13,7 @@ class AlarmHistoryStore {
   @action setList = (list: any) => this.alarmHistoryList = list
 
   @action getList = async () => {
-    const { data } = await axios.get(`api/site/18/alarmlog`)
-    console.log(data.data.data)
+    const { data } = await axios.get(`api/site/${this.projectId}/alarmlog`)
     this.setList(data.data.data)
   }
 
