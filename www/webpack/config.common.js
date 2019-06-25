@@ -3,6 +3,7 @@ const webpack = require('webpack');
 const appRootDir = require('app-root-dir').get();
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 // const lessThemePlugin = require('./less-theme-plugin');
+const options = require('./options')
 function toApp(relativePath) {
   return path.resolve(appRootDir, 'src', relativePath);
 }
@@ -122,7 +123,7 @@ module.exports = {
       React: 'react'
     }),
     new webpack.DefinePlugin({
-      'process.env.APP_ENV': JSON.stringify('development'),
+      'process.env.APP_ENV': JSON.stringify(options.env),
     }),
   ].filter(i => i),
   // exclude: path.resolve(appRootDir, 'node_modules'),
