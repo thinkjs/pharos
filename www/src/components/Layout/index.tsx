@@ -34,9 +34,6 @@ const data = [{
   name: '报警',
   url: '/alarm',
   sider: [{
-    name: '报警列表',
-    url: '/list',
-  }, {
     name: '报警历史',
     url: '/history',
   }]
@@ -74,15 +71,6 @@ const data = [{
 @inject('projectStore') @observer
 class PhraosLayout extends React.Component<any, any> {
 
-  componenntWillMount() {
-    const projectId = localStorage.getItem('projectId')
-    const { projectStore } = this.props
-    const { projectList } = projectStore
-    projectStore.getList()
-    if (projectList.length && !projectId) {
-      localStorage.setItem('projectId', projectList[0].id)
-    }
-  }
 
   render() {
     const url = this.props.match.path

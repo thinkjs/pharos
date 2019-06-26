@@ -17,25 +17,18 @@ const data = [{
 }, {
   name: '项目设置',
   url: '/site'
+}, {
+  name: '系统设置',
+  url: '/system',
 }]
-
-const pharosUser = localStorage.getItem('pharosUser')
-
-if (pharosUser) {
-  const status = JSON.parse(pharosUser)['status']
-  if (status == '1') {
-    data.push({
-      name: '系统设置',
-      url: '/system',
-    })
-  }
-}
-
 
 
 @inject('projectStore') @observer
 class PharosHeader extends React.Component<any, any> {
 
+  state = {
+    data: data
+  }
 
   logout = async () => {
     const result = await axios.delete('/api/token');
@@ -46,9 +39,23 @@ class PharosHeader extends React.Component<any, any> {
     }
   }
 
+  isDomain = () => {
+    const pharosUser = localStorage.getItem('pharosUser')
+
+    if (pharosUser) {
+      const status = JSON.parse(pharosUser)['status']
+      if (status == '0') {
+        this.setState({
+          data: this.state.data.slice(0, 3)
+        })
+      }
+    }
+  }
+
   componentDidMount() {
     const { projectStore } = this.props
     projectStore.getList()
+    this.isDomain()
   }
 
   render() {
@@ -70,6 +77,9 @@ class PharosHeader extends React.Component<any, any> {
         projectName = project.name
       }
     }
+
+
+
 
     return (
       <Header>
@@ -109,7 +119,7 @@ class PharosHeader extends React.Component<any, any> {
           style={{ paddingLeft: 230 }}
           selectedKeys={[this.props.match.path]}
         >
-          {data.map(item => <Menu.Item key={item.url}><Link to={item.url}>{item.name}</Link></Menu.Item>)}
+          {this.state.data.map(item => <Menu.Item key={item.url}><Link to={item.url}>{item.name}</Link></Menu.Item>)}
         </Menu>
         <div className="user-info-wrap">
           {userName ?

@@ -78,6 +78,10 @@ class AddModifyModal extends React.Component<any, any> {
     })
   }
 
+  isEnglishName(rule, value, callback) {
+
+  }
+
   render() {
     const { getFieldDecorator } = this.props.form;
     const { metricStore } = this.props
@@ -98,6 +102,10 @@ class AddModifyModal extends React.Component<any, any> {
                   required: true,
                   message: '名字不能为空'
                 },
+                {
+                  pattern: /^[a-zA-Z]+$/,
+                  message: '须填英文'
+                }
               ],
             })(<Input placeholder="英文名" />)}
           </Form.Item>
@@ -108,6 +116,10 @@ class AddModifyModal extends React.Component<any, any> {
                   required: true,
                   message: '名字不能为空'
                 },
+                {
+                  pattern: /[\u4e00-\u9fa5]+/g,
+                  message: '须填中文'
+                }
               ],
             })(<Input placeholder="中文名" />)}
           </Form.Item>
@@ -141,7 +153,7 @@ class AddModifyModal extends React.Component<any, any> {
               })}
             </div>
           </Form.Item>
-          <Form.Item label="中文名" >
+          <Form.Item label="备注" >
             {getFieldDecorator('description')
               (<TextArea rows={4} cols={36} placeholder="描述" />)}
           </Form.Item>
