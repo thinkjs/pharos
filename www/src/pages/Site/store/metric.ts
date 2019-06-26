@@ -1,5 +1,5 @@
 import { message } from 'antd';
-import { CurrentModel } from '../proto/index';
+// import { CurrentModel } from '../proto/index';
 import { observable, action, computed } from 'mobx';
 import axios from '@utils/axios';
 
@@ -36,9 +36,23 @@ class MetricStore {
 
   // 修改对象数据的一般方法，或者使用map
   initCurrentModel = () => {
-    return { id: '', name: '', url: '' }
+    return {
+      description: '',
+      display_name: '',
+      name: '',
+      k1: '',
+      k1_display_name: '',
+      k2: '',
+      k2_display_name: '',
+      k3: '',
+      k3_display_name: '',
+      k4: '',
+      k4_display_name: '',
+      k5: '',
+      k5_display_name: '',
+    }
   }
-  @observable currentModel: CurrentModel = this.initCurrentModel()
+  @observable.ref currentModel = this.initCurrentModel()
   @action setCurrentModel = (data: any) => {
     if (data) {
       this.currentModel = Object.assign(this.currentModel, data);
@@ -74,12 +88,8 @@ class MetricStore {
     this.getList();
   }
 
-  @action handleEdit = (id: string, name: string, url: string) => {
-    this.setCurrentModel({
-      id,
-      name,
-      url
-    })
+  @action handleEdit = (item) => {
+    this.setCurrentModel(item)
     this.setShowAddModifyModal(true)
   }
 

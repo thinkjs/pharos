@@ -39,17 +39,16 @@ class Project extends React.Component<any, any> {
       {
         title: '操作',
         key: 'action',
-        render: (text) => {
-          const { id, name, url } = text;
+        render: (item) => {
           return (
             <span>
-              <span onClick={() => metricStore.handleEdit(id, name, url)}>编辑</span>
+              <span onClick={() => { metricStore.setIsEdit(true); metricStore.handleEdit(item); }}>编辑</span>
               <Divider type="vertical" />
               <Popconfirm
                 title="确认删除吗"
                 okText="Yes"
                 cancelText="No"
-                onConfirm={() => metricStore.handleDeleteClick(id)}
+                onConfirm={() => metricStore.handleDeleteClick(item.id)}
               >
                 删除
               </Popconfirm>
@@ -67,11 +66,11 @@ class Project extends React.Component<any, any> {
 
   render() {
     const { metricStore } = this.props
-    const { list, setShowAddModifyModal, setCurrentModel } = metricStore
+    const { list, setShowAddModifyModal, showAddModifyModal, setCurrentModel, setIsEdit } = metricStore
     return (
       <div style={{ margin: 20 }}>
         <div style={{ height: '40px', marginBottom: '10px' }}>
-          <Button type="primary" style={{ float: 'right' }} onClick={() => { setShowAddModifyModal(true); setCurrentModel(null) }}>添加监控项</Button>
+          <Button type="primary" style={{ float: 'right' }} onClick={() => { setShowAddModifyModal(true); setCurrentModel(null); setIsEdit(false) }}>添加监控项</Button>
         </div>
         <div style={{ marginTop: 30 }}>
           <Table
@@ -81,7 +80,7 @@ class Project extends React.Component<any, any> {
             rowKey="id"
           />
         </div>
-        <AddModifyModal />
+        {showAddModifyModal && <AddModifyModal />}
       </div>
     )
   }
