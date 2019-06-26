@@ -91,11 +91,12 @@ module.exports = {
       test: /\.less$/i,
       use: cssLoaders([{
         loader: "less-loader",
-        // options: {
-        //   plugins: [
-        //     new lessThemePlugin()
-        //   ]
-        // }
+        options: {
+          plugins: [
+            // new lessThemePlugin()
+          ],
+          javascriptEnabled: true
+        }
       }])
     },
     {

@@ -8,7 +8,7 @@ import './style.less'
 
 const text = `<script
   src="//lib.baomitu.com/lightkeeper/latest/pharos.min.js"
-  data-siteid=${localStorage.getItem('projectId')}
+  data-siteid=${localStorage.getItem('sid')}
   data-host="//pharos.baomitu.com"  
   >
 </script>

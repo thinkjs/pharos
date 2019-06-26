@@ -106,7 +106,6 @@ class PharosHeader extends React.Component<any, any> {
         </div>
         <Menu
           mode="horizontal"
-          theme="light"
           style={{ paddingLeft: 230 }}
           selectedKeys={[this.props.match.path]}
         >

@@ -20,6 +20,7 @@ class ProjectStore {
   @action createProject = async (values) => {
     const result: any = await axios.post('/api/site', values)
     localStorage.setItem('projectId', result.data.data.id)
+    localStorage.setItem('sid', result.data.data.sid)
     history.push('/project/embed')
   }
 
@@ -58,23 +59,19 @@ class ProjectStore {
   @action projectClick = (value) => {
     this.setShowProjectList(false)
     localStorage.setItem('projectId', value.id)
+    localStorage.setItem('sid', value.sid)
     window.location.href = '/monitor';
   }
 
   @observable showUserInfo = false
   @action setShowUserInfo = (bool) => this.showUserInfo = bool
 
-  // @action projectClick = (value) => {
-  //   this.setShowProjectList(false)
-  //   localStorage.setItem('projectId', value.id)
-  //   history.push('/monitor');
-  // }
 
   @action deleteProject = async () => {
     await axios.delete(`/api/site/${this.siteId}`)
     window.location.href = '/monitor'
     localStorage.removeItem('projectId')
-
+    localStorage.removeItem('sid')
   }
 
   @observable showDeleteModal = false

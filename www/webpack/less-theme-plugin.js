@@ -10,11 +10,7 @@ PrependContentPreprocessor.prototype = {
     if (path.indexOf('/node_modules/') >= 0) {
       return css;
     }
-    if (path.indexOf('/app/system/') >= 0 || path.indexOf('/app/admin/') >= 0) {
-      return `@import '~common/style/theme.less';\n${css.replace(`@import '~common/style/theme.less'`, '')}`
-    } else {
-      return `@import '~common/style/theme-user.less';\n${css.replace(`@import '~common/style/theme-user.less'`, '')}`
-    }
+    return `@import '${appRootDir}/src/components/style/theme.less';\n${css.replace(`@import '${appRootDir}/src/components/style/theme.less'`, '')}`
   }
 };
 
