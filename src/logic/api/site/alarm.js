@@ -1,12 +1,12 @@
 const Base = require('./base');
 const AppError = require('../../../extend/errors');
 module.exports = class extends Base {
-  async __before(...args) {
-    await Base.prototype.__before.call(this, ...args);
-    if (!this.isAdmin) {
-      return this.fail(AppError.PERMISSION_DENIED);
-    }
-  }
+  // async __before(...args) {
+  //   await Base.prototype.__before.call(this, ...args);
+  //   if (!this.isAdmin) {
+  //     return this.fail(AppError.PERMISSION_DENIED);
+  //   }
+  // }
   /**
    * @api {GET} /site/:id/alarm 获取网站已有报警列表
    * @apiGroup Site
