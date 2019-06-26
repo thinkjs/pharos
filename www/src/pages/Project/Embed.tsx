@@ -36,7 +36,7 @@ class Embed extends React.Component<any, any> {
           </div>
           <pre>{text}</pre>
         </div>
-        <Button type="primary"><Link to="/alarm">进入项目</Link></Button>
+        <Button type="primary"><Link to="/monitor">进入项目</Link></Button>
       </div>
     )
   }
