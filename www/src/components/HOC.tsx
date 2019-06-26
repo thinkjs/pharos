@@ -21,6 +21,7 @@ const HOC = (Component, store) => {
         const data = result.data.data
         if (data.length) {
           localStorage.setItem('projectId', data[0].id)
+          localStorage.setItem('sid', data[0].sid)
           this.setState({
             isFinishFetch: true,
           })

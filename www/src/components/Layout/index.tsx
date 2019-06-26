@@ -74,18 +74,6 @@ const data = [{
 @inject('projectStore') @observer
 class PhraosLayout extends React.Component<any, any> {
 
-  // componentDidMount() {
-  //   const { projectStore } = this.props
-  //   const { siteId, projectList } = projectStore
-  //   console.log(67, projectList)
-  //   if (!siteId) {
-  //     // if (projectList.length) {
-  //     //   localStorage.setItem('projectId', projectList[0].id)
-  //     // } else {
-  //     //   window.location.href = '/monitor'
-  //     // }
-  //   }
-  // }
   componenntWillMount() {
     const projectId = localStorage.getItem('projectId')
     const { projectStore } = this.props

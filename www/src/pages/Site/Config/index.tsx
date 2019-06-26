@@ -6,7 +6,10 @@ import { observer, inject } from 'mobx-react';
 
 import './style.less'
 
-const text = `<script
+@inject('projectStore') @observer
+class Config extends React.Component<any, any> {
+
+  text = `<script
   src="//lib.baomitu.com/lightkeeper/latest/pharos.min.js"
   data-siteid=${localStorage.getItem('sid')}
   data-host="//pharos.baomitu.com"  
@@ -18,9 +21,6 @@ const text = `<script
   });
 </script>`
 
-@inject('projectStore') @observer
-class Config extends React.Component<any, any> {
-
   render() {
     const { projectStore } = this.props
     const { showDeleteModal, setShowDeleteModal } = projectStore
@@ -28,11 +28,11 @@ class Config extends React.Component<any, any> {
       <div className="config-wrap">
         <div className="config-wrap-content">
           <div className="copy-btn" onClick={() => message.info('已复制到剪贴板')}>
-            <CopyToClipboard text={text}>
+            <CopyToClipboard text={this.text}>
               <span className="btn-flat">复制</span>
             </CopyToClipboard>
           </div>
-          <pre>{text}</pre>
+          <pre>{this.text}</pre>
         </div>
         <div className="group-item">
           <div className="group-item-label">删除项目：
