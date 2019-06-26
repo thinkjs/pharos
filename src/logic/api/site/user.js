@@ -1,12 +1,12 @@
 const Base = require('./base');
 const AppError = require('../../../extend/errors');
 module.exports = class extends Base {
-  async __before(...args) {
-    await Base.prototype.__before.call(this, ...args);
-    if (!this.isAdmin) {
-      return this.fail(AppError.PERMISSION_DENIED);
-    }
-  }
+  // async __before(...args) {
+  //   await Base.prototype.__before.call(this, ...args);
+  //   if (!this.isAdmin) {
+  //     return this.fail(AppError.PERMISSION_DENIED);
+  //   }
+  // }
   /**
    * @api {GET} /site/:id/user 获取网站成员
    * @apiGroup Site
@@ -22,6 +22,9 @@ module.exports = class extends Base {
    * @apiParam  {Int=0,1}  status  角色代号
    */ 
   postAction() {
+    if (!this.isAdmin) {
+      return this.fail(AppError.PERMISSION_DENIED);
+    }
   }
 
   /**
@@ -32,6 +35,9 @@ module.exports = class extends Base {
    * @apiParam {Int=0,1} status 角色代号
    */ 
   putAction() {
+    if (!this.isAdmin) {
+      return this.fail(AppError.PERMISSION_DENIED);
+    }
     this.rules = {
       status: {
         int: true,
@@ -48,5 +54,8 @@ module.exports = class extends Base {
    * @apiVersion 0.0.1
    */ 
   deleteAction() {
+    if (!this.isAdmin) {
+      return this.fail(AppError.PERMISSION_DENIED);
+    }
   }
 };
