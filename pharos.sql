@@ -102,7 +102,7 @@ CREATE TABLE `ph_metric` (
   `k4_display_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
   `k5` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
   `k5_display_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
-  `type` int(11) DEFAULT NULL,
+  `type` int(11) DEFAULT 0,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=COMPRESSED KEY_BLOCK_SIZE=8;
 
