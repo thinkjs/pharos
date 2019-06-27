@@ -35,6 +35,10 @@ module.exports = class extends Base {
         }
 
         for (const user_id of user_ids) {
+            const data = await this.model('site_user').where({site_id, user_id}).select();
+            if (data.length > 0) {
+                return this.fail('用户已在该项目下');
+            }
             await this.model('site_user')
               .where({site_id, user_id})
               .thenAdd({site_id, user_id, status});

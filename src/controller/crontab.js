@@ -46,6 +46,9 @@ module.exports = class extends Base {
     const now = moment();
     for (let i = 1; i <= 5; i++) {
       const file = logFile(now.subtract(i, 'minutes'));
+      if (!think.isExist(file)) {
+        continue;
+      }
       const parser = this.service('parser', logFormat);
       await parser.read(file, this.parseLog.bind(this));
     }
