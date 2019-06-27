@@ -34,7 +34,7 @@ class CustomList extends React.Component<Props, any> {
     const { customStore } = this.props
     const { siteId } = customStore
     const result = await axios.get(`/api/metric/${siteId}?type=0`)
-     const data = result.data.data.data
+    const data = result.data.data.data
     const options = this.formatOptions(data)
     this.setState({ options })
     if (data.length) {
@@ -64,7 +64,7 @@ class CustomList extends React.Component<Props, any> {
     })
 
     return {
-      
+
       title: {
         text: '监控项图表'
       },
@@ -214,9 +214,9 @@ class CustomList extends React.Component<Props, any> {
             </Fieldset.Row>
             <Fieldset.Row label="时间：">
               <RangePicker
-                defaultValue={[moment(criteria.start_time, 'YYYY-MM-DD HH:mm:ss'), moment(criteria.end_time, 'YYYY-MM-DD HH:mm:ss')]}
+                defaultValue={[moment(criteria.start_time, 'YYYY-MM-DD HH:mm'), moment(criteria.end_time, 'YYYY-MM-DD HH:mm')]}
                 onChange={this.dataChange}
-                format="YYYY-MM-DD HH:mm:ss"
+                format="YYYY-MM-DD HH:mm"
               />
             </Fieldset.Row>
           </Fieldset>

@@ -219,9 +219,9 @@ class Perf extends React.Component<Props, any> {
             </Fieldset.Row>
             <Fieldset.Row label="时间：">
               <RangePicker
-                defaultValue={[moment(criteria.start_time, 'YYYY-MM-DD HH:mm:ss'), moment(criteria.end_time, 'YYYY-MM-DD HH:mm:ss')]}
+                defaultValue={[moment(criteria.start_time, 'YYYY-MM-DD HH:mm'), moment(criteria.end_time, 'YYYY-MM-DD HH:mm')]}
                 onChange={this.dataChange}
-                format="YYYY-MM-DD HH:mm:ss"
+                format="YYYY-MM-DD HH:mm"
               />
             </Fieldset.Row>
           </Fieldset>
