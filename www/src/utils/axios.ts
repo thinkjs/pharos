@@ -29,7 +29,6 @@ axios.defaults.baseURL = baseURL
  */
 const errorHandler = error => {
   if (error.errno === 401) {
-    message.error("未登录或登录已过期，请重新登录。");
     history.push("/signin");
     return;
   }
