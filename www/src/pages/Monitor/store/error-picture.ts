@@ -1,5 +1,6 @@
 import { observable, action, computed } from 'mobx';
 import axios from '@utils/axios';
+import moment from 'moment';
 
 class ErrorPictureStore {
 
@@ -10,11 +11,17 @@ class ErrorPictureStore {
 
   initData = () => {
     return {
-      start_time: '2019-06-17 00:00:00',
-      end_time: '2019-06-19 00:00:00',
+      start_time: moment().subtract(1, 'days'),
+      end_time: moment(),
       metrics: '',
       type: 'mins'
     }
+  }
+
+  @computed get timeInterval() {
+    const start = moment(this.criteria.start_time).unix();
+    const end = moment(this.criteria.end_time).unix();
+    return (end - start) / 60 / 60 > 24
   }
 
   @observable criteria = this.initData();
@@ -55,8 +62,12 @@ class ErrorPictureStore {
 
 
   formatCriteria = (factor) => {
+
     const metrics = factor.slice(1).join(',')
     const criteria = Object.assign(this.criteria, { metrics })
+    if (this.timeInterval) {
+      criteria.type = 'day'
+    }
     let query = ''
     Object.keys(criteria).map(key => {
       if (criteria[key]) {
@@ -80,7 +91,7 @@ class ErrorPictureStore {
   @action setSameRingRatio = (data) => this.sameRingRatio = data
   @action getSameRingRatio = async () => {
     const result = await axios.get(`/api/metric/ratio?site_id=${this.siteId}&metric_id=${this.metricId}`);
-    
+
     this.setSameRingRatio(result.data.data)
   }
 

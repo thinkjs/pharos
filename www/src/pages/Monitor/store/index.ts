@@ -7,6 +7,6 @@ export const monitorRootStore = {
   customStore: CustomStore,
   errorListStore: ErrorListStore,
   errorPictureStore: ErrorPictureStore,
-  PerfStore: PerfStore,
+  perfStore: PerfStore,
 }
 

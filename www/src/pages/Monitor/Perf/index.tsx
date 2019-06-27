@@ -12,7 +12,7 @@ const { RangePicker } = DatePicker;
 const { Content } = Layout;
 interface Props {
   props: HighchartsReact.Props;
-  customStore: any
+  perfStore: any
 }
 
 
@@ -21,7 +21,7 @@ interface HighchartsOption extends Highcharts.Options {
   yAxis: any
 }
 
-@inject('customStore') @observer
+@inject('perfStore') @observer
 class Perf extends React.Component<Props, any> {
 
   state = {
@@ -31,16 +31,16 @@ class Perf extends React.Component<Props, any> {
 
 
   async componentDidMount() {
-    const { customStore } = this.props
-    const { siteId } = customStore
+    const { perfStore } = this.props
+    const { siteId } = perfStore
     const result = await axios.get(`/api/metric/${siteId}?type=1`)
     const data = result.data.data.data
-    
+
     const options = this.formatOptions(data)
     this.setState({ options })
     if (data.length) {
       const id = data[0].id + ''
-      customStore.setFactor([id])
+      perfStore.setFactor([id])
       this.onLoad([id])
     } else {
       this.setState({
@@ -69,7 +69,7 @@ class Perf extends React.Component<Props, any> {
     })
 
     return {
-      
+
       title: {
         text: '性能图表'
       },
@@ -104,10 +104,10 @@ class Perf extends React.Component<Props, any> {
   }
 
   onLoad = (arr) => {
-    const { customStore } = this.props
-    customStore.setFactor(arr)
-    customStore.getCharts(arr)
-    customStore.getSameRingRatio()
+    const { perfStore } = this.props
+    perfStore.setFactor(arr)
+    perfStore.getCharts(arr)
+    perfStore.getSameRingRatio()
   }
 
   onChange = (arr) => {
@@ -125,8 +125,8 @@ class Perf extends React.Component<Props, any> {
   }
 
   loadData = async selectedOptions => {
-    const { customStore } = this.props
-    const { siteId, metricId, factor } = customStore
+    const { perfStore } = this.props
+    const { siteId, metricId, factor } = perfStore
     const targetOption = selectedOptions[selectedOptions.length - 1];
     targetOption.loading = true;
 
@@ -144,13 +144,13 @@ class Perf extends React.Component<Props, any> {
   }
 
   dataChange = ({ }, data) => {
-    const { customStore } = this.props
-    const { factor } = customStore
-    customStore.setCriteria({
+    const { perfStore } = this.props
+    const { factor } = perfStore
+    perfStore.setCriteria({
       start_time: data[0],
       end_time: data[1]
     })
-    customStore.getCharts(factor)
+    perfStore.getCharts(factor)
   }
 
   formatRatio(ratios) {
@@ -194,8 +194,8 @@ class Perf extends React.Component<Props, any> {
   }
 
   render() {
-    const { customStore } = this.props
-    const { factor, charts, criteria, sameRingRatio } = customStore
+    const { perfStore } = this.props
+    const { factor, charts, criteria, sameRingRatio } = perfStore
     const highchartOptions: HighchartsOption = this.formatData(charts)
     const sameRingRatioOption: HighchartsOption = this.formatRatio(sameRingRatio)
     if (this.state.noData) {

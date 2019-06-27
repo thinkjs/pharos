@@ -12,7 +12,7 @@ const { RangePicker } = DatePicker;
 const { Content } = Layout;
 interface Props {
   props: HighchartsReact.Props;
-  customStore: any
+  errorPictureStore: any
 }
 
 
@@ -21,7 +21,7 @@ interface HighchartsOption extends Highcharts.Options {
   yAxis: any
 }
 
-@inject('customStore') @observer
+@inject('errorPictureStore') @observer
 class CustomList extends React.Component<Props, any> {
 
   state = {
@@ -31,15 +31,15 @@ class CustomList extends React.Component<Props, any> {
 
 
   async componentDidMount() {
-    const { customStore } = this.props
-    const { siteId } = customStore
+    const { errorPictureStore } = this.props
+    const { siteId } = errorPictureStore
     const result = await axios.get(`/api/metric/${siteId}?type=2`)
     const data = result.data.data.data
     const options = this.formatOptions(data)
     this.setState({ options })
     if (data.length) {
       const id = result.data.data.data[0].id + ''
-      customStore.setFactor([id])
+      errorPictureStore.setFactor([id])
       this.onLoad([id])
     }
   }
@@ -99,10 +99,10 @@ class CustomList extends React.Component<Props, any> {
   }
 
   onLoad = (arr) => {
-    const { customStore } = this.props
-    customStore.setFactor(arr)
-    customStore.getCharts(arr)
-    customStore.getSameRingRatio()
+    const { errorPictureStore } = this.props
+    errorPictureStore.setFactor(arr)
+    errorPictureStore.getCharts(arr)
+    errorPictureStore.getSameRingRatio()
   }
 
   onChange = (arr) => {
@@ -120,8 +120,8 @@ class CustomList extends React.Component<Props, any> {
   }
 
   loadData = async selectedOptions => {
-    const { customStore } = this.props
-    const { siteId, metricId, factor } = customStore
+    const { errorPictureStore } = this.props
+    const { siteId, metricId, factor } = errorPictureStore
     const targetOption = selectedOptions[selectedOptions.length - 1];
     targetOption.loading = true;
 
@@ -139,13 +139,13 @@ class CustomList extends React.Component<Props, any> {
   }
 
   dataChange = ({ }, data) => {
-    const { customStore } = this.props
-    const { factor } = customStore
-    customStore.setCriteria({
+    const { errorPictureStore } = this.props
+    const { factor } = errorPictureStore
+    errorPictureStore.setCriteria({
       start_time: data[0],
       end_time: data[1]
     })
-    customStore.getCharts(factor)
+    errorPictureStore.getCharts(factor)
   }
 
   formatRatio(ratios) {
@@ -189,8 +189,8 @@ class CustomList extends React.Component<Props, any> {
   }
 
   render() {
-    const { customStore } = this.props
-    const { factor, charts, criteria, sameRingRatio } = customStore
+    const { errorPictureStore } = this.props
+    const { factor, charts, criteria, sameRingRatio } = errorPictureStore
     const highchartOptions: HighchartsOption = this.formatData(charts)
     const sameRingRatioOption: HighchartsOption = this.formatRatio(sameRingRatio)
     if (this.state.noData) {
