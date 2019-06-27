@@ -77,7 +77,7 @@ module.exports = class extends Base {
     async postAction() {
         const data = this.post();
 
-        data.user = [{ user_id: this.userInfo.id, status: global.ROLES.SITE_ADMIN }];
+        // data.user = [{ user_id: this.userInfo.id, status: 0 }];
         data.sid = think.uuid();
         // check site
         const site = await this.modelInstance.where({url: data.url}).find();
@@ -89,10 +89,10 @@ module.exports = class extends Base {
         const insertData = await this.modelInstance.where({sid: data.sid}).find();
 
         // 将默认监控项添加到metric表
-        Promise.all(global.DefaultMetrics.forEach(item => {
+        global.DefaultMetrics.forEach(item => {
             item.site_id = insertData.id;
             this.model('metric').add(item);
-        }));
+        });
         
         // 将该用户加入项目并设置为管理员
         await this.model('site_user').add({site_id: insertData.id, user_id: this.userInfo.id, status: 1});
