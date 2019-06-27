@@ -1,4 +1,4 @@
-import { observable, action } from 'mobx';
+import { observable, action, computed } from 'mobx';
 import { message } from 'antd';
 import axios from '@utils/axios';
 import { PeopleList } from '../proto/index';
@@ -8,7 +8,9 @@ class People {
   constructor(rootStore) {
     this.rootStore = rootStore
   }
-  @observable projectId = localStorage.getItem('projectId')
+  @computed get siteId() {
+    return localStorage.getItem('projectId')
+  }
   @observable peopleList: PeopleList[] = []
   @action setPeopleList = (list: []) => this.peopleList = list
 
@@ -16,7 +18,7 @@ class People {
   @action setSourceData = val => this.sourceData = val
   @action getPeopleList = async (criteria?: any) => {
     try {
-      const data = await axios.get(`/api/site/${this.projectId}/user`)
+      const data = await axios.get(`/api/site/${this.siteId}/user`)
       this.setSourceData(data.data.data)
     } catch (error) {
       message.error('获取列表失败');
@@ -40,7 +42,7 @@ class People {
   @action handleSelected = val => this.selectList = val
 
   @action hanldeClickOk = async () => {
-    const { data } = await axios.post(`api/site/${this.projectId}/user/${this.selectList.join(',')}`)
+    const { data } = await axios.post(`api/site/${this.siteId}/user/${this.selectList.join(',')}`)
     if (data.errno === 0) {
       message.info('添加成功')
     } else {
@@ -52,7 +54,7 @@ class People {
   @action handleCancel = () => this.setModal(false)
 
   @action handleDelete = async (user_id: any) => {
-    const { data } = await axios.delete(`api/site/${this.projectId}/user/${user_id}`)
+    const { data } = await axios.delete(`api/site/${this.siteId}/user/${user_id}`)
     this.getPeopleList()
     if (data.errno === 0) {
       message.success('删除成功')
@@ -62,7 +64,7 @@ class People {
   }
 
   @action handleStatus = async (status: any, id: any) => {
-    const { data } = await axios.put(`api/site/${this.projectId}/user/${id}`, {
+    const { data } = await axios.put(`api/site/${this.siteId}/user/${id}`, {
       status
     })
     if (data.errno === 0) {

@@ -1,5 +1,5 @@
 import { message } from 'antd';
-import { observable, action } from 'mobx';
+import { observable, action, computed } from 'mobx';
 import axios from '@utils/axios';
 
 class Strategy {
@@ -7,7 +7,9 @@ class Strategy {
   constructor(rootStore) {
     this.rootStore = rootStore
   }
-  @observable projectId = localStorage.getItem('projectId')
+  @computed get siteId() {
+    return localStorage.getItem('siteId')
+  }
   @observable list: any = []
   @observable modalStatus = false
   @observable defaultVal: any = {
@@ -29,7 +31,7 @@ class Strategy {
     let params: any;
     params = criteria ? criteria : { page: '1', pagesize: 50 }
     try {
-      const { data } = await axios.get(`/api/site/${this.projectId}/alarm`, { params })
+      const { data } = await axios.get(`/api/site/${this.siteId}/alarm`, { params })
       if (data.errno === 0) {
         this.setList(data.data.data)
       } else {
@@ -50,7 +52,7 @@ class Strategy {
         limit: params.limit
       })
     }
-    let res: any = await axios.post(`/api/site/${this.projectId}/alarm`, { ...data })
+    let res: any = await axios.post(`/api/site/${this.siteId}/alarm`, { ...data })
     if (res.data.errno === 0) {
       this.getList()
       this.hideModal()
@@ -69,7 +71,7 @@ class Strategy {
         limit: params.limit
       })
     }
-    let res: any = await axios.put(`/api/site/${this.projectId}/alarm/${this.defaultVal.id}`, { ...data })
+    let res: any = await axios.put(`/api/site/${this.siteId}/alarm/${this.defaultVal.id}`, { ...data })
     if (res.data.errno === 0) {
       this.getList()
       this.hideModal()
@@ -79,7 +81,7 @@ class Strategy {
     }
   }
   @action deleteItem = async (id?: any) => {
-    let res: any = await axios.delete(`/api/site/${this.projectId}/alarm/${id}`)
+    let res: any = await axios.delete(`/api/site/${this.siteId}/alarm/${id}`)
     if (res.data.errno === 0) {
       this.getList()
     } else {

@@ -14,30 +14,29 @@ class ProjectStore {
   @computed get siteId() {
     return localStorage.getItem('projectId')
   }
-  @observable projectId = localStorage.getItem('projectId')
-  @observable jsString = '';
+  // @observable jsString = '';
 
-  @action setJsString = (id) => {
-    let sid = ''
-    this.projectList.forEach((item: any) => {
-      if (item.id === parseInt(id)) {
-        sid = item.sid
-      }
-    })
-    let tem = `<script
-      src="//lib.baomitu.com/lightkeeper/latest/pharos.min.js"
-      data-siteid=${sid}
-      data-host="//pharos.baomitu.com"  
-      >
-    </script>
-    <script type="text/javascript">
-      window.addEventListener('load', function() {
-        pharos.monitor();
-      });
-    </script>`
-    this.jsString = tem
-  }
-  @observable status = 1
+  // @action setJsString = (id) => {
+  //   let sid = ''
+  //   this.projectList.forEach((item: any) => {
+  //     if (item.id === parseInt(id)) {
+  //       sid = item.sid
+  //     }
+  //   })
+  //   let tem = `<script
+  //     src="//lib.baomitu.com/lightkeeper/latest/pharos.min.js"
+  //     data-siteid=${sid}
+  //     data-host="//pharos.baomitu.com"  
+  //     >
+  //   </script>
+  //   <script type="text/javascript">
+  //     window.addEventListener('load', function() {
+  //       pharos.monitor();
+  //     });
+  //   </script>`
+  //   this.jsString = tem
+  // }
+  // @observable status = 1
 
   @action createProject = async (values) => {
     const result: any = await axios.post('/api/site', values)
@@ -73,7 +72,6 @@ class ProjectStore {
     const { data } = await axios.get('/api/site', { params })
     const result = data.data.data
     this.setList(result)
-    this.setJsString(parseInt(this.projectId || ''))
   }
 
   @observable showProjectList = false
