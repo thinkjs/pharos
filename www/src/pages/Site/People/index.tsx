@@ -32,10 +32,11 @@ class People extends React.Component<any, any> {
         const { status, id } = text;
         const { peopleStore } = this.props
         const { handleStatus } = peopleStore
+        const { userStatus } = this.state
         return (
-          <Select defaultValue={status} onChange={value => handleStatus(value, id)}>
-            <Option value={0}>管理员</Option>
-            <Option value={1}>用户</Option>
+          <Select defaultValue={status} onChange={value => handleStatus(value, id)} disabled={userStatus}>
+            <Option value={1}>管理员</Option>
+            <Option value={0}>用户</Option>
           </Select>
         )
       }
@@ -59,17 +60,22 @@ class People extends React.Component<any, any> {
         )
       },
     }],
+    userStatus: true
   }
   componentDidMount() {
     const { peopleStore } = this.props
     const { getListData, getPeopleList } = peopleStore
     getPeopleList()
     getListData()
+    const userData: any = JSON.parse(localStorage.getItem('pharosUser') || '')
+    this.setState({
+      userStatus: userData.status ? false : true
+    })
   }
 
   render() {
     const { peopleStore } = this.props
-    const { columns } = this.state
+    const { columns, userStatus } = this.state
     const {
       sourceData,
       setModal,
@@ -82,7 +88,10 @@ class People extends React.Component<any, any> {
     return (
       <div>
         <div>
-          <Button type="primary" style={{ float: 'right' }} onClick={() => { setModal(true) }}>新增</Button>
+          {
+            userStatus ? null : <Button type="primary" style={{ float: 'right' }} onClick={() => { setModal(true) }}>新增</Button>
+          }
+
         </div>
         <div style={{ position: 'relative', top: 20 }}>
           <Table
