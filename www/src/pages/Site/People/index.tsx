@@ -1,75 +1,81 @@
-import * as React from 'react';
-import { observer, inject } from 'mobx-react';
-import { Button, Modal, Select, Table, Popconfirm } from 'antd';
-
+import * as React from "react";
+import { observer, inject } from "mobx-react";
+import { Button, Modal, Select, Table, Popconfirm } from "antd";
 
 const Option = Select.Option;
 
-@inject('peopleStore') @observer
+@inject("peopleStore")
+@observer
 class People extends React.Component<any, any> {
-
   state = {
-    columns: [{
-      title: '用户名',
-      dataIndex: 'name',
-      key: 'name',
-      render: text => <a href="javascript:;">{text}</a>,
-    },
-    {
-      title: '昵称',
-      dataIndex: 'display_name',
-      key: 'nickname',
-    },
-    {
-      title: '邮箱',
-      dataIndex: 'email',
-      key: 'email',
-    },
-    {
-      title: '角色',
-      key: 'status',
-      render: (text) => {
-        const { status, id } = text;
-        const { peopleStore } = this.props
-        const { handleStatus } = peopleStore
-        return (
-          <Select defaultValue={status} onChange={value => handleStatus(value, id)}>
-            <Option value={0}>管理员</Option>
-            <Option value={1}>用户</Option>
-          </Select>
-        )
-      }
-    }, {
-      title: '操作',
-      key: 'action', render: (text) => {
-        const { id } = text;
-        const { peopleStore } = this.props
-        const { handleDelete } = peopleStore
-        return (
-          <span>
-            <Popconfirm
-              title="确认删除吗"
-              okText="Yes"
-              cancelText="No"
-              onConfirm={() => handleDelete(id)}
-            >
-              删除
-              </Popconfirm>
-          </span>
-        )
+    columns: [
+      {
+        title: "用户名",
+        dataIndex: "name",
+        key: "name",
+        render: text => <a href="javascript:;">{text}</a>
       },
-    }],
-  }
+      {
+        title: "昵称",
+        dataIndex: "display_name",
+        key: "nickname"
+      },
+      {
+        title: "邮箱",
+        dataIndex: "email",
+        key: "email"
+      },
+      {
+        title: "角色",
+        key: "status",
+        render: text => {
+          const { status, id } = text;
+          const { peopleStore } = this.props;
+          const { handleStatus } = peopleStore;
+          return (
+            <Select
+              defaultValue={status}
+              onChange={value => handleStatus(value, id)}
+            >
+              <Option value={0}>管理员</Option>
+              <Option value={1}>用户</Option>
+            </Select>
+          );
+        }
+      },
+      {
+        title: "操作",
+        key: "action",
+        render: text => {
+          const { id } = text;
+          const { peopleStore } = this.props;
+          const { handleDelete } = peopleStore;
+          return (
+            <span>
+              <Popconfirm
+                title="确认删除吗"
+                okText="Yes"
+                cancelText="No"
+                onConfirm={() => handleDelete(id)}
+              >
+                删除
+              </Popconfirm>
+            </span>
+          );
+        }
+      }
+    ]
+  };
   componentDidMount() {
-    const { peopleStore } = this.props
-    const { getListData, getPeopleList } = peopleStore
-    getPeopleList()
-    getListData()
+    const { peopleStore } = this.props;
+    const { getListData, getPeopleList } = peopleStore;
+    getPeopleList();
+    getListData({ type: "site" });
   }
 
   render() {
-    const { peopleStore } = this.props
-    const { columns } = this.state
+    const { peopleStore } = this.props;
+    const { columns } = this.state;
     const {
       sourceData,
       setModal,
@@ -78,19 +84,28 @@ class People extends React.Component<any, any> {
       handleSelected,
       hanldeClickOk,
       handleCancel
-    } = peopleStore
+    } = peopleStore;
     return (
       <div>
         <div>
-          <Button type="primary" style={{ float: 'right' }} onClick={() => { setModal(true) }}>新增</Button>
+          <Button
+            type="primary"
+            style={{ float: "right" }}
+            onClick={() => {
+              setModal(true);
+            }}
+          >
+            新增
+          </Button>
         </div>
-        <div style={{ position: 'relative', top: 20 }}>
+        <div style={{ position: "relative", top: 20 }}>
           <Table
             bordered={true}
             dataSource={sourceData}
             columns={columns}
-            rowKey='id'
-          />;
+            rowKey="id"
+          />
+          ;
         </div>
         <Modal
           title="新增"
@@ -100,20 +115,23 @@ class People extends React.Component<any, any> {
         >
           <Select
             mode="multiple"
-            style={{ width: '100%' }}
+            style={{ width: "100%" }}
             placeholder="请输入"
             onChange={handleSelected}
           >
-            {
-              optionsData.length && optionsData.map(item => {
-                return <Option key={item.id} value={item.id}>{item.name}</Option>
-              })
-            }
+            {optionsData.length &&
+              optionsData.map(item => {
+                return (
+                  <Option key={item.id} value={item.id}>
+                    {item.name}
+                  </Option>
+                );
+              })}
           </Select>
         </Modal>
       </div>
-    )
+    );
   }
 }
 
-export default People
+export default People;

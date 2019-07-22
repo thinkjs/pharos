@@ -1,16 +1,10 @@
 {
   "extends": "tslint:recommended",
   "rules": {
-    "no-implicit-dependencies": [
-      "optional",
-      [
-        "src"
-      ]
-    ],
+    "no-implicit-dependencies": ["optional", ["src"]],
+    "no-unused-variable": false,
     "max-line-length": {
-      "options": [
-        120
-      ]
+      "options": [120]
     },
     "new-parens": true,
     "no-arg": true,
@@ -19,21 +13,12 @@
     "no-consecutive-blank-lines": false,
     "no-console": {
       "severity": "warning",
-      "options": [
-        "debug",
-        "info",
-        "log",
-        "time",
-        "timeEnd",
-        "trace"
-      ]
+      "options": ["debug", "info", "log", "time", "timeEnd", "trace"]
     }
   },
   "jsRules": {
     "max-line-length": {
-      "options": [
-        120
-      ]
+      "options": [120]
     }
   }
 }
