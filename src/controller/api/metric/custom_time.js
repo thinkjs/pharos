@@ -20,7 +20,7 @@ module.exports = class extends Base {
 
     this.modelInstance = this.model(TYPE_MAPS[metricItem.type]);
     let endTime = new Date(end_time);
-    endTime = think.datetime(endTime.setDate(endTime.getDate() + 1), 'YYYY-MM-DD');
+    endTime = think.datetime(endTime.setDate(endTime.getDate() + 1), 'YYYY-MM-DD HH:mm');
     const where = { site_id, metric_id, create_time: { '>=': start_time, '<': endTime}  };
     
     let metrics_ary = [];

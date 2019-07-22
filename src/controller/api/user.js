@@ -1,12 +1,17 @@
 const BaseRest = require('../rest.js');
 module.exports = class extends BaseRest {
   async getAction() {
-    const {page, pagesize, keyword} = this.get();
+    const {page, pagesize, keyword, type = 'all'} = this.get();
 
     let data;
+    let where = {
+    }
+    if (type !== 'all') {
+      where.status = 0;
+    }
     if (this.id) {
       const pk = await this.modelInstance.pk;
-      data = await this.modelInstance.where({[pk]: this.id}).find();
+      data = await this.modelInstance.field('id, email, name, display_name, status, create_time').where({[pk]: this.id, ...where}).find();
       return this.success(data);
     } else if (keyword) {
       this.modelInstance = this.modelInstance.where({
@@ -14,9 +19,9 @@ module.exports = class extends BaseRest {
         email: ['like', '%' + keyword + '%'],
         display_name: ['like', '%' + keyword + '%'],
         _logic: 'OR'
-      });
+      })
     }
-    data = await this.modelInstance.page([page, pagesize]).countSelect();
+    data = await this.modelInstance.field('id, email, name, display_name, status, create_time').where(where).page([page, pagesize]).countSelect();
     return this.success(data);
   }
 
