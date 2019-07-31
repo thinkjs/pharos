@@ -7,7 +7,7 @@ module.exports = {
     '"$request" $status $body_bytes_sent "$http_referer" "$http_user_agent"',
   logFile(date) {
     const datetime = think.datetime(date, 'YYYY-MM-DD-HH-mm');
-    return `/usr/local/var/log/nginx/pharos/${datetime}-access.log`;
+    return `/data/nginx/logs/pharos/${datetime}-access.log`;
   },
   alarm(users, text) {
     const emails = users.map(user => user.email);
