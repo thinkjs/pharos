@@ -3,7 +3,7 @@ const Base = require('./base');
 module.exports = class extends Base {
     constructor(ctx) {
         super(ctx);
-        this.modelInstance = this.model('custom_monitor');
+        this.modelInstance = this.model('metric');
     }
     async getAction() {
       const {
@@ -12,7 +12,7 @@ module.exports = class extends Base {
         metrics = '',
       } = this.get();
 
-      const where = {site_id, metric_id};
+      const where = {site_id, id: metric_id};
 
       const metrics_ary = metrics.split(',');
       let key = 'k1';
