@@ -208,7 +208,8 @@ module.exports = class extends Base {
       return;
     }
     const { site_id } = qs;
-    if (http_referer && !http_referer.includes(sites[site_id].url)) {
+    const url = Object.values(this.sites).filter(site => site.sid === site_id)[0].url;
+    if (http_referer && !http_referer.includes(url)) {
       return;
     }
 
