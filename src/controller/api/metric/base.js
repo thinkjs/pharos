@@ -98,6 +98,9 @@ class Base extends BaseRest {
   }
 
   avg({ time, count }, digit = 2) {
+    if (!time) {
+      time = 1;
+    }
     const fixed = Math.pow(10, digit);
     return Math.round(time / count * fixed) / fixed;
   }
