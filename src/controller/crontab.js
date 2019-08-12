@@ -223,6 +223,10 @@ module.exports = class extends Base {
         continue;
       }
 
+      // 没有 jserror 和 errmsg 不计入error_monitor
+      if (type === 2 && !qs[name] && !qs[k1]) {
+        continue;
+      }
       const dimensions = [k1, k2, k3, k4, k5].filter(v => v);
       const k = [
         site_id,
