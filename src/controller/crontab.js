@@ -209,7 +209,19 @@ module.exports = class extends Base {
     }
     const { site_id } = qs;
     const url = (Object.values(this.sites).filter(site => site.sid === site_id)[0] || {}).url;
-    if (http_referer && !http_referer.includes(url)) {
+    if (!url) {
+      return;
+    }
+    let http_url = '';
+    let https_url = '';
+    if (url.includes('https')) {
+      https_url = url;
+      http_url = url.replace('https', 'http');
+    } else {
+      http_url = url;
+      https_url = url.replace('http', 'https');
+    }
+    if (http_referer && !http_referer.includes(http_url) && !http_referer.includes(https_url)) {
       return;
     }
 
