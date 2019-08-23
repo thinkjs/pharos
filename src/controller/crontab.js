@@ -64,7 +64,7 @@ module.exports = class extends Base {
       const modelInstance = this.model(TYPE_MAPS[type]);
       const shouldAdd = [];
       const shouldUpdate = [];
-      const nowText = now.format('YYYY-MM-DD HH:mm:ss');
+      const nowText = now.format('YYYY-MM-DD HH:mm');
       const result = await modelInstance.where({
         create_time: nowText
       }).select();
@@ -109,8 +109,8 @@ module.exports = class extends Base {
     for (var k in TYPE_MAPS) {
       metricsDataPromise.push(this.model(TYPE_MAPS[k]).where({
         create_time: ['in', [
-          now.format('YYYY-MM-DD HH:mm:ss'),
-          // now.subtract(5, 'minutes').format('YYYY-MM-DD HH:mm:ss')
+          now.format('YYYY-MM-DD HH:mm'),
+          // now.subtract(5, 'minutes').format('YYYY-MM-DD HH:mm')
         ]]
       }).select());
     }
@@ -160,7 +160,7 @@ module.exports = class extends Base {
         if (!metrics[metric_id]) {
           continue;
         }
-        const nowValue = this.avg(metrics[metric_id][now.format('YYYY-MM-DD HH:mm:ss')], 0)
+        const nowValue = this.avg(metrics[metric_id][now.format('YYYY-MM-DD HH:mm')], 0)
 
         const test = eval(`${nowValue} ${express} ${limit}`);
         if (!test) {
@@ -177,7 +177,7 @@ module.exports = class extends Base {
             alarm_id,
             status: 0,
             times,
-            create_time: moment().format('YYYY-MM-DD HH:mm:ss')
+            create_time: moment().format('YYYY-MM-DD HH:mm')
           })
         } else {
           await alarmModel.update({ id: ret.id, times });
