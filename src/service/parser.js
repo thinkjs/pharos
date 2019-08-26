@@ -99,6 +99,7 @@ module.exports = class {
     try {
       // eslint-disable-next-line
       for await (const row of rl) {
+        think.logger.info(`当前解析行：${row.toString()}`);
         this.parseLine(row, iterator);
       }
     } catch (e) {
@@ -114,6 +115,7 @@ module.exports = class {
    */
   parseLine(line, iterator) {
     const match = line.toString().match(this.parser);
+    think.logger.info(`正则匹配结果：${match}`);
     if (!match) {
       return;
     }
@@ -196,6 +198,7 @@ module.exports = class {
         Number(ip[3]);
     }
 
+    think.logger.info(`最终解析结果：${row}`);
     iterator(row);
   }
 
