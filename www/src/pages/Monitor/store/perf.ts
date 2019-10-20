@@ -15,10 +15,8 @@ class CustomStore {
 
   initData = () => {
     return {
-      start_time: moment()
-        .subtract(1, "days")
-        .format("YYYY-MM-DD HH:mm"),
-      end_time: moment().format("YYYY-MM-DD HH:mm"),
+      start_time: moment().format("YYYY-MM-DD 00:00"),
+      end_time: moment().add(1, "days").format("YYYY-MM-DD 00:00"),
       metrics: "",
       type: "mins"
     };

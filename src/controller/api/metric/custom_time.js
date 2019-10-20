@@ -19,10 +19,11 @@ module.exports = class extends Base {
     }
 
     this.modelInstance = this.model(TYPE_MAPS[metricItem.type]);
-    let endTime = new Date(end_time);
-    endTime = think.datetime(endTime.setDate(endTime.getDate() + 1), 'YYYY-MM-DD HH:mm');
-    const where = { site_id, metric_id, create_time: { '>=': start_time, '<': endTime}  };
-    
+    // let endTime = new Date(end_time);
+    // endTime = think.datetime(endTime.setDate(endTime.getDate() + 1), 'YYYY-MM-DD HH:mm');
+
+    const where = { site_id, metric_id, create_time: { '>=': start_time, '<': end_time } };
+
     let metrics_ary = [];
     let key = 'k1';
     if (metrics !== '') {
@@ -32,7 +33,7 @@ module.exports = class extends Base {
         where[`k${i + 1}`] = metrics_ary[i];
       }
     }
-    
+
     const data = await this.modelInstance.where(where).distinct(key).select();
     const factors = data.map(item => item[key])
 
@@ -43,7 +44,7 @@ module.exports = class extends Base {
       case 'mins':
         categories = this.generateCates(start_time, end_time, type);
         series = await Promise.all(factors.map(async factor => {
-          const factorWhere = Object.assign({}, where, {[`k${metrics_ary.length + 1}`]: factor});
+          const factorWhere = Object.assign({}, where, { [`k${metrics_ary.length + 1}`]: factor });
           const dataByFactor = await this.modelInstance.where(factorWhere).select();
           const seriesData = await this.getSeriesData(site_id, metric_id, dataByFactor, categories, type, factors);
           seriesData.name = factor;
