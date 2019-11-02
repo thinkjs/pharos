@@ -37,7 +37,7 @@
   },
   "devDependencies": {
     "antd": "^2.13.14",
-    "axios": "^0.16.2",
+    "axios": "^0.19.0",
     "babel-cli": "^6.26.0",
     "babel-eslint": "^7.1.1",
     "babel-plugin-dva-hmr": "^0.3.2",
