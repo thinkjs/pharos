@@ -9,13 +9,16 @@ module.exports = class extends BaseRest {
       data = await this.modelInstance.where({[pk]: this.id}).find();
       return this.success(data);
     } else if (keyword) {
-      this.modelInstance = this.modelInstance.where({
+      this.modelInstance = this.modelInstance.field('id,name,display_name').where({
         name: ['like', '%' + keyword + '%'],
         email: ['like', '%' + keyword + '%'],
         display_name: ['like', '%' + keyword + '%'],
         _logic: 'OR'
       });
+      data = await this.modelInstance.page([1, 5]).countSelect();
+      return this.success(data);
     }
+
     data = await this.modelInstance.page([page, pagesize]).countSelect();
     return this.success(data);
   }
