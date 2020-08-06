@@ -2,7 +2,7 @@ const Base = require('./base');
 module.exports = class extends Base {
   async __before(...args) {
     if (this.isPost) {
-      const {register_off} = await this.model('options').getOptions();
+      const { register_off } = await this.model('options').getOptions();
       if (register_off) {
         return this.fail('REGISTER_DENIED');
       }
@@ -34,7 +34,7 @@ module.exports = class extends Base {
         // default: 1
       },
       pagesize: {
-        int: true,
+        int: { max: 20 },
         default: 10
       }
     };
@@ -59,7 +59,7 @@ module.exports = class extends Base {
       display_name: {
         required: true,
         string: true,
-        length: {min: 4, max: 10}
+        length: { min: 4, max: 10 }
       },
       email: {
         required: true,
@@ -68,7 +68,7 @@ module.exports = class extends Base {
       password: {
         required: true,
         string: true,
-        length: {min: 8, max: 20}
+        length: { min: 8, max: 20 }
       },
       status: {
         int: true,
@@ -114,11 +114,11 @@ module.exports = class extends Base {
     this.rules = {
       display_name: {
         string: true,
-        length: {min: 4, max: 10}
+        length: { min: 4, max: 10 }
       },
       password: {
         string: true,
-        length: {min: 8, max: 20}
+        length: { min: 8, max: 20 }
       },
       status: {
         int: true

@@ -1,12 +1,12 @@
 const BaseRest = require('../rest.js');
 module.exports = class extends BaseRest {
   async getAction() {
-    const {page, pagesize, keyword} = this.get();
+    const { page, pagesize, keyword } = this.get();
 
     let data;
     if (this.id) {
       const pk = await this.modelInstance.pk;
-      data = await this.modelInstance.where({[pk]: this.id}).find();
+      data = await this.modelInstance.where({ [pk]: this.id }).find();
       return this.success(data);
     } else if (keyword) {
       this.modelInstance = this.modelInstance.field('id,name,display_name').where({
@@ -19,7 +19,12 @@ module.exports = class extends BaseRest {
       return this.success(data);
     }
 
-    data = await this.modelInstance.page([page, pagesize]).countSelect();
+    const selectUser = this.modelInstance.page([page, pagesize]);
+    const isSuperAdmin = global.SUPER_ADMIN.is(this.userInfo.status)
+    if (!isSuperAdmin) {
+      selectUser.field('id,name,display_name');
+    }
+    data = await selectUser.countSelect();
     return this.success(data);
   }
 
@@ -31,7 +36,7 @@ module.exports = class extends BaseRest {
       return this.fail('USER_EXIST');
     }
 
-    return this.success({id: insertId});
+    return this.success({ id: insertId });
   }
 
   async putAction() {
