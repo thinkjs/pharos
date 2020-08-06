@@ -20,7 +20,8 @@ module.exports = class extends BaseRest {
     }
 
     const selectUser = this.modelInstance.page([page, pagesize]);
-    const isSuperAdmin = global.SUPER_ADMIN.is(this.userInfo.status)
+    const userInfo = await this.session('userInfo') || {};
+    const isSuperAdmin = global.SUPER_ADMIN.is(userInfo.status);
     if (!isSuperAdmin) {
       selectUser.field('id,name,display_name');
     }
